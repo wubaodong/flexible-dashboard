@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PodContentBase
+    xmlns:mx="http://www.adobe.com/2006/mxml"
+    xmlns="com.esria.samples.dashboard.view.*"
+    width="100%" height="100%" backgroundColor="#ffffff" color="#000000"> 
+    
+    <mx:Script>
+        <![CDATA[
+        import mx.messaging.channels.AMFChannel;
+        import mx.rpc.AsyncToken;
+        import mx.messaging.ChannelSet;
+        import mx.events.FlexEvent;
+
+        private var channelSet:ChannelSet;
+                
+        override protected function onCreationComplete(e:FlexEvent):void
+        {
+            super.onCreationComplete(e);
+            
+            channelSet = new ChannelSet();
+
+            var baseUrl:String = properties.@url;  
+
+            // setup a channel for remoting to blazeds samples
+            var channelUrl:String = baseUrl + "/messagebroker/amf";
+            var channelId:String = "my-amf";
+            var channel:AMFChannel = new AMFChannel(channelId, channelUrl);            
+            channelSet.addChannel(channel);
+            
+            srv.channelSet = channelSet;
+        }       
+        ]]>
+    </mx:Script>        
+    
+    <mx:RemoteObject id="srv" destination="product"/>                      
+           
+    <mx:DataGrid dataProvider="{srv.getProducts.lastResult}" width="100%" height="100%"/> 
+
+    <mx:Button label="Get Data" click="srv.getProducts()"/> 
+
+</PodContentBase>
