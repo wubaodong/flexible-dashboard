@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app:FlexibleDashboardAirAppBase title="FlexibleShare+Air"
+<app:FlexibleDashboardAirAppBase title="FlexibleDashboard+Air"
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:app="org.integratedsemantics.flexibledashboardair.app.*"
 	horizontalAlign="left"
