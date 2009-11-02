@@ -255,18 +255,23 @@ public class PodLayoutManager extends EventDispatcher
     		
     		if (currentVisibleHighlight != null)
     			currentVisibleHighlight.visible = false;
-    		
+			    		
     		// The x/y will not change if a user clicked on a header without dragging. In that case, we want to toggle the window state.
-    		var point:Point = Point(gridPoints[currentDropIndex]);
-    		if (point.x != currentDragPod.x || point.y != currentDragPod.y)
+    		
+			// sreiner: add check for having gridPoints
+    		if (gridPoints.length > 0)
     		{
-    			currentDragPodMove = new Move(currentDragPod);
-    			currentDragPodMove.easingFunction = Exponential.easeOut;
-    			currentDragPodMove.xTo = point.x;
-    			currentDragPodMove.yTo = point.y;
-    			currentDragPodMove.play();
-    			
-    			dispatchEvent(new LayoutChangeEvent(LayoutChangeEvent.UPDATE));
+	    		var point:Point = Point(gridPoints[currentDropIndex]);
+	    		if (point.x != currentDragPod.x || point.y != currentDragPod.y)
+	    		{
+	    			currentDragPodMove = new Move(currentDragPod);
+	    			currentDragPodMove.easingFunction = Exponential.easeOut;
+	    			currentDragPodMove.xTo = point.x;
+	    			currentDragPodMove.yTo = point.y;
+	    			currentDragPodMove.play();
+	    			
+	    			dispatchEvent(new LayoutChangeEvent(LayoutChangeEvent.UPDATE));
+	    		}
     		}
         }
 	}
@@ -341,18 +346,22 @@ public class PodLayoutManager extends EventDispatcher
 					a[index] = pod;
 					pod.index = index;
 					
-					point = Point(gridPoints[index]); // Get the x,y coord from the grid.
-					
-					targetX = point.x;
-					targetY = point.y;
-					
-					if (targetX != pod.x || targetY != pod.y)
+					// sreiner: add check for having gridPoints
+					if (gridPoints.length > 0)
 					{
-						var move:Move = new Move(pod);
-						move.easingFunction = Exponential.easeOut;
-						move.xTo = targetX;
-						move.yTo = targetY;
-						parallel.addChild(move);
+						point = Point(gridPoints[index]); // Get the x,y coord from the grid.
+						
+						targetX = point.x;
+						targetY = point.y;
+						
+						if (targetX != pod.x || targetY != pod.y)
+						{
+							var move:Move = new Move(pod);
+							move.easingFunction = Exponential.easeOut;
+							move.xTo = targetX;
+							move.yTo = targetY;
+							parallel.addChild(move);
+						}
 					}
 				}
 			}
@@ -366,7 +375,11 @@ public class PodLayoutManager extends EventDispatcher
 			items = a;
 		}
 		
-		currentVisibleHighlight.visible = true;
+		// sreiner: add check for null highlight
+		if (currentVisibleHighlight != null)
+		{
+			currentVisibleHighlight.visible = true;
+		}
 	}
 	
 	// Lays out the pods, minimized pods and drag highlight items.
