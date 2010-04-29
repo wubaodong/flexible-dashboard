@@ -25,11 +25,13 @@ package org.integratedsemantics.flexibledashboard.app
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
 	
+	import org.integratedsemantics.flexibledashboard.birt.BirtReportViewerPod;
 	import org.integratedsemantics.flexibledashboard.blazeds.BlazeDsPod;
 	import org.integratedsemantics.flexibledashboard.calendar.CalendarPod;
 	import org.integratedsemantics.flexibledashboard.flex.FlexAppPod;
 	import org.integratedsemantics.flexibledashboard.html.IFramePod;
 	import org.integratedsemantics.flexibledashboard.jasperreports.ReportPod;
+	import org.integratedsemantics.flexibledashboard.olap.OlapGridPod;
 	import org.integratedsemantics.flexibledashboard.pentaho.PentahoPod;
 
 
@@ -177,7 +179,15 @@ package org.integratedsemantics.flexibledashboard.app
 				else if (podXMLList[j].@type == "calendar")
 				{
 					podContent = new CalendarPod();						
-				}  											
+				}  
+                else if (podXMLList[j].@type == "olap-grid")
+                {
+                    podContent = new OlapGridPod();                     
+                }  
+                else if (podXMLList[j].@type == "birt-report")
+                {
+                    podContent = new BirtReportViewerPod();                     
+                }  				
 				
 				if (podContent != null)
 				{
