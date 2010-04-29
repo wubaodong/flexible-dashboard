@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PodContentBase
+   xmlns:mx="http://www.adobe.com/2006/mxml"
+   xmlns="com.esria.samples.dashboard.view.*"
+   xmlns:olap="olap.*" 
+   xmlns:local="*" 
+   xmlns:cubeBrowser="cubeBrowser.*" 
+   xmlns:views="com.ignite.olap.views.*" 
+   xmlns:DebugView="com.igniteanalytics.logging.view.*"   
+   width="100%" height="100%" styleName="OlapGridPod"> 
+
+    <mx:Style source="olapgrid.css" />                    
+   
+    <mx:Script>
+    <![CDATA[
+      import com.ignite.olap.views.ASMDXQuery;
+      import com.ignite.olap.views.ASPivotGrid;
+      import mx.rpc.Fault;
+      import com.igniteanalytics.logging.ASLogger;
+       
+      import com.ignite.xmla.XMLAEvent;
+      import com.ignite.xmla.XMLAService;
+      import com.ignite.olap.Query;
+      import mx.controls.ComboBox;
+      import mx.events.MenuEvent;
+      
+      import mx.collections.ArrayCollection;
+      import mx.controls.Alert;
+      import mx.controls.Label;
+      import mx.controls.ProgressBar;
+      import mx.effects.Move;
+      import mx.managers.PopUpManager;
+      import mx.rpc.AsyncResponder;
+      import mx.rpc.AsyncToken;
+      import mx.rpc.events.FaultEvent;
+      import mx.rpc.events.ResultEvent;
+    
+      import mx.events.CubeEvent;
+      import mx.olap.IOLAPResult;
+      import mx.olap.IOLAPCube;
+    
+      import mx.events.FlexEvent;
+
+      override protected function onCreationComplete(e:FlexEvent):void
+      {
+            super.onCreationComplete(e);
+            
+            _initialUrl = properties.@url;
+            _initialDataSource = properties.@xmlaDataSource;    
+            _initialCatalog = properties.@catalog;
+            
+            init();
+      }       
+      
+      private function faultHandler(info:Object, token:Object = null):void
+      {
+         if(info && info.message)
+            showErrorPane(info.message);
+      }
+      
+      private function hideErrorPane():void
+      {
+         errorPane.visible = false;
+      }
+      
+      private function showErrorPane(info:String):void
+      {
+        var point:Point = new Point(tabs.x, tabs.y);
+           
+        errorPane.move(point.x+(tabs.width*0.2), point.y+(tabs.height*0.5));
+        errorPane.width = tabs.width*0.7;
+        
+        errorPane.text = info;
+        errorPane.visible = true;
+        errorPane.height = 30;         
+      }
+                     
+      public function init():void
+      {                                
+         this.addEventListener(KeyboardEvent.KEY_DOWN,keyPressed);
+      }
+
+         private var logger:ASLogger=new ASLogger("OLAP_Web");
+         //TO view log info: <DebugView:LogDisplay id="logViewer"/>
+   
+         public function keyPressed(event:KeyboardEvent):void
+         {
+            if (event.ctrlKey && event.shiftKey)
+            {
+                //logViewer.visible=true;
+            }
+         }
+         
+         private var _xmlaService:XMLAService=new XMLAService();
+         
+         [Bindable]
+         public var _initialUrl:String;
+
+         [Bindable]
+         public var _initialDataSource:String;
+
+         [Bindable]
+         public var _initialCatalog:String;
+                  
+         public function initOLAP():void
+         {
+            hideErrorPane();
+            _initialUrl=initialUrl.text;
+            _xmlaService.url=_initialUrl;                      
+            logger.logDebug("init uri-"+_initialUrl);
+            _initialDataSource=datasource.text;
+            _initialCatalog=catalog.text;
+            var xmlReq:Object=new Object();
+            xmlReq["DATASOURCE_NAME"]=_initialDataSource;
+            xmlReq["CATALOG_NAME"]=_initialCatalog;
+            xmlReq["type"]=XMLAService.DISCOVER_CUBES;
+            _xmlaService.xmlaRequest=xmlReq;
+            
+            logger.logDebug("init _xmlaService.send");
+            var token:AsyncToken=_xmlaService.send();
+            
+            token.addResponder(new AsyncResponder(xmlaServiceResult_handler,xmlaServiceFault_handler));
+          }
+          
+         [Bindable]
+         private var _availableCubes:ArrayCollection=new ArrayCollection();
+         
+         public function xmlaServiceResult_handler(result:Object,token:Object):void
+         {         
+            logger.logDebug("xmlaServiceResult_handler");
+            var i:int=0;
+            _availableCubes = new ArrayCollection();
+            _currentCube = null;
+            for each (var obj:Object in result)
+            {
+                var comboItem:Object=new Object();
+                comboItem.label=obj;
+                _availableCubes.addItem(comboItem);
+                if (_currentCube == null)
+                {
+                    _currentCube = comboItem.label;
+                }
+            }
+         }
+         
+         public function xmlaServiceFault_handler(result:Object,token:Object):void
+         {       
+            logger.logDebug("xmlaServiceResult_handler");
+            faultHandler({message:Fault(result.fault).faultString+ " " +_initialUrl});               
+         }
+
+         [Bindable]
+         private var _currentCube:String;
+
+         public function comboChanged(event:Event):void
+         {
+            var item:String=ComboBox(event.target).selectedLabel as String;
+            if (item!=null)
+            { 
+               //==null is a opening of a node
+               _currentCube=item;   
+            }
+         }
+         
+         public function newQuery():void
+         {                         
+            logger.logDebug("newQuery:"+_initialUrl+" cube:"+_currentCube);
+            var oQueryView:ASMDXQuery= new ASMDXQuery(_initialDataSource,_initialCatalog,_currentCube,_initialUrl);
+            tabs.addChild(oQueryView);
+         }
+         
+         public function newGrid():void
+         {                             
+            logger.logDebug("newGrid:"+_initialUrl+" cube:"+_currentCube);
+            var oMDXGrid:ASPivotGrid=new ASPivotGrid(_initialDataSource,_initialCatalog,_currentCube,_initialUrl);
+            tabs.addChild(oMDXGrid);
+         }
+         
+         public function serverChange(newUri:String):void
+         {
+            initOLAP();
+            cubeControls.visible=true;
+            urlChange.visible=false;
+         }
+         
+         public function changeUrl():void
+         {
+            cubeControls.visible=false;
+            urlChange.visible=true;
+         }
+
+         ]]>
+   </mx:Script>
+   
+    <mx:TabNavigator id="tabs" x="10" y="29" width="100%" height="95%" styleName="OlapTabNavigator">
+    </mx:TabNavigator>
+    
+    <mx:HBox horizontalAlign="center" id="urlChange" width="100%">
+       <mx:Label text="Conection:" styleName="OlapLabel"/>
+       <mx:TextInput id="datasource" text="{_initialDataSource}" width="261"/>
+       <mx:Label text="Server:" styleName="OlapLabel"/>
+       <mx:TextInput id="initialUrl" text="{_initialUrl}" width="231"/>
+       <mx:Label text="Catalog:" styleName="OlapLabel"/>
+       <mx:TextInput id="catalog" text="{_initialCatalog}" width="121"/>
+       <mx:Button  click="{serverChange(_initialUrl)}" label="Load"/>
+    </mx:HBox>
+     
+    <mx:HBox visible="false" id="cubeControls" width="100%">
+        <mx:Button click="newGrid()" label="New Grid" styleName="OlapButton"/>
+        <mx:Button click="newQuery()" label="New Query" styleName="OlapButton"/>       
+        <mx:Label styleName="WhiteLabel" y="0" text="Available OLAP Cubes"/>
+        <mx:ComboBox y="3" change="comboChanged(event)"  dataProvider="{_availableCubes}" styleName="OlapComboBox"/>
+        <mx:Button click="changeUrl()" label="Change URL" styleName="OlapButton"/>
+    </mx:HBox>
+
+    <mx:TextArea editable="false" id="errorPane" visible="false" styleName="errorPanel"/>
+   
+</PodContentBase>
+
