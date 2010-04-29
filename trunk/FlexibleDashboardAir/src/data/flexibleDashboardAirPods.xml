@@ -80,7 +80,7 @@ stored in this file rather than a database or separate XML files.
 	
 	<view
 		id="viewPentaho"
-		label="Pentaho">
+		label="Pentaho Charts">
 		<pod
 			id="pentaho1"
 			type="pentaho"
@@ -88,7 +88,7 @@ stored in this file rather than a database or separate XML files.
 			/>
 	</view>	
 	
-	<view
+	<!--view
 		id="viewHTML"
 		label="HTML">
         <pod
@@ -101,9 +101,9 @@ stored in this file rather than a database or separate XML files.
             type="html"
             title="Google"
             url="http://www.google.com" />  
-	</view>	
+	</view-->	
 
-	<view
+	<!-- view
 		id="viewCalendar"
 		label="Calendar">
 		<pod
@@ -111,9 +111,9 @@ stored in this file rather than a database or separate XML files.
 			type="calendar"
 			title="Calendar"
 			/>			
-	</view>	
+	</view -->	
 			
-	<view
+	<!-- view
 		id="viewLocalFiles"
 		label="Local Files">
 		<pod
@@ -121,6 +121,39 @@ stored in this file rather than a database or separate XML files.
 			type="localfiles"
 			title="Local Files"
 			/>			
-	</view>			
-				
+	</view -->			
+			
+    <view
+        id="viewOlap"
+        label="OLAP">
+        <!-- pod
+            id="olap1"
+            type="olap-grid"
+            title="OLAP Mondrian"
+            url="http://localhost:8080/mondrian-embedded/xmla"
+            xmlaDataSource="Provider=Mondrian;DataSource=MondrianFoodMart;"
+            catalog="FoodMart"
+            /-->
+        <!--pod
+            id="olap2"
+            type="olap-grid"
+            title="OLAP Pentaho"
+            url="http://localhost:8080/pentaho/Xmla?userid=joe&amp;password=password"
+            xmlaDataSource="Provider=Mondrian;DataSource=Pentaho"
+            catalog="SteelWheels"
+            /-->
+    </view>   
+    
+   <!--view
+      id="viewBIRT"
+      label="BIRT">
+        <pod
+            id="birt1"
+            type="birt-report"
+            title="BIRT Report"
+            url="http://localhost:8080/birt-viewer/"
+            report="SalesInvoice.rptdesign"
+            />  
+   </view-->     
+   				
 </views>

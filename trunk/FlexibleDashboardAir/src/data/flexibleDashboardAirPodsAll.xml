@@ -98,7 +98,7 @@ stored in this file rather than a database or separate XML files.
 	</view>	
 	<view
 		id="viewPentaho"
-		label="Pentaho">
+		label="Pentaho Charts">
 		<pod
 			id="pentaho1"
 			type="pentaho"
@@ -218,5 +218,38 @@ stored in this file rather than a database or separate XML files.
 			title="Local Files"
 			/>			
 	</view>			
+	
+    <view
+        id="viewOlap"
+        label="OLAP">
+        <pod
+            id="olap1"
+            type="olap-grid"
+            title="OLAP Mondrian"
+            url="http://localhost:8080/mondrian-embedded/xmla"
+            xmlaDataSource="Provider=Mondrian;DataSource=MondrianFoodMart;"
+            catalog="FoodMart"
+            />
+        <!--pod
+            id="olap2"
+            type="olap-grid"
+            title="OLAP Pentaho"
+            url="http://localhost:8080/pentaho/Xmla?userid=joe&amp;password=password"
+            xmlaDataSource="Provider=Mondrian;DataSource=Pentaho"
+            catalog="SteelWheels"
+            /-->
+    </view>   
+    
+   <view
+      id="viewBIRT"
+      label="BIRT">
+        <pod
+            id="birt1"
+            type="birt-report"
+            title="BIRT Report"
+            url="http://localhost:8080/birt-viewer/"
+            report="SalesInvoice.rptdesign"
+            />  
+   </view>     
 			
 </views>

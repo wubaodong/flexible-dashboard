@@ -28,10 +28,10 @@ package org.integratedsemantics.flexibledashboardair.app
 	import org.integratedsemantics.flexibledashboard.blazeds.BlazeDsPod;
 	import org.integratedsemantics.flexibledashboard.calendar.CalendarPod;
 	import org.integratedsemantics.flexibledashboard.flex.FlexAppPod;
-	import org.integratedsemantics.flexibledashboard.html.IFramePod;
 	import org.integratedsemantics.flexibledashboard.jasperreports.ReportPod;
+	import org.integratedsemantics.flexibledashboard.olap.OlapGridPod;
 	import org.integratedsemantics.flexibledashboard.pentaho.PentahoPod;
-	
+	import org.integratedsemantics.flexibledashboardair.birt.BirtReportViewerAirPod;
 	import org.integratedsemantics.flexibledashboardair.browser.BrowserPod;
 	import org.integratedsemantics.flexibledashboardair.html.GoogleGadgetPod;
 	import org.integratedsemantics.flexibledashboardair.html.HtmlPod;
@@ -200,6 +200,14 @@ package org.integratedsemantics.flexibledashboardair.app
 				{
 					podContent = new CalendarPod();						
 				}  											
+                else if (podXMLList[j].@type == "olap-grid")
+                {
+                    podContent = new OlapGridPod();                     
+                }  
+                else if (podXMLList[j].@type == "birt-report")
+                {
+                    podContent = new BirtReportViewerAirPod();                     
+                }               
 				
 				if (podContent != null)
 				{
