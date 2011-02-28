@@ -11,7 +11,8 @@
 	hourBackgroundColor: #FFFFFF;
 	hourThickness: 1;
 	hourColor: #000000;
-	eventDragSkin: Embed('assets/eventDragImage.svg');
+	/* todo flex4 deprecated svg warning need to convert to fxg */
+    /* eventDragSkin: Embed('assets/eventDragImage.svg'); */
 }
 
 .CalendarHours {

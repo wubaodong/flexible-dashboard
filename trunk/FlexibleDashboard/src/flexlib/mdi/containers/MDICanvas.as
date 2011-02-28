@@ -23,34 +23,47 @@ SOFTWARE.
 
 package flexlib.mdi.containers
 {
+	import com.esria.samples.dashboard.managers.PodLayoutManager;
+	
 	import flexlib.mdi.effects.IMDIEffectsDescriptor;
 	import flexlib.mdi.managers.MDIManager;
-
-	import mx.containers.Canvas;
-	import mx.core.UIComponent;
+	
+	import mx.core.IVisualElement;
 	import mx.events.FlexEvent;
+	
+	import spark.components.NavigatorContent;
 
 	/**
 	 * Convenience class that allows quick MXML implementations by implicitly creating
 	 * container and manager members of MDI. Will auto-detect MDIWindow children
 	 * and add them to list of managed windows.
 	 */
-	public class MDICanvas extends Canvas
+	public class MDICanvas extends NavigatorContent
 	{
-		public var windowManager:MDIManager;
+		private var _windowManager:MDIManager;
 
 		public function MDICanvas()
 		{
 			super();
-			windowManager = new MDIManager(this);
 			addEventListener(FlexEvent.CREATION_COMPLETE, onCreationComplete);
+		}
+
+		public function get windowManager():MDIManager
+		{
+			return _windowManager;
+		}
+
+		public function set windowManager(value:MDIManager):void
+		{
+			_windowManager = value;
 		}
 
 		private function onCreationComplete(event:FlexEvent):void
 		{
-			for each(var child:UIComponent in getChildren())
+			for (var i:int = 0; i < this.numElements; i++)
 			{
-				if(child is MDIWindow)
+				var child:IVisualElement = this.getElementAt(i);
+				if (child is MDIWindow)
 				{
 					windowManager.add(child as MDIWindow);
 				}
@@ -75,31 +88,6 @@ package flexlib.mdi.containers
 		public function set effects(effects:IMDIEffectsDescriptor):void
 		{
 			this.windowManager.effects = effects;
-		}
-
-		/**
-		 * Proxy to MDIManager property of same name.
-		 */
-		public function get enforceBoundaries():Boolean
-		{
-			return windowManager.enforceBoundaries;
-		}
-
-		public function set enforceBoundaries(value:Boolean):void
-		{
-			windowManager.enforceBoundaries = value;
-		}
-
-		/**
-		 * Proxy to MDIManager property of same name.
-		 */
-		public function get snapDistance():Number
-		{
-			return windowManager.snapDistance;
-		}
-		public function set snapDistance(value:Number):void
-		{
-			windowManager.snapDistance = value;
 		}
 
 		/**

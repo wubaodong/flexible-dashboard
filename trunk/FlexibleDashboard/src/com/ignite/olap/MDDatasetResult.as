@@ -247,7 +247,10 @@ public class MDDatasetResult implements IOLAPResult
     public function getMember(uName:String, l:IOLAPLevel):IOLAPMember
     {
         var mName:String;
-        if(uName.indexOf("UNKNOWNMEMBER") > 0 || uName.indexOf("UnknownMember") > 0);
+        if (uName.indexOf("UNKNOWNMEMBER") > 0 || uName.indexOf("UnknownMember") > 0)
+		{
+			// nothing	
+		}
 
         if(uName.charAt(uName.length-1) == "]")
             mName = uName.substring(uName.lastIndexOf("[")+1, uName.lastIndexOf("]"));

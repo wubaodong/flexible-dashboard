@@ -1,13 +1,17 @@
+/* todo flex 4
 @font-face
 {
    font-family: MyArial;
    src: local("Arial");
 }
+*/
+
+
 .CalendarPodBase {
 	font-size: 14;
 	font-family: MyArial;
 	backgroundColor: #343434;
-	color: #FFFFFF;
+	color: #000000; 
 }
 .CalendarHeader {
 	text-align: right;

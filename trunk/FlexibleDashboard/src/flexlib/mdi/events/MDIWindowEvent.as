@@ -36,7 +36,8 @@ package flexlib.mdi.events
 		public static const MINIMIZE:String = "minimize";
 		public static const RESTORE:String = "restore";
 		public static const MAXIMIZE:String = "maximize";
-		public static const CLOSE:String = "close";
+		//flex4spark changed from close to closemdi
+		public static const CLOSE:String = "closemdi";
 		
 		public static const FOCUS_START:String = "focusStart";
 		public static const FOCUS_END:String = "focusEnd";

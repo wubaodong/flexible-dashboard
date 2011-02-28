@@ -1,15 +1,18 @@
 package com.decoursey.components {
-	import mx.core.UITextField;
+	import com.decoursey.components.event.BreadcrumbDisplayEvent;
+	
+	import flash.display.DisplayObject;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.text.TextLineMetrics;
+	
+	import mx.containers.Canvas;
 	import mx.core.Container;
+	import mx.core.FlexGlobals;
+	import mx.core.UIComponent;
+	import mx.core.UITextField;
 	import mx.styles.CSSStyleDeclaration;
 	import mx.styles.StyleManager;
-	import com.decoursey.components.event.BreadcrumbDisplayEvent;
-	import mx.containers.Canvas;
-	import mx.core.UIComponent;
-	import flash.display.DisplayObject;
 	
 	
 	[Style(name="crumbBackgroundColor",type="Number",format="Color",inherit="no")]
@@ -277,7 +280,7 @@ package com.decoursey.components {
     
         // Define a static method.
         private static function classConstruct():Boolean {
-            if (!StyleManager.getStyleDeclaration("BreadcrumbDisplay")) {
+            if (!FlexGlobals.topLevelApplication.styleManager.getStyleDeclaration("BreadcrumbDisplay")) {
                 // If there is no CSS definition for BreadcrumbDisplay, 
                 // then create one and set the default value.
                 var newStyleDeclaration:CSSStyleDeclaration = new CSSStyleDeclaration();
@@ -301,9 +304,8 @@ package com.decoursey.components {
                 //newStyleDeclaration.setStyle("cornerRadius", 14);
                 //newStyleDeclaration.setStyle("fontWeight", "bold");
                 //newStyleDeclaration.setStyle("fontSize", 13);
-                
-                
-	         	StyleManager.setStyleDeclaration("BreadcrumbDisplay", newStyleDeclaration, true);
+                                
+				FlexGlobals.topLevelApplication.styleManager.setStyleDeclaration("BreadcrumbDisplay", newStyleDeclaration, true);
             }
             return true;
         }

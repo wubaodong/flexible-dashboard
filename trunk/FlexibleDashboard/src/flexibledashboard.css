@@ -1,4 +1,25 @@
 
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace pod "com.esria.samples.dashboard.view.*";
+@namespace mdi "flexlib.mdi.containers.*";
+@namespace charts "mx.charts.chartClasses.*";
+
+/* flexibledashboard+browser and flexibledashboard+air shared styles */
+
+.mainButton
+{
+	chromeColor: #666666;
+}
+
+.viewTabs
+{
+    tabHeight:                35;
+    horizontalGap:            0;  
+    selectedTabTextStyleName: selectedTabText;
+	chromeColor: #666666;
+}
+
 .maximizeRestoreButton
 {
 	up-skin:        	Embed("/assets/maximize_up.png");
@@ -16,25 +37,30 @@
 	down-skin:      Embed("/assets/minimize_up.png");
 }
 
-Pod
+pod|Pod
 {
 	padding-top: 0px;
 	padding-left: 0px;
 	padding-right: 0px;
 	padding-bottom: 0px;
-	rounded-bottom-corners: false;
-	border-thickness: 1px;
+	/*halo only rounded-bottom-corners: false; */
+	/* halo only border-thickness: 1px; */
 	border-style: solid;
 	border-color: #000000;
-	header-colors: #666666, #666666;
-	highlight-alphas: .9, 0;
+	/* halo only header-colors: #666666, #666666; */
+	/* halo only highlight-alphas: .9, 0; */
 	corner-radius: 0px;
 	header-height: 22px;
-	shadow-direction: right;
-	drop-shadow-color: #999999;
-    color:           #ffffff;    
-    backgroundColor: #333333;
-	
+	/* halo only shadow-direction: right; */
+	/* halo only drop-shadow-color: #999999; */
+    /* color:        #ffffff; */    
+    /* backgroundColor: #333333; */	
+}
+
+pod|PodContentBase
+{
+	/* color:           #ffffff; */ 
+	/* backgroundColor: #333333; */
 }
 
 .podTitle
@@ -44,12 +70,26 @@ Pod
 	font-weight: bold;
 }
 
-DragHighlight
+pod|DragHighlight
 {
 	border-color: #CCCCCC;
 	border-thickness: 3px;
 	border-style: solid;
 	background-color: #333333;
+}
+
+mdi|MDICanvas
+{
+	background-color: #666666;
+	padding-top: 4px;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-bottom: 4px;	
+}
+
+mdi|MDIWindow
+{
+	background-color: #666666;
 }
 
 .leftArrowButton
@@ -68,30 +108,14 @@ DragHighlight
 	disabled-skin:	Embed("/assets/right_arrow_disabled.gif");
 }
 
-.PodContentBase
+charts|DataTip
 {
-    color:           #ffffff;    
-    backgroundColor: #333333;
-}
-
-
-MDICanvas
-{
-    background-color: #666666;
+	background-color: #ffffff;
+	color: 			  #000000;
 }
 
 /* start from flexspaces */
 
-global
-{
-    themeColor: #999999;        
-}
-
-Application
-{
-    color:           #ffffff;    
-    backgroundColor: #333333;
-}
 
 .logoText
 {
@@ -125,7 +149,6 @@ Application
     horizontalGridLines:    true;
 }
 
-
 .viewTab 
 {
     upSkin:                 ClassReference("org.integratedsemantics.flexibledashboard.skin.TabSkin");
@@ -137,14 +160,6 @@ Application
     tabBackgroundAlphas:    0.0, 1.0;       
 }
 
-.viewTabs
-{
-    backgroundColor:          #ededed;    
-    tabHeight:                35;
-    horizontalGap:            0;  
-    selectedTabTextStyleName: selectedTabText;
-}
-
 .selectedTabText
 {
     fontSize:               10px;
@@ -154,7 +169,7 @@ Application
 
 .viewStyle
 {
-    backgroundColor:    #333333; 
+	background-color: #666666;
 } 
 
 .pageNumStyle
@@ -176,19 +191,19 @@ Application
     selectionColor:     #000000;     
 }
 
-TextInput
+mx|TextInput
 {
-    backgroundColor: #ffffff;
-    color: #000000;
-    borderStyle: solid;
-    borderThickness: 1;
-    borderColor: #000000;
+    /* halo only backgroundColor: #ffffff; */
+    /* color: #000000; */
+    /* borderStyle: solid; */
+    /* borderThickness: 1; */
+    /* borderColor: #000000; */
 }  
 
-TextArea
+mx|TextArea
 {
-    backgroundColor: #ffffff;
-    color: #000000;
+    /* halo only backgroundColor: #ffffff; */
+    /* color: #000000; */
 } 
 
 .tabCloseButtonStyleName

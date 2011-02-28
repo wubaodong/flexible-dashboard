@@ -2,16 +2,19 @@ package qs.charts.renderers
 {
 
 import flash.display.Graphics;
+import flash.events.MouseEvent;
+import flash.geom.Point;
 import flash.geom.Rectangle;
+
 import mx.charts.ChartItem;
 import mx.charts.chartClasses.GraphicsUtilities;
 import mx.core.IDataRenderer;
+import mx.core.UIComponent;
 import mx.graphics.IFill;
 import mx.graphics.IStroke;
 import mx.skins.ProgrammaticSkin;
-import flash.events.MouseEvent;
+
 import qs.utils.ColorUtils;
-import mx.core.UIComponent;
 
 public class RollOverBoxItemRenderer extends UIComponent implements IDataRenderer
 {
@@ -127,7 +130,12 @@ public class RollOverBoxItemRenderer extends UIComponent implements IDataRendere
 		g.moveTo(rc.left,rc.top);
 		g.beginFill(fillColor);
 		if (stroke)
-			stroke.apply(g);
+		{			
+			//stroke.apply(g);
+			//flex4 needs 3 args
+			stroke.apply(g, rc, new Point(rc.left,rc.top));
+			
+		}
 		g.drawRect(rc.left,rc.top,rc.width,rc.height);
 		g.endFill();
 	}

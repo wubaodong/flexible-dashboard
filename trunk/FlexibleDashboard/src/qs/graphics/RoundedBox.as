@@ -71,6 +71,8 @@ package qs.graphics
 				unscaledHeight -=s.weight;
 				unscaledWidth -= s.weight;
 				s.apply(graphics);
+				// todo  flex4 needs 3 args
+				s.apply(graphics, null, null);				
 			}
 			else
 				graphics.lineStyle(0,0,0);

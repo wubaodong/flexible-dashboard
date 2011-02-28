@@ -38,7 +38,7 @@
 	verticalScrollPolicy="auto" horizontalScrollPolicy="auto"
 	creationComplete="init()"
 	resize="refreshPage()" horizontalAlign="center" height="100%" width="100%" verticalGap="0">
-	<mx:ControlBar id="toolbar" width="100%">
+	<mx:ControlBar id="toolbar" width="100%" chromeColor="#bbbbbb">
 		<!--
 		<mx:Button width="22" toolTip="Print Report" id="btnPrintReport0" buttonMode="true"
 			enabled="false">
@@ -216,13 +216,13 @@
 			private function openHandler(event:Event):void
 			{
 				pageBox.visible = false;
-				trace("openHandler: " + event);
+				//trace("openHandler: " + event);
 			}
 			
 			private function progressHandler(event:ProgressEvent):void
 			{
 				pageBox.visible = false;
-				trace("progressHandler loaded:" + event.bytesLoaded + " total: " + event.bytesTotal);
+				//trace("progressHandler loaded:" + event.bytesLoaded + " total: " + event.bytesTotal);
 			}
 
 			private function securityErrorHandler(event:SecurityErrorEvent):void
@@ -234,7 +234,7 @@
 			private function httpStatusHandler(event:HTTPStatusEvent):void
 			{
 				pageBox.visible = false;
-				trace("httpStatusHandler: " + event);
+				//trace("httpStatusHandler: " + event);
 			}
 			
 			private function ioErrorHandler(event:IOErrorEvent):void

@@ -103,9 +103,11 @@ dataTipFunction="toolTipFunction">
 	}
 
             [Embed("assets/plus.JPG")]
-            public var plus:Class;
+			[Bindable]
+			public var plus:Class;
             [Embed("assets/minus.JPG")] 		
-            public var minus:Class;
+			[Bindable]            
+			public var minus:Class;
 
             private var _cube:IOLAPCube;
             public function set cube(c:IOLAPCube):void
