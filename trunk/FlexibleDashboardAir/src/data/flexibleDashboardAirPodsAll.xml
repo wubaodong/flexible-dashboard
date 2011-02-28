@@ -111,11 +111,13 @@ stored in this file rather than a database or separate XML files.
 	<view
 		id="viewBlazeDS"
 		label="BlazeDS">
-        <pod
+		<!-- blazeds1 pod flex4 FlexAppPod.mxml gets errors with SWFLoader trying to load blazeds flex3 swfs -->
+		<!--  even when loadForCompatibility=true is given to SWFLoader, maybe recompiling blazeds samples with flex4 would get it to work  -->
+        <!-- pod
             id="blazeds1"
             type="flexApp"
             title="BlazeDS test drive web service external SWF"
-            swfUrl="http://localhost:8400/samples/testdrive-webservice/main.swf" />  
+            swfUrl="http://localhost:8400/samples/testdrive-remoteobject/main.swf" /-->  
         <pod
             id="blazeds2"
             type="blazeds"
@@ -192,20 +194,20 @@ stored in this file rather than a database or separate XML files.
             type="liferay"
             title="Liferay"
             portletUrl="http://localhost:8080/widget/web/guest/test/-/82"
-            portalUrl="http://localhost:8080/" />     
-        <!-- liferay web content display portlet on welcome/home page in liferay  -->
+            portalUrl="http://localhost:8080/" />                 
+        <!-- liferay welcome web content display portlet on welcome/home page in liferay  -->
         <pod
             id="liferay3"
             type="liferay"
             title="Liferay"
-            portletUrl="http://localhost:8080/widget/web/guest/home/-/56_INSTANCE_p7sE"
+            portletUrl="http://localhost:8080/widget/web/guest/home/-/56_INSTANCE_D4jz"
             portalUrl="http://localhost:8080/" />     
         <!-- liferay current users portlet on welcome/home page in liferay  -->
         <pod
             id="liferay4"
             type="liferay"
             title="Liferay"
-            portletUrl="http://localhost:8080/widget/web/guest/home/-/56_INSTANCE_oqG4"
+            portletUrl="http://localhost:8080/widget/web/guest/home/-/56_INSTANCE_Vwa1"
             portalUrl="http://localhost:8080/" />     
     </view> 
 

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PodContentBase
-   xmlns:mx="http://www.adobe.com/2006/mxml"
-   xmlns="com.esria.samples.dashboard.view.*"
-   width="100%" height="100%"> 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns="com.esria.samples.dashboard.view.*"
+    width="100%" height="100%"> 
     
-    <mx:Script>
+    <fx:Script>
         <![CDATA[
         import mx.events.FlexEvent;
 
@@ -37,10 +39,10 @@
             viewframe.location = RunString;
         }                       
       ]]>
-   </mx:Script>
+   </fx:Script>
 
       <mx:ControlBar id="toolbar" width="100%" height="61">
-         <mx:Script>
+         <fx:Script>
          <![CDATA[
             import flash.net.navigateToURL;
                         
@@ -75,7 +77,7 @@
                
             }
          ]]>
-      </mx:Script>
+      </fx:Script>
 
       <mx:Spacer width="100%"/>     
       <mx:Button icon="@Embed(source='images/ppt.png')" click="getPPT()"/>
@@ -85,7 +87,8 @@
       
    </mx:ControlBar>
 
-   <mx:HTML id="viewframe" x="0" y="69" width="100%" height="100%" visible="true" backgroundColor="#FFFFFF"/>
+   <!-- flex4 removed backgroundColor="#FFFFFF", backgroundColor only supported on halo, also removed styleName="halo" -->
+   <mx:HTML id="viewframe" x="0" y="69" width="100%" height="100%" visible="true" />
    
 </PodContentBase>
 

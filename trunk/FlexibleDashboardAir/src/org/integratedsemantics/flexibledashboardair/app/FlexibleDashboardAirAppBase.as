@@ -17,8 +17,6 @@ package org.integratedsemantics.flexibledashboardair.app
 	
 	import mx.containers.ViewStack;
 	import mx.controls.Alert;
-	import mx.controls.TabBar;
-	import mx.core.WindowedApplication;
 	import mx.events.IndexChangedEvent;
 	import mx.events.ItemClickEvent;
 	import mx.rpc.events.FaultEvent;
@@ -38,16 +36,23 @@ package org.integratedsemantics.flexibledashboardair.app
 	import org.integratedsemantics.flexibledashboardair.liferay.LiferayHtmlPod;
 	import org.integratedsemantics.flexibledashboardair.localfiles.LocalFilesPod;
 	
+	import spark.components.TabBar;
+	import spark.components.WindowedApplication;
+	import spark.events.IndexChangeEvent;
+	
 
-	public class FlexibleDashboardAirAppBase extends WindowedApplication
+	public class FlexibleDashboardAirAppBase extends spark.components.WindowedApplication
 	{
-		public var modeViewStack:ViewStack;
+		//public var modeViewStack:ViewStack;
 		
+		[Bindable]
 		public var viewStack:ViewStack;
+		
 		public var tabBar:TabBar;
 		
         // view modes
-        public static const MAIN_VIEW_MODE_INDEX:int = 0;
+        //public static const MAIN_VIEW_MODE_INDEX:int = 0;
+		public static const MAIN_VIEW_STATE:String = "MainViewState";
 
 		// Array of PodLayoutManagers
 		protected var podLayoutManagers:Array = new Array();
@@ -68,7 +73,9 @@ package org.integratedsemantics.flexibledashboardair.app
 					
         protected function onApplicationComplete(event:Event):void
         {
-            modeViewStack.selectedIndex = MAIN_VIEW_MODE_INDEX; 
+            //modeViewStack.selectedIndex = MAIN_VIEW_MODE_INDEX; 
+			this.currentState = MAIN_VIEW_STATE;
+			
             onPortalCreationComplete();                              	
         }
 					
@@ -80,7 +87,7 @@ package org.integratedsemantics.flexibledashboardair.app
 			httpService.resultFormat = "e4x";
 			httpService.addEventListener(FaultEvent.FAULT, onFaultHttpService);
 			httpService.addEventListener(ResultEvent.RESULT, onResultHttpService);
-			httpService.send();
+			httpService.send();			
 		}
 		
 		protected function onFaultHttpService(e:FaultEvent):void
@@ -96,25 +103,23 @@ package org.integratedsemantics.flexibledashboardair.app
 			for (var i:Number = 0; i < len; i++) // Loop through the view nodes.
 			{
 				// Create a canvas for each view node.
-				//mdi var canvas:Canvas = new Canvas();
-                var canvas:MDICanvas = new MDICanvas();				
-				// PodLayoutManager handles resize and should prevent the need for
-				// scroll bars so turn them off so they aren't visible during resizes.
-				canvas.horizontalScrollPolicy = "off";
-				canvas.verticalScrollPolicy = "off";
+                var canvas:MDICanvas = new MDICanvas();	
+				var manager:PodLayoutManager = new PodLayoutManager(canvas);
+				canvas.windowManager = manager;
+				
 				canvas.label = viewXMLList[i].@label;
 				canvas.percentWidth = 100;
 				canvas.percentHeight = 100;								
-				viewStack.addChild(canvas);
-				// mdi
-				canvas.windowManager.snapDistance = 16;
 				canvas.windowManager.tilePadding = 10;
-				
-				// Create a manager for each view.
-				var manager:PodLayoutManager = new PodLayoutManager();
-				manager.container = canvas;
+
+				viewStack.addChild(canvas);
+								
+				// setup manager for view.
 				manager.id = viewXMLList[i].@id;
-				manager.addEventListener(LayoutChangeEvent.UPDATE, StateManager.setPodLayout);
+
+				// todo: should listen to other events instead that mdimgr sends, layoutchangeevent no longer sent 				
+				//manager.addEventListener(LayoutChangeEvent.UPDATE, StateManager.setPodLayout);
+				
 				// Store the pod xml data. Used when view is first made visible.
 				podDataDictionary[manager] = viewXMLList[i].pod;
 				podLayoutManagers.push(manager);
@@ -124,13 +129,13 @@ package org.integratedsemantics.flexibledashboardair.app
 			// Make sure the index is not out of range.
 			// This can happen if a tab view was saved but then tabs were subsequently removed from the XML.
 			index = Math.min(tabBar.numChildren - 1, index);
-			onItemClickTabBar(new ItemClickEvent(ItemClickEvent.ITEM_CLICK, false, false, null, index));
+			onChangeTabBar(new IndexChangeEvent(IndexChangeEvent.CHANGE, false, false, -1, index));
 			tabBar.selectedIndex = index;
 		}
 		
-		protected function onItemClickTabBar(e:ItemClickEvent):void
+		protected function onChangeTabBar(e:IndexChangeEvent):void
 		{
-			var index:Number = e.index;
+			var index:Number = e.newIndex;
 			StateManager.setViewIndex(index); // Save the view index.
 			
 			viewStack.selectedIndex = index;
@@ -223,17 +228,19 @@ package org.integratedsemantics.flexibledashboardair.app
 					pod.id = podId;
 					pod.title = podXMLList[j].@title;
 
-					pod.addChild(podContent);
+					//flex4spark pod.addChild(podContent);
+					pod.addElement(podContent);
 					
 					var index:Number;
 					
-					if (StateManager.isPodMinimized(viewId, podId))
-					{
-						index = StateManager.getMinimizedPodIndex(viewId, podId);
-						manager.addMinimizedItemAt(pod, index);
-					}
-					else
-					{
+					// todo: either add back restoring state at startup or eliminate state storage
+					//if (StateManager.isPodMinimized(viewId, podId))
+					//{
+					//	index = StateManager.getMinimizedPodIndex(viewId, podId);
+					//	manager.addMinimizedItemAt(pod, index);
+					//}
+					//else
+					//{
 						index = StateManager.getPodIndex(viewId, podId);
 						
 						// If the index hasn't been saved move the pod to the last position.
@@ -243,8 +250,9 @@ package org.integratedsemantics.flexibledashboardair.app
 							unsavedPodCount += 1;
 						}
 												
-						manager.addItemAt(pod, index, StateManager.isPodMaximized(viewId, podId));						
-					}
+						//manager.addItemAt(pod, index, StateManager.isPodMaximized(viewId, podId));	
+						manager.addItemAt(pod, index, false);												
+					//}
 					
 					pod.addEventListener(IndexChangedEvent.CHANGE, onChangePodView);
 					
