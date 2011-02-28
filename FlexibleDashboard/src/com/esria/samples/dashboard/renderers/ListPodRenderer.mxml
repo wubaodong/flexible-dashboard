@@ -2,13 +2,20 @@
 <!--
  Renderer for the List in the ListContent pod.
 -->
-<mx:HBox
-	xmlns:mx="http://www.adobe.com/2006/mxml"
-	backgroundColor="#ffffff"
+<s:ItemRenderer
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
 	mouseChildren="true"
-	horizontalScrollPolicy="off"
 	initialize="onInitialize()">
-	<mx:Script>
+  <s:layout>
+	<s:HorizontalLayout gap="12"/>
+	</s:layout>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="over"/>
+	</s:states>  
+	<fx:Script>
 		<![CDATA[
 			import mx.formatters.DateFormatter;
 			
@@ -18,6 +25,8 @@
 			{
 				_dateFormatter = new DateFormatter();
 				_dateFormatter.formatString = "MM/DD/YY";
+		        setStyle("rollOverColor", "#FFFFFF");
+		        setStyle("selectionColor", "#FFFFFF");        
 			}
 			
 			override public function set data(value:Object):void
@@ -35,15 +44,16 @@
 				}
 			}
 		]]>
-	</mx:Script>
+	</fx:Script>
 	<!--
 		We only want mouse events for nameLabel since it will be the link for this renderer.
 	-->
-	<mx:Label
+	<s:Label
 		id="dateLabel"
 		color="#000000"
-		mouseEnabled="false"/>
-	<mx:Label
+		mouseEnabled="false"
+    fontSize="10" fontFamily="verdana" kerning="off"/>
+	<s:Label
 		id="nameLabel"
 		mouseEnabled="true"
 		useHandCursor="true"
@@ -51,7 +61,6 @@
 		buttonMode="true"
 		color="#0D3D8B"
 		textDecoration="underline"
-		rollOver="Label(event.currentTarget).setStyle('textDecoration', 'none');"
-		rollOut="Label(event.currentTarget).setStyle('textDecoration', 'underline');"
-		truncateToFit="true"/>
-</mx:HBox>
+    	textDecoration.over="none"
+    	fontSize="10" fontFamily="verdana" kerning="off"/>
+</s:ItemRenderer>

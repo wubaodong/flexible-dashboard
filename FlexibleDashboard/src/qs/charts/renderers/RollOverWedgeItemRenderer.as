@@ -2,17 +2,19 @@ package qs.charts.renderers
 {
 
 import flash.display.Graphics;
+import flash.events.MouseEvent;
 import flash.geom.Point;
 import flash.geom.Rectangle;
+
 import mx.charts.chartClasses.GraphicsUtilities;
 import mx.charts.series.items.PieSeriesItem;
 import mx.core.IDataRenderer;
+import mx.core.UIComponent;
 import mx.graphics.IFill;
 import mx.graphics.IStroke;
 import mx.graphics.SolidColor;
 import mx.skins.ProgrammaticSkin;
-import flash.events.MouseEvent;
-import mx.core.UIComponent;
+
 import qs.utils.ColorUtils;
 
 public class RollOverWedgeItemRenderer extends UIComponent implements IDataRenderer
@@ -178,7 +180,11 @@ public class RollOverWedgeItemRenderer extends UIComponent implements IDataRende
 		if(!isNaN(fillColor))
 			g.beginFill(fillColor);
 		else
-			f.begin(g,rc);
+		{
+			//f.begin(g,rc);
+			//flex4 needs 3 args
+			f.begin(g,rc,new Point(rc.left,rc.top));
+		}
 
 		GraphicsUtilities.setLineStyle(g, radialStroke);
 

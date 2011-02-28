@@ -27,8 +27,9 @@ use namespace mx_internal;
 		{
 
 		
-
-		public static var EVENT_COLLECTION_CHANGE:String="collectionChange";
+		// flex4spark changed from "collectionChange" to "collectionChangeCustom" to avoid 
+	    // conflict with CollectionEvent
+		public static var EVENT_COLLECTION_CHANGE:String="collectionChangeCustom";
 		public static var EVENT_NEWCOLUMNS_LOADED:String="newcolumnsLoaded";
 				
 		public function PivotOLAPGrid():void

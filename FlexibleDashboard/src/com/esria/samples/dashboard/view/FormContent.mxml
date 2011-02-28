@@ -6,13 +6,15 @@
 -->
 <PodContentBase
 	xmlns="com.esria.samples.dashboard.view.*"
-	xmlns:mx="http://www.adobe.com/2006/mxml"
-	width="100%" height="100%">
-	<mx:Script>
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="100%" height="100%" gap="7">
+	<fx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
 			import mx.controls.dataGridClasses.DataGridColumn;
-			import mx.events.ListEvent;
+      		import spark.events.IndexChangeEvent;
 			import mx.formatters.DateFormatter;
 			import mx.rpc.events.ResultEvent;
 			
@@ -126,110 +128,114 @@
 				return dateFormatter.format(item[column.dataField]);
 			}
 			
-			private function onChangeComboBox(e:ListEvent):void
+			private function onChangeComboBox(e:IndexChangeEvent):void
 			{
 				saveData();
 				
-				var index:Number = ComboBox(e.target).selectedIndex
+				var index:Number = DropDownList(e.target).selectedIndex
 				selectedViewIndex = index;
 				dispatchViewStackChange(index);
 			}
 		]]>
-	</mx:Script>
-	<mx:HBox
+	</fx:Script>
+	<s:HGroup
 		width="100%"
-		horizontalAlign="right">
-		<mx:ComboBox
-			dataProvider="['Form', 'Grid']"
-			selectedIndex="{selectedViewIndex}"
-			change="onChangeComboBox(event)"/>
-	</mx:HBox>
+		horizontalAlign="right" gap="10">
+    <s:DropDownList selectedIndex="{selectedViewIndex}"
+                    change="onChangeComboBox(event)" width="74"
+                    fontSize="10" fontWeight="bold" fontFamily="verdana">
+	<s:ArrayList>
+		<fx:String>Form</fx:String>
+		<fx:String>Grid</fx:String>
+	</s:ArrayList>
+    </s:DropDownList>
+	</s:HGroup>
 	<mx:ViewStack
 		id="viewStack"
 		selectedIndex="{selectedViewIndex}"
 		width="100%" height="100%">
 		<!-- Form View-->
-		<mx:VBox
+		<s:NavigatorContent
 			width="100%" height="100%">
-			<mx:HBox
-				width="100%">
-				<mx:Label
+		<s:layout>
+		    <s:VerticalLayout horizontalAlign="center" gap="7"/>
+		</s:layout>      
+			<s:HGroup
+				width="100%" gap="10">
+				<s:RichEditableText
 					id="field0Label"
 					width="80"
-					textAlign="right" />
-				<mx:TextInput
+					textAlign="right" fontSize="10" paddingTop="4" fontFamily="verdana"/>
+				<s:TextInput
 					id="field0Input"
-					width="100%" />
-			</mx:HBox>
-			<mx:HBox
-				width="100%">
-				<mx:Label
+					width="100%" fontSize="10" paddingTop="4" fontFamily="verdana"/>
+			</s:HGroup>
+			<s:HGroup
+				width="100%" gap="10">
+				<s:RichEditableText
 					id="field1Label"
 					width="80"
-					textAlign="right" />
+					textAlign="right" fontSize="10" paddingTop="4" fontFamily="verdana"/>
 				<mx:DateField
-					id="field1Input"/>
-			</mx:HBox>
-			<mx:HBox
-				width="100%" height="100%">
-				<mx:Label
+					id="field1Input" fontSize="10" fontFamily="verdana" />
+			</s:HGroup>
+			<s:HGroup
+				width="100%" height="100%" gap="10">
+				<s:RichEditableText
 					id="field2Label"
 					width="80"
-					textAlign="right" />
-				<mx:TextArea
+					textAlign="right" fontSize="10" paddingTop="4" fontFamily="verdana"/>
+				<s:TextArea
 					id="field2Input"
-					width="100%" height="100%" />
-			</mx:HBox>
+					width="100%" height="100%" fontSize="10" paddingTop="4" fontFamily="verdana"/>
+			</s:HGroup>
 			<!-- Navigation control bar.
 				 Set paddingRight to be newButton.width so the controls are centered.-->
-			<mx:HBox
+			<s:HGroup
 				width="100%"
-				verticalAlign="middle"
-				horizontalGap="0">
-				<mx:Button
+				verticalAlign="middle" gap="2">
+				<s:Button
 					id="newButton"
 					width="55"
 					label="{addingRecord ? ADD : NEW}"
-					click="onClickNewButton(event)"/>
+					click="onClickNewButton(event)" fontSize="10" fontWeight="bold" fontFamily="verdana"/>
 				<mx:Spacer
 					width="100%" />
-				<mx:Button
-					width="9" height="12"
+				<s:Button
 					enabled="{dataProvider.length > 0}"
-					styleName="leftArrowButton"
+          			skinClass="skins.CustomLeftButtonSkin"
 					click="saveData();selectedIndex-=1;"/>
-				<mx:Label
-					text="Record" />
-				<mx:TextInput
+				<s:RichEditableText
+					text="Record" fontSize="10" paddingTop="4" fontFamily="verdana"/>
+				<s:TextInput
 					id="indexInput"
 					restrict="0-9"
 					enabled="{dataProvider.length > 0}"
 					enter="saveData();selectedIndex=Number(TextInput(event.currentTarget).text)-1;"
-					width="30" />
-				<mx:Label
-					text="of {dataProvider.length}" />
-				<mx:Button
-					width="9" height="12"
+					width="30" fontSize="10" paddingTop="4" fontFamily="verdana"/>
+				<s:RichEditableText
+					text="of {dataProvider.length}" fontSize="10" paddingTop="4" fontFamily="verdana"/>
+        		<s:Button
 					enabled="{dataProvider.length > 0}"
-					styleName="rightArrowButton"
+					skinClass ="skins.CustomRightButtonSkin"
 					click="saveData();selectedIndex+=1;"/>
 				<mx:Spacer
 					width="100%" />
-				<mx:Button
+				<s:Button
 					id="deleteButton"
 					enabled="{!addingRecord &amp;&amp; dataProvider.length > 0}"
 					label="Delete"
 					width="65"
-					click="onClickDeleteButton()" />
-			</mx:HBox>
-		</mx:VBox>
-		<mx:Canvas>
+					click="onClickDeleteButton()" fontSize="10" fontWeight="bold" fontFamily="verdana"/>
+			</s:HGroup>
+		</s:NavigatorContent>
+		<s:NavigatorContent>
 			<mx:DataGrid
 				width="100%" height="100%"
 				dataProvider="{dataProvider}"
 				selectedIndex="{_selectedIndex}"
 				itemClick="selectedIndex=DataGrid(event.currentTarget).selectedIndex;"
-				itemDoubleClick="selectedViewIndex=0;">
+				itemDoubleClick="selectedViewIndex=0;" fontSize="10" fontFamily="verdana" >
 				<mx:columns>
 					<mx:DataGridColumn
 						headerText="{field0Label.text}"
@@ -244,6 +250,6 @@
 						dataField="{dataFields.getItemAt(2)}"/>
 				</mx:columns>
 			</mx:DataGrid>
-		</mx:Canvas>
+		</s:NavigatorContent>
 	</mx:ViewStack>
 </PodContentBase>

@@ -23,10 +23,12 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 package qs.graphics
 {
+	import flash.geom.Point;
+	import flash.geom.Rectangle;
+	
 	import mx.core.UIComponent;
 	import mx.graphics.IFill;
 	import mx.graphics.IStroke;
-	import flash.geom.Rectangle;
 
 	[Style(name="fill", type="mx.graphics.IFill", inherit="no")]
 	[Style(name="stroke", type="mx.graphics.IStroke", inherit="no")]
@@ -47,7 +49,9 @@ package qs.graphics
 				o = s.weight/2;
 				unscaledHeight -=s.weight;
 				unscaledWidth -= s.weight;
-				s.apply(graphics);
+				//s.apply(graphics);
+				// todo  flex4 needs 3 args
+				s.apply(graphics, null, null);
 			}
 			else
 				graphics.lineStyle(0,0,0);
@@ -57,7 +61,9 @@ package qs.graphics
 				rc.left = rc.right = o;
 				rc.width = unscaledWidth;
 				rc.height = unscaledHeight;
-				f.begin(graphics,rc);
+				//f.begin(graphics,rc);
+				// todo flex4 needs 3 args
+				f.begin(graphics,rc,new Point(0,0));
 			}
 			graphics.drawEllipse(o,o,unscaledWidth,unscaledHeight);
 			if(f != null)

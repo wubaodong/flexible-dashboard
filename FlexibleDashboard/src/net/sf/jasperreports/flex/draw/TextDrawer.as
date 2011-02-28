@@ -39,16 +39,17 @@ package net.sf.jasperreports.flex.draw
 	
 	import mx.controls.Text;
 	import mx.core.Application;
+	import mx.core.FlexGlobals;
 	import mx.utils.StringUtil;
 	
-	import net.sf.jasperreports.flex.model.Font;
 	import net.sf.jasperreports.flex.model.BooleanEnum;
+	import net.sf.jasperreports.flex.model.Font;
 	import net.sf.jasperreports.flex.model.HorizontalAlignEnum;
 	import net.sf.jasperreports.flex.model.HyperlinkTypeEnum;
 	import net.sf.jasperreports.flex.model.MarkupEnum;
 	import net.sf.jasperreports.flex.model.RotationEnum;
-	import net.sf.jasperreports.flex.model.VerticalAlignEnum;
 	import net.sf.jasperreports.flex.model.Text;
+	import net.sf.jasperreports.flex.model.VerticalAlignEnum;
 
 
 	public class TextDrawer
@@ -95,7 +96,7 @@ package net.sf.jasperreports.flex.draw
 			textControl.setStyle("fontFamily", fontFamily);
 			textControl.setStyle("fontSize", font.fontSize);//FIXME * 0.9
 			
-			if (!Application.application.systemManager.isFontFaceEmbedded(textFormat)) 
+			if (!FlexGlobals.topLevelApplication.systemManager.isFontFaceEmbedded(textFormat)) 
 			{
 				if (font.italic.booleanValue) 
 				{

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Canvas borderStyle="solid" cornerRadius="10" borderColor="#888888" borderThickness="3" 
-	backgroundColor="#565656" xmlns="http://www.adobe.com/2006/mxml" width="500" height="194"  
+<Canvas borderStyle="solid" cornerRadius="10" borderColor="#888888"
+	backgroundColor="#565656" xmlns="http://www.adobe.com/2006/mxml" width="600" height="250"  
 	creationComplete="initControls()"
 	defaultButton="{okButton}">
 	
@@ -63,16 +63,16 @@
 	
 	<RadioButtonGroup id="rGroup" selectedValue="sample:" change="updateSource();"/>	
 	
-	<Form left="10" y="10" right="10" bottom="20" >
+	<Form left="10" right="10" bottom="62" >
 		<FormItem label="calendar:" width="100%">
 			<VBox width="100%">
 				<HBox width="100%">
 					<RadioButton color="#FFFFFF" label="sample:" group="{rGroup}" />
-					<ComboBox id="sampleUI" width="200"  dataProvider="{sampleFiles}" dropdownStyleName="predefinedCalList" color="#000000"/>
+					<ComboBox id="sampleUI" width="200"  dataProvider="{sampleFiles}" dropdownStyleName="predefinedCalList" color="#ffffff"/>
 				</HBox>
 				<HBox width="100%">
 					<RadioButton color="#FFFFFF" label="url:" group="{rGroup}" />
-					<TextInput id="urlUI"  width="100%"  backgroundColor="#888888" color="#000000"/>
+					<TextInput id="urlUI"  width="100%"  color="#000000"/>
 				</HBox>
 			</VBox>
 		</FormItem>
@@ -83,8 +83,8 @@
 			<ColorPicker id="colorUI" width="44"/>
 		</FormItem>
 	</Form>
-	<Button id="okButton" x="434" bottom="10" label="Load" color="#400040" click="load();"/>
-	<Button id="cancelButton" x="361" bottom="10" label="Cancel" color="#000000" click="cancel();" />
+	<Button id="okButton" x="359" bottom="17" label="Load" color="#ffffff" textRollOverColor="#ffffff" click="load();"/>
+	<Button id="cancelButton" x="434" bottom="17" label="Cancel" color="#ffffff" textRollOverColor="#ffffff" click="cancel();" />
 	<Label x="10" y="0" text="Add a new Calendar" styleName="CreateCalendarDialogHeader"/>
 	
 </Canvas>

@@ -63,9 +63,9 @@ public class StateManager
 	{
 		var manager:PodLayoutManager = PodLayoutManager(e.currentTarget);
 		var o:Object = getViewIdObject(manager.id);
-		o[MAXIMIZED_ITEM] = manager.maximizedPod != null ? manager.maximizedPod.id : null;
-		o[MINIMIZED_ITEMS] = podArrayToStringArray(manager.minimizedItems);
-		o[ITEMS] = podArrayToStringArray(manager.items);
+		//todo o[MAXIMIZED_ITEM] = manager.maximizedPod != null ? manager.maximizedPod.id : null;
+		//todo o[MINIMIZED_ITEMS] = podArrayToStringArray(manager.minimizedItems);
+		//todo o[ITEMS] = podArrayToStringArray(manager.items);
 		
 		sharedObject.flush();
 	}

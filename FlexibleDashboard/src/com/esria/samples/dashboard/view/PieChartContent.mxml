@@ -5,11 +5,13 @@
 -->
 <PodContentBase
 	xmlns="com.esria.samples.dashboard.view.*"
-	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
 	xmlns:effects="qs.charts.effects.*"
 	xmlns:renderers="qs.charts.renderers.*"
-	width="100%" height="100%">
-	<mx:Script>
+	width="100%" height="100%">	
+	<fx:Script>
 		<![CDATA[
 			import mx.charts.events.ChartItemEvent;
 			import mx.charts.HitData;
@@ -112,26 +114,27 @@
 			}
 			
 		]]>
-	</mx:Script>
-	
-	<effects:DrillDownEffect id="drillDownEffect" duration="1500" effectEnd="pieChart.showDataTips=true" />
-    <effects:DrillUpEffect id="drillUpEffect" duration="1500" effectEnd="pieChart.showDataTips=true"/>
+	</fx:Script>	
+	<fx:Declarations>
+		<effects:DrillDownEffect id="drillDownEffect" duration="1500" effectEnd="pieChart.showDataTips=true" />
+		<effects:DrillUpEffect id="drillUpEffect" duration="1500" effectEnd="pieChart.showDataTips=true"/>		
+	</fx:Declarations>
 	
 	<mx:PieChart
 		id="pieChart"
 		width="100%" height="100%"
 		dataProvider="{dataProvider}"
 		dataTipFunction="pieChartDataTipFunction"
-		showDataTips="true">
+		showDataTips="true" fontFamily="verdana" >
 		<mx:series>
 			<mx:PieSeries
 				id="pieSeries"
 				field="{properties.@valueField}"
 				labelPosition="callout">
 				<mx:itemRenderer>
-					<mx:Component>
+					<fx:Component>
 						<renderers:RollOverWedgeItemRenderer />
-					</mx:Component>
+					</fx:Component>
 				</mx:itemRenderer>
 			</mx:PieSeries>
 		</mx:series>

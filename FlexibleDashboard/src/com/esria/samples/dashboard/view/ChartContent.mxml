@@ -7,11 +7,13 @@
 -->
 <PodContentBase
 	xmlns="com.esria.samples.dashboard.view.*"
-	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
 	xmlns:effects="qs.charts.effects.*"
 	xmlns:renderers="qs.charts.renderers.*"
 	width="100%" height="100%">
-	<mx:Script>
+	<fx:Script>
 		<![CDATA[
 			import mx.charts.chartClasses.ChartBase;
 			import mx.charts.chartClasses.Series;
@@ -19,8 +21,7 @@
 			import mx.charts.HitData;
 			import mx.charts.series.ColumnSeries;
 			import mx.collections.ArrayCollection;
-			import mx.controls.ComboBox;
-			import mx.events.ListEvent;
+			import spark.events.IndexChangeEvent;
 			import mx.rpc.events.ResultEvent;
 			
 			// The original data provider used for drillUp.
@@ -71,9 +72,9 @@
 				}
 			}
 			
-			private function onChangeComboBox(e:ListEvent):void
+			private function onChangeComboBox(e:IndexChangeEvent):void
 			{
-				var index:Number = ComboBox(e.target).selectedIndex;
+				var index:Number = DropDownList(e.target).selectedIndex;
 				selectedViewIndex = index;
 				dispatchViewStackChange(index);
 			}
@@ -145,40 +146,47 @@
 			}
 			
 		]]>
-	</mx:Script>
-	
-	<effects:DrillDownEffect id="drillDownEffect" duration="1500" effectEnd="chart.showDataTips=true" />
-    <effects:DrillUpEffect id="drillUpEffect" duration="1500" effectEnd="chart.showDataTips=true"/>
+	</fx:Script>	
+	<fx:Declarations>
+		<effects:DrillDownEffect id="drillDownEffect" duration="1500" 
+                    effectEnd="chart.showDataTips=true" />
+		<effects:DrillUpEffect id="drillUpEffect" duration="1500" 
+                    effectEnd="chart.showDataTips=true"/>		
+	</fx:Declarations>
     
-	<mx:HBox
+	<s:HGroup
 		width="100%"
 		horizontalAlign="right">
-		<mx:ComboBox
-			dataProvider="['Bar Chart', 'Line Chart']"
-			selectedIndex="{_selectedViewIndex}"
-			change="onChangeComboBox(event)" />
-	</mx:HBox>
+		<s:DropDownList selectedIndex="{_selectedViewIndex}"
+			change="onChangeComboBox(event)" width="100"
+			fontSize="10" fontWeight="bold" fontFamily="verdana">
+			<s:ArrayList>
+				<fx:String>Bar Chart</fx:String>
+				<fx:String>Line Chart</fx:String>
+			</s:ArrayList>
+		</s:DropDownList>
+	</s:HGroup>
 	<mx:ViewStack
 		id="viewStack"
 		selectedIndex="{_selectedViewIndex}"
 		creationPolicy="all"
 		width="100%" height="100%">
-		<mx:Canvas
+		<s:NavigatorContent
 			width="100%" height="100%">
 			<mx:ColumnChart
 				id="columnChart"
 				width="100%" height="100%"
 				dataProvider="{dataProvider}"
 				showDataTips="true"
-				dataTipFunction="columnChartDataTipFunction">
+				dataTipFunction="columnChartDataTipFunction" fontFamily="verdana" >
 				<mx:series>
 					<mx:ColumnSeries
 						id="columnSeries"
 						yField="{properties.@valueField}">
 						<mx:itemRenderer>
-							<mx:Component>
+							<fx:Component>
 								<renderers:RollOverBoxItemRenderer color="#E48701" overColor="#FEA318" downColor="#E48701" />
-							</mx:Component>
+							</fx:Component>
 						</mx:itemRenderer>
 					</mx:ColumnSeries>
 				</mx:series>
@@ -187,23 +195,23 @@
 						categoryField="{properties.@categoryField}" />
 				</mx:horizontalAxis>
 			</mx:ColumnChart>
-		</mx:Canvas>
-		<mx:Canvas
+		</s:NavigatorContent>
+		<s:NavigatorContent
 			width="100%" height="100%">
 			<mx:LineChart
 				id="lineChart"
 				width="100%" height="100%"
 				dataProvider="{dataProvider}"
 				showDataTips="true"
-				dataTipFunction="columnChartDataTipFunction">
+				dataTipFunction="columnChartDataTipFunction" fontFamily="verdana" >
 				<mx:series>
 					<mx:LineSeries
 						id="lineSeries"
 						yField="{properties.@valueField}">
 						<mx:itemRenderer>
-							<mx:Component>
+							<fx:Component>
 								<renderers:RollOverBoxItemRenderer />
-							</mx:Component>
+							</fx:Component>
 						</mx:itemRenderer>
 					</mx:LineSeries>
 				</mx:series>
@@ -212,6 +220,6 @@
 						categoryField="{properties.@categoryField}" />
 				</mx:horizontalAxis>
 			</mx:LineChart>
-		</mx:Canvas>
+		</s:NavigatorContent>
 	</mx:ViewStack>
 </PodContentBase>

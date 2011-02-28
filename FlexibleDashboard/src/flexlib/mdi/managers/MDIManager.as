@@ -21,20 +21,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-
 package flexlib.mdi.managers
 {
-	import flash.display.DisplayObject;
-	import flash.events.ContextMenuEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.geom.Point;
-	import flash.geom.Rectangle;
-	import flash.ui.ContextMenu;
-	import flash.ui.ContextMenuItem;
 	import flash.utils.Dictionary;
-
-	import flexlib.mdi.containers.MDIResizeHandle;
+	
 	import flexlib.mdi.containers.MDIWindow;
 	import flexlib.mdi.effects.IMDIEffectsDescriptor;
 	import flexlib.mdi.effects.MDIEffectsDescriptorBase;
@@ -42,19 +35,18 @@ package flexlib.mdi.managers
 	import flexlib.mdi.events.MDIEffectEvent;
 	import flexlib.mdi.events.MDIManagerEvent;
 	import flexlib.mdi.events.MDIWindowEvent;
-
+	
 	import mx.collections.ArrayCollection;
-	import mx.core.Application;
 	import mx.core.EventPriority;
-	import mx.core.IFlexDisplayObject;
-	import mx.core.UIComponent;
+	import mx.core.IVisualElement;
 	import mx.effects.CompositeEffect;
 	import mx.effects.Effect;
 	import mx.effects.effectClasses.CompositeEffectInstance;
 	import mx.events.EffectEvent;
 	import mx.events.ResizeEvent;
-	import mx.managers.PopUpManager;
 	import mx.utils.ArrayUtil;
+	
+	import spark.components.SkinnableContainer;
 
 	//--------------------------------------
 	//  Events
@@ -182,63 +174,58 @@ package flexlib.mdi.managers
 	 */
 	[Event(name="effectEnd", type="mx.events.EffectEvent")]
 
+	
 	/**
 	 * Class responsible for applying effects and default behaviors to MDIWindow instances such as
 	 * tiling, cascading, minimizing, maximizing, etc.
 	 */
 	public class MDIManager extends EventDispatcher
 	{
-		/**
-		 * Temporary storage location for use in dispatching MDIEffectEvents.
-		 *
-		 * @private
-		 */
-		private var mgrEventCollection:ArrayCollection = new ArrayCollection();
+		// true if laid out in a tiled grid, not cascaded
+		public var isTiled:Boolean = true;
 
-		private static var globalMDIManager:MDIManager;
-		public static function get global():MDIManager
-		{
-			if(MDIManager.globalMDIManager == null)
-			{
-				globalMDIManager = new MDIManager(Application.application as UIComponent);
-				globalMDIManager.isGlobal = true;
-			}
-			return MDIManager.globalMDIManager;
-		}
-
-		private var isGlobal:Boolean = false;
-		private var windowToManagerEventMap:Dictionary;
-
-		private var tiledWindows:ArrayCollection;
-		public var tileMinimize:Boolean = true;
-		public var tileMinimizeWidth:int = 200;
-		public var showMinimizedTiles:Boolean = false;
-		public var snapDistance:Number = 0;
+		[Bindable]
+		public var windowList:Array = new Array();				// Stores all windows managed
+		
+		public var items:Array = new Array();					// Stores the windows which are not minimized.
+		
+		// Stores the minimized windows.
+		public var minimizedWindows:ArrayCollection = new ArrayCollection();
+		
+		//public var tileMinimizeWidth:int = 200;
+		public var tileMinimizeWidth:int = TASKBAR_ITEM_WIDTH;
+		
 		public var tilePadding:Number = 8;
 		public var minTilePadding:Number = 5;
-		public var enforceBoundaries:Boolean = true;
-
+		
 		public var effects:IMDIEffectsDescriptor = new MDIEffectsDescriptorBase();
+			
+		// Temporary storage location for use in dispatching MDIEffectEvents.
+		private var mgrEventCollection:ArrayCollection = new ArrayCollection();
 
-		public static const CONTEXT_MENU_LABEL_TILE:String = "Tile";
-		public static const CONTEXT_MENU_LABEL_TILE_FILL:String = "Tile + Fill";
-		public static const CONTEXT_MENU_LABEL_CASCADE:String = "Cascade";
-		public static const CONTEXT_MENU_LABEL_SHOW_ALL:String = "Show All Windows";
+		protected var windowToManagerEventMap:Dictionary;
 
+		private var _container:SkinnableContainer;
+	
+		// todo: from podlayoutmanager
+		protected static const TASKBAR_HEIGHT:Number = 25;		// The height of the area for minimized pods.
+		protected static const TASKBAR_HORIZONTAL_GAP:Number = 5; // The horizontal gap between minimized pods.
+		protected static const TASKBAR_ITEM_WIDTH:Number = 150;	// The preferred minimized pod width if there is available space.
+		protected static const TASKBAR_PADDING_TOP:Number = 10;	// The gap between the taskbar and the bottom of the last row of pods.
+		
+		
 		/**
      	*   Constructor()
      	*/
-		public function MDIManager(container:UIComponent, effects:IMDIEffectsDescriptor = null):void
+		public function MDIManager(container:SkinnableContainer, effects:IMDIEffectsDescriptor = null):void
 		{
 			this.container = container;
-			if(effects != null)
+
+			if (effects != null)
 			{
 				this.effects = effects;
 			}
-			if(tileMinimize)
-			{
-				tiledWindows = new ArrayCollection();
-			}
+
 			this.container.addEventListener(ResizeEvent.RESIZE, containerResizeHandler);
 
 			// map of window events to corresponding manager events
@@ -276,27 +263,24 @@ package flexlib.mdi.managers
 			addEventListener(MDIManagerEvent.TILE, executeDefaultBehavior, false, EventPriority.DEFAULT_HANDLER);
 		}
 
-		private var _container:UIComponent;
-		public function get container():UIComponent
+
+		public function get container():SkinnableContainer
 		{
 			return _container;
 		}
-		public function set container(value:UIComponent):void
-		{
-			this._container = value;
-		}
 
+		public function set container(value:SkinnableContainer):void
+		{
+			_container = value;
+		}
 
 		/**
      	*  @private
      	*  the managed window stack
      	*/
-     	[Bindable]
-		public var windowList:Array = new Array();
-
 		public function add(window:MDIWindow):void
 		{
-			if(windowList.indexOf(window) < 0)
+			if (windowList.indexOf(window) < 0)
 			{
 				window.windowManager = this;
 
@@ -304,21 +288,10 @@ package flexlib.mdi.managers
 
 				this.windowList.push(window);
 
-				this.addContextMenu(window);
-
-				if(this.isGlobal)
+				if (window.parent == null)
 				{
-					PopUpManager.addPopUp(window,Application.application as DisplayObject);
+					this.container.addElement(window);
 					this.position(window);
-				}
-				else
-				{
-					// to accomodate mxml impl
-					if(window.parent == null)
-					{
-						this.container.addChild(window);
-						this.position(window);
-					}
 				}
 
 				dispatchEvent(new MDIManagerEvent(MDIManagerEvent.WINDOW_ADD, window, this));
@@ -338,173 +311,139 @@ package flexlib.mdi.managers
 			window.x = this.windowList.length * 30;
 			window.y = this.windowList.length * 30;
 
-			if((window.x + window.width) > container.width) window.x = 40;
-			if((window.y + window.height) > container.height) window.y = 40;
+			if ((window.x + window.width) > container.width) window.x = 40;
+			if ((window.y + window.height) > container.height) window.y = 40;
 		}
-
-		public function addContextMenu(window:MDIWindow,contextMenu:ContextMenu=null):void
+		
+		// default handling for mdi window event is just to send out mapped mdi window event
+		protected function onWindowEvent(event:Event):void
 		{
-			// add default context menu
-			if(contextMenu == null)
-			{
-				var defaultContextMenu:ContextMenu = new ContextMenu();
-					defaultContextMenu.hideBuiltInItems();
-
-				var arrangeItem:ContextMenuItem = new ContextMenuItem(CONTEXT_MENU_LABEL_TILE);
-			  		arrangeItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, menuItemSelectHandler);
-			  		defaultContextMenu.customItems.push(arrangeItem);
-
-           	 	var arrangeFillItem:ContextMenuItem = new ContextMenuItem(CONTEXT_MENU_LABEL_TILE_FILL);
-			  		arrangeFillItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, menuItemSelectHandler);
-			  		defaultContextMenu.customItems.push(arrangeFillItem);
-
-                var cascadeItem:ContextMenuItem = new ContextMenuItem(CONTEXT_MENU_LABEL_CASCADE);
-			  		cascadeItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, menuItemSelectHandler);
-			  		defaultContextMenu.customItems.push(cascadeItem);
-
-                var showAllItem:ContextMenuItem = new ContextMenuItem(CONTEXT_MENU_LABEL_SHOW_ALL);
-			  		showAllItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, menuItemSelectHandler);
-			  		defaultContextMenu.customItems.push(showAllItem);
-
-            	this.container.contextMenu = defaultContextMenu;
-			}
-			else
-			{
-				// add passed in context menu
-				window.contextMenu = contextMenu;
-			}
-		}
-
-		private function menuItemSelectHandler(event:ContextMenuEvent):void
-		{
-			var win:MDIWindow = event.contextMenuOwner as MDIWindow;
-			switch(event.target.caption)
-			{
-				case(CONTEXT_MENU_LABEL_TILE):
-					this.tile(false, this.tilePadding);
-				break;
-
-				case(CONTEXT_MENU_LABEL_TILE_FILL):
-					this.tile(true, this.tilePadding);
-				break;
-
-				case(CONTEXT_MENU_LABEL_CASCADE):
-					this.cascade();
-				break;
-
-				case(CONTEXT_MENU_LABEL_SHOW_ALL):
-					this.showAllWindows();
-				break;
-			}
-		}
-
-		private function windowEventProxy(event:Event):void
-		{
-			if(event is MDIWindowEvent && !event.isDefaultPrevented())
+			if (event is MDIWindowEvent && !event.isDefaultPrevented())
 			{
 				var winEvent:MDIWindowEvent = event as MDIWindowEvent;
 				var mgrEvent:MDIManagerEvent = new MDIManagerEvent(windowToManagerEventMap[winEvent.type], winEvent.window, this, null, null, winEvent.resizeHandle);
 
-				switch(winEvent.type)
-				{
-					case MDIWindowEvent.MINIMIZE:
-
-						mgrEvent.window.saveStyle();
-
-						var maxTiles:int = Math.floor(this.container.width / (this.tileMinimizeWidth + this.tilePadding));
-						var xPos:Number = getLeftOffsetPosition(this.tiledWindows.length, maxTiles, this.tileMinimizeWidth, this.minTilePadding);
-						var yPos:Number = this.container.height - getBottomTilePosition(this.tiledWindows.length, maxTiles, mgrEvent.window.minimizeHeight, this.minTilePadding);
-						var minimizePoint:Point = new Point(xPos, yPos);
-
-						mgrEvent.effect = this.effects.getWindowMinimizeEffect(mgrEvent.window, this, minimizePoint);
-					break;
-
-					case MDIWindowEvent.RESTORE:
-						mgrEvent.window.restoreStyle();
-						mgrEvent.effect = this.effects.getWindowRestoreEffect(winEvent.window, this, winEvent.window.savedWindowRect);
-					break;
-
-					case MDIWindowEvent.MAXIMIZE:
-						mgrEvent.window.restoreStyle();
-						mgrEvent.effect = this.effects.getWindowMaximizeEffect(winEvent.window, this);
-					break;
-
-					case MDIWindowEvent.CLOSE:
-						mgrEvent.effect = this.effects.getWindowCloseEffect(mgrEvent.window, this);
-					break;
-
-					case MDIWindowEvent.FOCUS_START:
-						mgrEvent.effect = this.effects.getWindowFocusStartEffect(winEvent.window, this);
-					break;
-
-					case MDIWindowEvent.FOCUS_END:
-						mgrEvent.effect = this.effects.getWindowFocusEndEffect(winEvent.window, this);
-					break;
-
-					case MDIWindowEvent.DRAG_START:
-						mgrEvent.effect = this.effects.getWindowDragStartEffect(winEvent.window, this);
-					break;
-
-					case MDIWindowEvent.DRAG:
-						mgrEvent.effect = this.effects.getWindowDragEffect(winEvent.window, this);
-					break;
-
-					case MDIWindowEvent.DRAG_END:
-						mgrEvent.effect = this.effects.getWindowDragEndEffect(winEvent.window, this);
-					break;
-
-					case MDIWindowEvent.RESIZE_START:
-						mgrEvent.effect = this.effects.getWindowResizeStartEffect(winEvent.window, this);
-					break;
-
-					case MDIWindowEvent.RESIZE:
-						mgrEvent.effect = this.effects.getWindowResizeEffect(winEvent.window, this);
-					break;
-
-					case MDIWindowEvent.RESIZE_END:
-						mgrEvent.effect = this.effects.getWindowResizeEndEffect(winEvent.window, this);
-					break;
-				}
-
+				dispatchEvent(mgrEvent);
+			}
+		}
+		
+		protected function onMinimizeWindow(event:Event):void
+		{
+			if (event is MDIWindowEvent && !event.isDefaultPrevented())
+			{
+				var winEvent:MDIWindowEvent = event as MDIWindowEvent;
+				var mgrEvent:MDIManagerEvent = new MDIManagerEvent(windowToManagerEventMap[winEvent.type], winEvent.window, this, null, null, winEvent.resizeHandle);
+	
+				minimizedWindows.addItem(mgrEvent.window);
+				
+				var maxTiles:int = Math.floor(this.container.width / (this.tileMinimizeWidth + this.tilePadding));
+				var xPos:Number = getLeftOffsetPosition(this.minimizedWindows.length, maxTiles, this.tileMinimizeWidth, this.minTilePadding);
+				var yPos:Number = this.container.height - getBottomTilePosition(this.minimizedWindows.length, maxTiles, mgrEvent.window.minimizeHeight, this.minTilePadding);
+				var minimizePoint:Point = new Point(xPos, yPos);
+				
+				mgrEvent.effect = this.effects.getWindowMinimizeEffect(mgrEvent.window, this, minimizePoint);			
+				dispatchEvent(mgrEvent);
+			}
+		}
+		
+		protected function onRestoreWindow(event:Event):void
+		{
+			if (event is MDIWindowEvent && !event.isDefaultPrevented())
+			{
+				var winEvent:MDIWindowEvent = event as MDIWindowEvent;
+				var mgrEvent:MDIManagerEvent = new MDIManagerEvent(windowToManagerEventMap[winEvent.type], winEvent.window, this, null, null, winEvent.resizeHandle);
+			
+				mgrEvent.effect = this.effects.getWindowRestoreEffect(winEvent.window, this, winEvent.window.savedWindowRect);			
 				dispatchEvent(mgrEvent);
 			}
 		}
 
+		protected function onMaximizeWindow(event:Event):void
+		{
+			if (event is MDIWindowEvent && !event.isDefaultPrevented())
+			{
+				var winEvent:MDIWindowEvent = event as MDIWindowEvent;
+				var mgrEvent:MDIManagerEvent = new MDIManagerEvent(windowToManagerEventMap[winEvent.type], winEvent.window, this, null, null, winEvent.resizeHandle);
+	
+				mgrEvent.effect = this.effects.getWindowMaximizeEffect(winEvent.window, this);			
+				dispatchEvent(mgrEvent);
+			}
+		}
+
+		protected function onCloseWindow(event:Event):void
+		{
+			if (event is MDIWindowEvent && !event.isDefaultPrevented())
+			{
+				var winEvent:MDIWindowEvent = event as MDIWindowEvent;
+				var mgrEvent:MDIManagerEvent = new MDIManagerEvent(windowToManagerEventMap[winEvent.type], winEvent.window, this, null, null, winEvent.resizeHandle);
+				
+				mgrEvent.effect = this.effects.getWindowCloseEffect(mgrEvent.window, this);			
+				dispatchEvent(mgrEvent);
+			}
+		}
+		
+		protected function onDragStart(event:Event):void
+		{
+			if (event is MDIWindowEvent && !event.isDefaultPrevented())
+			{
+				var winEvent:MDIWindowEvent = event as MDIWindowEvent;
+				var mgrEvent:MDIManagerEvent = new MDIManagerEvent(windowToManagerEventMap[winEvent.type], winEvent.window, this, null, null, winEvent.resizeHandle);
+				
+				dispatchEvent(mgrEvent);				
+			}
+		}
+		
+		protected function onDrag(event:Event):void
+		{
+			if (event is MDIWindowEvent && !event.isDefaultPrevented())
+			{
+				var winEvent:MDIWindowEvent = event as MDIWindowEvent;
+				var mgrEvent:MDIManagerEvent = new MDIManagerEvent(windowToManagerEventMap[winEvent.type], winEvent.window, this, null, null, winEvent.resizeHandle);
+				
+				dispatchEvent(mgrEvent);				
+			}
+		}
+
+		protected function onDragEnd(event:Event):void
+		{
+			if (event is MDIWindowEvent && !event.isDefaultPrevented())
+			{
+				var winEvent:MDIWindowEvent = event as MDIWindowEvent;
+				var mgrEvent:MDIManagerEvent = new MDIManagerEvent(windowToManagerEventMap[winEvent.type], winEvent.window, this, null, null, winEvent.resizeHandle);
+				
+				dispatchEvent(mgrEvent);				
+			}
+		}
+		
 		public function executeDefaultBehavior(event:Event):void
 		{
-			if(event is MDIManagerEvent && !event.isDefaultPrevented())
+			if (event is MDIManagerEvent && !event.isDefaultPrevented())
 			{
 				var mgrEvent:MDIManagerEvent = event as MDIManagerEvent;
 
 				switch(mgrEvent.type)
 				{
-					case MDIManagerEvent.WINDOW_ADD:
-						// get the effect here because this doesn't pass thru windowEventProxy()
-						mgrEvent.effect = this.effects.getWindowAddEffect(mgrEvent.window, this);
-					break;
-
 					case MDIManagerEvent.WINDOW_MINIMIZE:
 						mgrEvent.effect.addEventListener(EffectEvent.EFFECT_END, onMinimizeEffectEnd);
 					break;
 
 					case MDIManagerEvent.WINDOW_RESTORE:
-						removeTileInstance(mgrEvent.window);
+						removeFromMinimizedList(mgrEvent.window, true);
 					break;
 
 					case MDIManagerEvent.WINDOW_MAXIMIZE:
-						removeTileInstance(mgrEvent.window);
-						mgrEvent.effect = getMaximizeWindowEffect(mgrEvent.window);
+						removeFromMinimizedList(mgrEvent.window, true);
 					break;
 
 					case MDIManagerEvent.WINDOW_CLOSE:
-						removeTileInstance(mgrEvent.window);
+						removeFromMinimizedList(mgrEvent.window, true);
 						mgrEvent.effect.addEventListener(EffectEvent.EFFECT_END, onCloseEffectEnd);
 					break;
 
 					case MDIManagerEvent.WINDOW_FOCUS_START:
 						mgrEvent.window.hasFocus = true;
 						mgrEvent.window.validateNow();
-						container.setChildIndex(mgrEvent.window, container.numChildren - 1);
+						container.setElementIndex(mgrEvent.window, container.numElements - 1);
 					break;
 
 					case MDIManagerEvent.WINDOW_FOCUS_END:
@@ -512,38 +451,26 @@ package flexlib.mdi.managers
 						mgrEvent.window.validateNow();
 					break;
 
-					case MDIManagerEvent.WINDOW_DRAG:
-					case MDIManagerEvent.WINDOW_RESIZE:
-						if( snapDistance > 1 )
-							snapWindow(mgrEvent.window, mgrEvent.resizeHandle);
-					break;
-
-					// no, nothing happens in these cases. but it might someday.
-					case MDIManagerEvent.WINDOW_DRAG_START:
-					case MDIManagerEvent.WINDOW_DRAG_END:
-					case MDIManagerEvent.WINDOW_RESIZE_START:
-					case MDIManagerEvent.WINDOW_RESIZE_END:
-					break;
-
 					case MDIManagerEvent.CASCADE:
-						// get the effect here because this doesn't pass thru windowEventProxy()
 						mgrEvent.effect = this.effects.getCascadeEffect(mgrEvent.effectItems, this);
 					break;
 
 					case MDIManagerEvent.TILE:
-						// get the effect here because this doesn't pass thru windowEventProxy()
 						mgrEvent.effect = this.effects.getTileEffect(mgrEvent.effectItems, this);
 					break;
 				}
 
-				// add this event to collection for lookup in the effect handler
-				mgrEventCollection.addItem(mgrEvent);
+				if (mgrEvent.effect != null)
+				{
+					// add this event to collection for lookup in the effect handler
+					mgrEventCollection.addItem(mgrEvent);
+	
+					// listen for start and end of effect
+					mgrEvent.effect.addEventListener(EffectEvent.EFFECT_START, onMgrEffectEvent)
+					mgrEvent.effect.addEventListener(EffectEvent.EFFECT_END, onMgrEffectEvent);
 
-				// listen for start and end of effect
-				mgrEvent.effect.addEventListener(EffectEvent.EFFECT_START, onMgrEffectEvent)
-				mgrEvent.effect.addEventListener(EffectEvent.EFFECT_END, onMgrEffectEvent);
-
-				mgrEvent.effect.play();
+					mgrEvent.effect.play();
+				}
 			}
 		}
 
@@ -558,12 +485,12 @@ package flexlib.mdi.managers
 			for each(var mgrEvent:MDIManagerEvent in mgrEventCollection)
 			{
 				// is this the manager event that corresponds to this effect?
-				if(mgrEvent.effect == event.effectInstance.effect)
+				if (mgrEvent.effect == event.effectInstance.effect)
 				{
 					// for group events (tile and cascade) event.window is null
 					// and we have to dig in a bit to get the window list
 					var windows:Array = new Array();
-					if(mgrEvent.window)
+					if (mgrEvent.window)
 					{
 						windows.push(mgrEvent.window);
 					}
@@ -578,7 +505,7 @@ package flexlib.mdi.managers
 					dispatchEvent(new MDIEffectEvent(event.type, mgrEvent.type, windows));
 
 					// if the effect is over remove the manager event from collection
-					if(event.type == EffectEvent.EFFECT_END)
+					if (event.type == EffectEvent.EFFECT_END)
 					{
 						mgrEventCollection.removeItemAt(mgrEventCollection.getItemIndex(mgrEvent));
 					}
@@ -593,13 +520,13 @@ package flexlib.mdi.managers
 			// since that is optional, we look in its first child if we don't find one
 			var targetWindow:MDIWindow = event.effectInstance.target as MDIWindow;
 
-			if(targetWindow == null && event.effectInstance is CompositeEffectInstance)
+			if (targetWindow == null && event.effectInstance is CompositeEffectInstance)
 			{
 				var compEffect:CompositeEffect = event.effectInstance.effect as CompositeEffect;
 				targetWindow = Effect(compEffect.children[0]).target as MDIWindow;
 			}
 
-			tiledWindows.addItem(targetWindow);
+			//minimizedWindows.addItem(targetWindow);
 			reTileWindows();
 		}
 
@@ -607,7 +534,6 @@ package flexlib.mdi.managers
 		{
 			remove(event.effectInstance.target as MDIWindow);
 		}
-
 
 		/**
 		 * Handles resizing of container to reposition elements
@@ -620,7 +546,6 @@ package flexlib.mdi.managers
 			//repositions any minimized tiled windows to bottom left in their rows
 			reTileWindows();
 		}
-
 
 		/**
 		 * Gets the left placement of a tiled window
@@ -637,12 +562,11 @@ package flexlib.mdi.managers
 		private function getLeftOffsetPosition(tileIndex:int, maxTiles:int, minWinWidth:Number, padding:Number):Number
 		{
 			var tileModPos:int = tileIndex % maxTiles;
-			if(tileModPos == 0)
+			if (tileModPos == 0)
 				return padding;
 			else
 				return (tileModPos * minWinWidth) + ((tileModPos + 1) * padding);
 		}
-
 
 		/**
 		 * Gets the bottom placement of a tiled window
@@ -657,12 +581,11 @@ package flexlib.mdi.managers
 		private function getBottomTilePosition(tileIndex:int, maxTiles:int, minWindowHeight:Number, padding:Number):Number
 		{
 			var numRows:int = Math.floor(tileIndex / maxTiles);
-			if(numRows == 0)
+			if (numRows == 0)
 				return minWindowHeight + padding;
 			else
 				return ((numRows + 1) * minWindowHeight) + ((numRows + 1) * padding);
 		}
-
 
 		/**
 		 * Gets the height accordance for tiled windows along bottom to be used in the maximizing of other windows -- leaves space at bottom of maximize height so tiled windows still show
@@ -676,9 +599,9 @@ package flexlib.mdi.managers
 		 * */
 		private function getBottomOffsetHeight(maxTiles:int, minWindowHeight:Number, padding:Number):Number
 		{
-			var numRows:int = Math.ceil(this.tiledWindows.length / maxTiles);
+			var numRows:int = Math.ceil(this.minimizedWindows.length / maxTiles);
 			//if we have some rows get their combined heights... if not, return 0 so maximized window takes up full height of container
-			if(this.tiledWindows.length != 0)
+			if (this.minimizedWindows.length != 0)
 				return ((numRows) * minWindowHeight) + ((numRows + 1) * padding);
 			else
 				return 0;
@@ -694,27 +617,25 @@ package flexlib.mdi.managers
 
 			//we've just removed/added a row from the tiles, so we tell any maximized windows to change their height
 
-			if(this.tiledWindows.length % maxTiles == 0 || (this.tiledWindows.length - 1) % maxTiles == 0)
+			if (this.minimizedWindows.length % maxTiles == 0 || (this.minimizedWindows.length - 1) % maxTiles == 0)
 			{
 				var openWins:Array = getOpenWindowList();
 				for(var winIndex:int = 0; winIndex < openWins.length; winIndex++)
 				{
-					if(MDIWindow(openWins[winIndex]).maximized)
+					if (MDIWindow(openWins[winIndex]).maximized)
 						getMaximizeWindowEffect(MDIWindow(openWins[winIndex])).play();
 				}
 			}
 
-			for(var i:int = 0; i < tiledWindows.length; i++)
+			for(var i:int = 0; i < minimizedWindows.length; i++)
 			{
-				var currentWindow:MDIWindow = tiledWindows.getItemAt(i) as MDIWindow;
+				var currentWindow:MDIWindow = minimizedWindows.getItemAt(i) as MDIWindow;
 				var xPos:Number = getLeftOffsetPosition(i, maxTiles, this.tileMinimizeWidth, this.minTilePadding);
 				var yPos:Number = this.container.height - getBottomTilePosition(i, maxTiles, currentWindow.minimizeHeight, this.minTilePadding);
 				var movePoint:Point = new Point(xPos, yPos);
 				this.effects.reTileMinWindowsEffect(currentWindow, this, movePoint).play();
 			}
 		}
-
-
 
 		/**
 		 * Maximizing of Window
@@ -725,202 +646,37 @@ package flexlib.mdi.managers
 		private function getMaximizeWindowEffect(window:MDIWindow):Effect
 		{
 			var maxTiles:int = this.container.width / this.tileMinimizeWidth;
-			if(showMinimizedTiles)
-			{
-				return this.effects.getWindowMaximizeEffect(window, this, getBottomOffsetHeight(maxTiles, window.minimizeHeight, this.minTilePadding));
-			}
-			else
-			{
-				return this.effects.getWindowMaximizeEffect(window, this);
-			}
+			// maximize on top of minimized window taskbar items / minimized "tiles" 
+			return this.effects.getWindowMaximizeEffect(window, this);
 		}
 
-
-
 		/**
-		 * Removes the closed window from the ArrayCollection of tiled windows
+		 * Removes the minimized window from the ArrayCollection of minimized tiled windows
 		 *
-		 *  @param event MDIWindowEvent instance containing even type and window instance that is being handled
-		 *
-		 * */
-		private function removeTileInstance(window:MDIWindow):void
+		 *  @param window 	mdi window to remove
+		 *  @param layout   whether to relayout minimized windows tiles area
+		 **/
+		protected function removeFromMinimizedList(window:MDIWindow, layout:Boolean=false):void
 		{
-			for(var i:int = 0; i < tiledWindows.length; i++)
+			for (var i:int = 0; i < minimizedWindows.length; i++)
 			{
-				if(tiledWindows.getItemAt(i) == window)
+				if (minimizedWindows.getItemAt(i) == window)
 				{
-					this.tiledWindows.removeItemAt(i);
-					reTileWindows();
+					this.minimizedWindows.removeItemAt(i);
+					if (layout == true)
+					{
+						reTileWindows();
+					}
+					break;
 				}
-			}
+			}			
 		}
-
-
-		/**
-		 * By default, executes on MDIManagerEvent.WINDOW_DRAG and MDIManagerEvent.WINDOW_RESIZE events.
-		 * Check to see if the target window is within snapping distance of any other windows.
-		 * Execute the snap that requires the least movement.
-		 */
-		private function snapWindow(dragWindow:MDIWindow, dragHandle:String):void
-		{
-			var xDist:Number = NaN;
-			var yDist:Number = NaN;
-			var dragRect:Rectangle = getPaddedBounds( dragWindow );
-
-			// find the minimum snap (if one exists)
-			for each( var window:MDIWindow in windowList )
-			{
-				if( window != dragWindow && dragRect.intersects( getPaddedBounds( window ) ) )
-				{
-					if( !dragHandle || MDIResizeHandle.isLeft( dragHandle ) )
-					{
-						xDist = calculateSnapDistance( dragWindow.x, window.x + window.width + tilePadding, xDist );
-						xDist = calculateSnapDistance( dragWindow.x, window.x, xDist );
-					}
-
-					if( !dragHandle || MDIResizeHandle.isRight( dragHandle ) )
-					{
-						xDist = calculateSnapDistance( dragWindow.x + dragWindow.width, window.x - tilePadding, xDist );
-						xDist = calculateSnapDistance( dragWindow.x + dragWindow.width, window.x + window.width, xDist );
-					}
-
-					if( !dragHandle || MDIResizeHandle.isTop( dragHandle ) )
-					{
-						yDist = calculateSnapDistance( dragWindow.y, window.y + window.height + tilePadding, yDist );
-						yDist = calculateSnapDistance( dragWindow.y, window.y, yDist );
-					}
-
-					if( !dragHandle || MDIResizeHandle.isBottom( dragHandle ) )
-					{
-						yDist = calculateSnapDistance( dragWindow.y + dragWindow.height, window.y - tilePadding, yDist );
-						yDist = calculateSnapDistance( dragWindow.y + dragWindow.height, window.y + window.height, yDist );
-					}
-				}
-			}
-
-			var xChanged:Boolean = !isNaN(xDist);
-			var yChanged:Boolean = !isNaN(yDist);
-
-			// update the x, y, width, height based on the user interaction
-			// dragHandle contains either a MDIResizeHandle value, or null if the window is being dragged
-			switch(dragHandle)
-			{
-				case MDIResizeHandle.LEFT:
-					if( xChanged )
-					{
-						dragWindow.x -= xDist;
-						dragWindow.width += xDist;
-					}
-				break;
-
-				case MDIResizeHandle.RIGHT:
-					if( xChanged )
-						dragWindow.width -= xDist;
-				break;
-
-				case MDIResizeHandle.TOP:
-					if( yChanged )
-					{
-						dragWindow.y -= yDist;
-						dragWindow.height += yDist;
-					}
-				break;
-
-				case MDIResizeHandle.BOTTOM:
-					if( yChanged )
-						dragWindow.height -= yDist;
-				break;
-
-				case MDIResizeHandle.TOP_LEFT:
-					if( xChanged )
-					{
-						dragWindow.x -= xDist;
-						dragWindow.width += xDist;
-					}
-					if( yChanged )
-					{
-						dragWindow.y -= yDist;
-						dragWindow.height += yDist;
-					}
-				break;
-
-				case MDIResizeHandle.TOP_RIGHT:
-					if( xChanged )
-						dragWindow.width -= xDist;
-					if( yChanged )
-					{
-						dragWindow.y -= yDist;
-						dragWindow.height += yDist;
-					}
-				break;
-
-				case MDIResizeHandle.BOTTOM_LEFT:
-					if( xChanged )
-					{
-						dragWindow.x -= xDist;
-						dragWindow.width += xDist;
-					}
-					if( yChanged )
-						dragWindow.height -= yDist;
-				break;
-
-				case MDIResizeHandle.BOTTOM_RIGHT:
-					if( yChanged )
-						dragWindow.height -= yDist;
-					if( xChanged )
-						dragWindow.width -= xDist;
-				break;
-
-				default:
-					if( xChanged )
-						dragWindow.x -= xDist;
-					if( yChanged )
-						dragWindow.y -= yDist;
-				break;
-			}
-		}
-
-
-		/**
-		 * @return a Rectangle which represents the windows bounds
-		 * 	with a buffer around the edge for the snapDistance
-		 */
-		private function getPaddedBounds(window:MDIWindow):Rectangle
-		{
-			return new Rectangle( window.x - tilePadding - snapDistance/2,
-								  window.y - tilePadding - snapDistance/2,
-								  window.width + tilePadding + snapDistance,
-								  window.height + tilePadding + snapDistance );
-		}
-
-
-		/**
-		 * Determine whether these two edges are closer together than the currentShift.
-		 * If so then update the currentShift to the distance between them.
-		 * @return the updated currentShift
-		 */
-		private function calculateSnapDistance( edge1:Number, edge2:Number, currentShift:Number ):Number
-		{
-			var gap:Number = edge1 - edge2;
-
-			// if we're within snapping range
-			if( gap > -snapDistance	&& gap < snapDistance )
-			{
-				// if this snap is shorter than the currentShift
-				if( isNaN(currentShift) || Math.abs(gap) < Math.abs(currentShift) )
-					currentShift = gap;
-			}
-
-			return currentShift;
-		}
-
 
 		public function addCenter(window:MDIWindow):void
 		{
 			this.add(window);
 			this.center(window);
 		}
-
 
 		/**
 		 * Brings a window to the front of the screen.
@@ -929,27 +685,18 @@ package flexlib.mdi.managers
 		 * */
 		public function bringToFront(window:MDIWindow):void
 		{
-			if(this.isGlobal)
+			for each(var win:MDIWindow in windowList)
 			{
-				PopUpManager.bringToFront(window as IFlexDisplayObject);
-			}
-			else
-			{
-				for each(var win:MDIWindow in windowList)
+				if (win != window && win.hasFocus)
 				{
-					if(win != window && win.hasFocus)
-					{
-						win.dispatchEvent(new MDIWindowEvent(MDIWindowEvent.FOCUS_END, win));
-					}
-					if(win == window && !window.hasFocus)
-					{
-						win.dispatchEvent(new MDIWindowEvent(MDIWindowEvent.FOCUS_START, win));
-					}
+					win.dispatchEvent(new MDIWindowEvent(MDIWindowEvent.FOCUS_END, win));
+				}
+				if (win == window && !window.hasFocus)
+				{
+					win.dispatchEvent(new MDIWindowEvent(MDIWindowEvent.FOCUS_START, win));
 				}
 			}
-
 		}
-
 
 		/**
 		 * Positions a window in the center of the available screen.
@@ -970,14 +717,7 @@ package flexlib.mdi.managers
 
 			for each(var window:MDIWindow in windowList)
 			{
-				if(this.isGlobal)
-				{
-					PopUpManager.removePopUp(window as IFlexDisplayObject);
-				}
-				else
-				{
-					container.removeChild(window);
-				}
+				container.removeElement(window);
 
 				this.removeListeners(window);
 			}
@@ -992,21 +732,21 @@ package flexlib.mdi.managers
 		 *  @param window:MDIWindow
 		 */
 
-		private function addListeners(window:MDIWindow):void
+		protected function addListeners(window:MDIWindow):void
 		{
-			window.addEventListener(MDIWindowEvent.MINIMIZE, windowEventProxy, false, EventPriority.DEFAULT_HANDLER);
-			window.addEventListener(MDIWindowEvent.RESTORE, windowEventProxy, false, EventPriority.DEFAULT_HANDLER);
-			window.addEventListener(MDIWindowEvent.MAXIMIZE, windowEventProxy, false, EventPriority.DEFAULT_HANDLER);
-			window.addEventListener(MDIWindowEvent.CLOSE, windowEventProxy, false, EventPriority.DEFAULT_HANDLER);
+			window.addEventListener(MDIWindowEvent.MINIMIZE, onMinimizeWindow, false, EventPriority.DEFAULT_HANDLER);
+			window.addEventListener(MDIWindowEvent.RESTORE, onRestoreWindow, false, EventPriority.DEFAULT_HANDLER);
+			window.addEventListener(MDIWindowEvent.MAXIMIZE, onMaximizeWindow, false, EventPriority.DEFAULT_HANDLER);
+			window.addEventListener(MDIWindowEvent.CLOSE, onCloseWindow, false, EventPriority.DEFAULT_HANDLER);
 
-			window.addEventListener(MDIWindowEvent.FOCUS_START, windowEventProxy, false, EventPriority.DEFAULT_HANDLER);
-			window.addEventListener(MDIWindowEvent.FOCUS_END, windowEventProxy, false, EventPriority.DEFAULT_HANDLER);
-			window.addEventListener(MDIWindowEvent.DRAG_START, windowEventProxy, false, EventPriority.DEFAULT_HANDLER);
-			window.addEventListener(MDIWindowEvent.DRAG, windowEventProxy, false, EventPriority.DEFAULT_HANDLER);
-			window.addEventListener(MDIWindowEvent.DRAG_END, windowEventProxy, false, EventPriority.DEFAULT_HANDLER);
-			window.addEventListener(MDIWindowEvent.RESIZE_START, windowEventProxy, false, EventPriority.DEFAULT_HANDLER);
-			window.addEventListener(MDIWindowEvent.RESIZE, windowEventProxy, false, EventPriority.DEFAULT_HANDLER);
-			window.addEventListener(MDIWindowEvent.RESIZE_END, windowEventProxy, false, EventPriority.DEFAULT_HANDLER);
+			window.addEventListener(MDIWindowEvent.FOCUS_START, onWindowEvent, false, EventPriority.DEFAULT_HANDLER);
+			window.addEventListener(MDIWindowEvent.FOCUS_END, onWindowEvent, false, EventPriority.DEFAULT_HANDLER);
+			window.addEventListener(MDIWindowEvent.DRAG_START, onDragStart, false, EventPriority.DEFAULT_HANDLER);
+			window.addEventListener(MDIWindowEvent.DRAG, onDrag, false, EventPriority.DEFAULT_HANDLER);
+			window.addEventListener(MDIWindowEvent.DRAG_END, onDragEnd, false, EventPriority.DEFAULT_HANDLER);
+			window.addEventListener(MDIWindowEvent.RESIZE_START, onWindowEvent, false, EventPriority.DEFAULT_HANDLER);
+			window.addEventListener(MDIWindowEvent.RESIZE, onWindowEvent, false, EventPriority.DEFAULT_HANDLER);
+			window.addEventListener(MDIWindowEvent.RESIZE_END, onWindowEvent, false, EventPriority.DEFAULT_HANDLER);
 		}
 
 
@@ -1016,25 +756,22 @@ package flexlib.mdi.managers
 		 *  Removes listeners
 		 *  @param window:MDIWindow
 		 */
-		private function removeListeners(window:MDIWindow):void
+		protected function removeListeners(window:MDIWindow):void
 		{
-			window.removeEventListener(MDIWindowEvent.MINIMIZE, windowEventProxy);
-			window.removeEventListener(MDIWindowEvent.RESTORE, windowEventProxy);
-			window.removeEventListener(MDIWindowEvent.MAXIMIZE, windowEventProxy);
-			window.removeEventListener(MDIWindowEvent.CLOSE, windowEventProxy);
+			window.removeEventListener(MDIWindowEvent.MINIMIZE, onMinimizeWindow);
+			window.removeEventListener(MDIWindowEvent.RESTORE, onRestoreWindow);
+			window.removeEventListener(MDIWindowEvent.MAXIMIZE, onMaximizeWindow);
+			window.removeEventListener(MDIWindowEvent.CLOSE, onCloseWindow);
 
-			window.removeEventListener(MDIWindowEvent.FOCUS_START, windowEventProxy);
-			window.removeEventListener(MDIWindowEvent.FOCUS_END, windowEventProxy);
-			window.removeEventListener(MDIWindowEvent.DRAG_START, windowEventProxy);
-			window.removeEventListener(MDIWindowEvent.DRAG, windowEventProxy);
-			window.removeEventListener(MDIWindowEvent.DRAG_END, windowEventProxy);
-			window.removeEventListener(MDIWindowEvent.RESIZE_START, windowEventProxy);
-			window.removeEventListener(MDIWindowEvent.RESIZE, windowEventProxy);
-			window.removeEventListener(MDIWindowEvent.RESIZE_END, windowEventProxy);
+			window.removeEventListener(MDIWindowEvent.FOCUS_START, onWindowEvent);
+			window.removeEventListener(MDIWindowEvent.FOCUS_END, onWindowEvent);
+			window.removeEventListener(MDIWindowEvent.DRAG_START, onDragStart);
+			window.removeEventListener(MDIWindowEvent.DRAG, onDrag);
+			window.removeEventListener(MDIWindowEvent.DRAG_END, onDragEnd);
+			window.removeEventListener(MDIWindowEvent.RESIZE_START, onWindowEvent);
+			window.removeEventListener(MDIWindowEvent.RESIZE, onWindowEvent);
+			window.removeEventListener(MDIWindowEvent.RESIZE_END, onWindowEvent);
 		}
-
-
-
 
 		/**
 		 *  Removes a window instance from the managed window stack
@@ -1042,27 +779,19 @@ package flexlib.mdi.managers
 		 */
 		public function remove(window:MDIWindow):void
 		{
-
 			var index:int = ArrayUtil.getItemIndex(window, this.windowList);
 
 			windowList.splice(index, 1);
 
-			if(this.isGlobal)
-			{
-				PopUpManager.removePopUp(window as IFlexDisplayObject);
-			}
-			else
-			{
-				container.removeChild(window);
-			}
+			container.removeElement(window);
 
 			removeListeners(window);
 
 			// set focus to newly-highest depth window
-			for(var i:int = container.numChildren - 1; i > -1; i--)
+			for(var i:int = container.numElements - 1; i > -1; i--)
 			{
-				var dObj:DisplayObject = container.getChildAt(i);
-				if(dObj is MDIWindow)
+				var dObj:IVisualElement = container.getElementAt(i);
+				if (dObj is MDIWindow)
 				{
 					bringToFront(MDIWindow(dObj));
 					return;
@@ -1077,7 +806,7 @@ package flexlib.mdi.managers
 		 * */
 		public function manage(window:MDIWindow):void
 		{
-			if(window != null && windowList.indexOf(window) < 0)
+			if (window != null && windowList.indexOf(window) < 0)
 			{
 				windowList.push(window);
 			}
@@ -1108,7 +837,7 @@ package flexlib.mdi.managers
 			var array:Array = [];
 			for(var i:int = 0; i < windowList.length; i++)
 			{
-				if(!MDIWindow(windowList[i]).minimized)
+				if (!MDIWindow(windowList[i]).minimized)
 				{
 					array.push(windowList[i]);
 				}
@@ -1133,11 +862,11 @@ package flexlib.mdi.managers
 
 			var numWindows:int = openWinList.length;
 
-			if(numWindows == 1)
+			if (numWindows == 1)
 			{
-				MDIWindow(openWinList[0]).maximizeRestore();
+				MDIWindow(openWinList[0]).maximize();
 			}
-			else if(numWindows > 1)
+			else if (numWindows > 1)
 			{
 				var sqrt:int = Math.round(Math.sqrt(numWindows));
 				var numCols:int = Math.ceil(numWindows / sqrt);
@@ -1145,24 +874,19 @@ package flexlib.mdi.managers
 				var col:int = 0;
 				var row:int = 0;
 				var availWidth:Number = this.container.width;
-				var availHeight:Number = this.container.height
+				var availHeight:Number = this.container.height;
 
-				if(showMinimizedTiles)
-				{
-				    availHeight = availHeight - getBottomOffsetHeight(this.tiledWindows.length, openWinList[0].minimizeHeight, this.minTilePadding);
-			    }
-				else
-				{
-                    // sreiner leave room for minimized windows always
-                    availHeight = availHeight - 25 - 10;        				    
-				}
-
+			    //availHeight = availHeight - getBottomOffsetHeight(this.minimizedWindows.length, openWinList[0].minimizeHeight, this.minTilePadding);
+				// have same minimized area layout as podlayoutmanager (which only has one row area of minimized window tiles even when no minimized windows)
+				// todo: add back in support for multirow 
+				availHeight = container.height - TASKBAR_HEIGHT - TASKBAR_PADDING_TOP;
+				
 				var targetWidth:Number = availWidth / numCols - ((gap * (numCols - 1)) / numCols);
 				var targetHeight:Number = availHeight / numRows - ((gap * (numRows - 1)) / numRows);
 
 				var effectItems:Array = [];
 
-				for(var i:int = 0; i < openWinList.length; i++)
+				for (var i:int = 0; i < openWinList.length; i++)
 				{
 
 					var win:MDIWindow = openWinList[i];
@@ -1174,12 +898,12 @@ package flexlib.mdi.managers
 					item.widthTo = targetWidth;
 					item.heightTo = targetHeight;
 
-					if(i % numCols == 0 && i > 0)
+					if (i % numCols == 0 && i > 0)
 					{
 						row++;
 						col = 0;
 					}
-					else if(i > 0)
+					else if (i > 0)
 					{
 						col++;
 					}
@@ -1187,18 +911,17 @@ package flexlib.mdi.managers
 					item.moveTo = new Point((col * targetWidth), (row * targetHeight));
 
 					//pushing out by gap
-					if(col > 0)
+					if (col > 0)
 						item.moveTo.x += gap * col;
 
-					if(row > 0)
+					if (row > 0)
 						item.moveTo.y += gap * row;
 
 					effectItems.push(item);
-
 				}
 
 
-				if(col < numCols && fillAvailableSpace)
+				if (col < numCols && fillAvailableSpace)
 				{
 					var numOrphans:int = numWindows % numCols;
 					var orphanWidth:Number = availWidth / numOrphans - ((gap * (numOrphans - 1)) / numOrphans);
@@ -1213,28 +936,17 @@ package flexlib.mdi.managers
 						//orphan.window.width = orphanWidth;
 
 						orphan.moveTo.x = (j - (numWindows - numOrphans)) * orphanWidth;
-						if(orphanCount > 0)
+						if (orphanCount > 0)
 							orphan.moveTo.x += gap * orphanCount;
 						orphanCount++;
 					}
 				}
-
-				dispatchEvent(new MDIManagerEvent(MDIManagerEvent.TILE, null, this, null, effectItems));
 			}
+
+			dispatchEvent(new MDIManagerEvent(MDIManagerEvent.TILE, null, this, null, effectItems));
+			
+			isTiled = true;							
 		}
-
-		// set a min. width/height
-		public function resize(window:MDIWindow):void
-		{
-			var w:int = this.container.width * .6;
-			var h:int = this.container.height * .6
-			if(w > window.width)
-				window.width = w;
-			if(h > window.height)
-				window.height=h;
-		}
-
-
 
 		/**
 		 *  Cascades all managed windows from top left to bottom right
@@ -1260,7 +972,7 @@ package flexlib.mdi.managers
 				item.heightFrom = window.height;
 				item.heightTo = container.height * .5;
 
-				if(yIndex * 40 + item.heightTo + 25 >= container.height)
+				if (yIndex * 40 + item.heightTo + 25 >= container.height)
 				{
 					yIndex = 0;
 					xIndex++;
@@ -1273,26 +985,28 @@ package flexlib.mdi.managers
 				var destX:int = xIndex * 40 + yIndex * 20;
 				var destY:int = yIndex * 40;
 				item.moveTo = new Point(destX, destY);
-
+				
 				effectItems.push(item);
 			}
 
 			dispatchEvent(new MDIManagerEvent(MDIManagerEvent.CASCADE, null, this, null, effectItems));
+			
+			isTiled = false;			
 		}
-
 
 		public function showAllWindows():void
 		{
 			// this prevents retiling of windows yet to be unMinimized()
-			tiledWindows.removeAll();
+			minimizedWindows.removeAll();
 
 			for each(var window:MDIWindow in windowList)
 			{
-				if(window.minimized)
+				if (window.minimized)
 				{
 					window.unMinimize();
 				}
 			}
 		}
+		
 	}
 }

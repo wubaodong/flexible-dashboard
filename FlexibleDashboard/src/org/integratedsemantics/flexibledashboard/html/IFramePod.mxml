@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PodContentBase
-	xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns="com.esria.samples.dashboard.view.*"
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 	xmlns="com.esria.samples.dashboard.view.*"
 	width="100%" height="100%"> 
     
-    <mx:Script>
+    <fx:Script>
         <![CDATA[
         import com.google.code.flexiframe.IFrame;
         import mx.events.FlexEvent;
@@ -21,11 +22,11 @@
             html.overlayDetection = true;
             html.percentHeight = 100;
             html.percentWidth = 100;
-            this.addChild(html);
+            this.addElement(html);
         }       
                 
         ]]>
-    </mx:Script>                                        
+    </fx:Script>                                        
 	
 </PodContentBase>
 

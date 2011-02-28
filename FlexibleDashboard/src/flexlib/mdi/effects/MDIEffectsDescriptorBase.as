@@ -41,11 +41,13 @@ package flexlib.mdi.effects
 	 */
 	public class MDIEffectsDescriptorBase implements IMDIEffectsDescriptor
 	{
-		public var duration:Number = 10;
+		//public var duration:Number = 10;
+		public var duration:Number = 250;
 		
 		public function getWindowAddEffect(window:MDIWindow, manager:MDIManager):Effect
 		{
-			return new Effect();
+			//return new Effect();
+			return null;
 		}
 		
 		public function getWindowMinimizeEffect(window:MDIWindow, manager:MDIManager, moveTo:Point = null):Effect
@@ -54,7 +56,8 @@ package flexlib.mdi.effects
 			parallel.duration = this.duration;
 			
 			var resize:Resize = new Resize(window);
-			resize.widthTo = window.minWidth;
+			//resize.widthTo = window.minWidth;
+			resize.widthTo = 150;
 			resize.duration = this.duration;
 			resize.heightTo = window.minimizeHeight;
 			parallel.addChild(resize);
@@ -124,42 +127,50 @@ package flexlib.mdi.effects
 		
 		public function getWindowFocusStartEffect(window:MDIWindow, manager:MDIManager):Effect
 		{
-			return new Effect();
+			//return new Effect();
+			return null;
 		}
 		
 		public function getWindowFocusEndEffect(window:MDIWindow, manager:MDIManager):Effect
 		{
-			return new Effect();
+			//return new Effect();
+			return null;
 		}
 		
 		public function getWindowDragStartEffect(window:MDIWindow, manager:MDIManager):Effect
 		{
-			return new Effect();
+			//return new Effect();
+			return null;
 		}
 		
 		public function getWindowDragEffect(window:MDIWindow, manager:MDIManager):Effect
 		{
-			return new Effect();
+			//return new Effect();
+			return null;
 		}
 		
 		public function getWindowDragEndEffect(window:MDIWindow, manager:MDIManager):Effect
 		{
-			return new Effect();
+			//return new Effect();
+			return null;
 		}
 		
 		public function getWindowResizeStartEffect(window:MDIWindow, manager:MDIManager):Effect
 		{
-			return new Effect();
+			//return new Effect();
+			return null;
 		}
 		
 		public function getWindowResizeEffect(window:MDIWindow, manager:MDIManager):Effect
 		{
-			return new Effect();
+			//return new Effect();
+			return null;
 		}
 		
 		public function getWindowResizeEndEffect(window:MDIWindow, manager:MDIManager):Effect
 		{
-			return new Effect();
+			//return new Effect();
+			return null;
 		}		
 		
 		public function getTileEffect(items:Array, manager:MDIManager):Effect
@@ -198,7 +209,7 @@ package flexlib.mdi.effects
 						move.duration = this.duration;
 					parallel.addChild(move);
 				
-				}
+				}				
 				
 				if( ! item.isCorrectSize )
 				{

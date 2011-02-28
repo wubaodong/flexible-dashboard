@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PentahoPodBase 
-	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 	
 	xmlns="org.integratedsemantics.flexibledashboard.pentaho.*" 
+	minWidth="400" minHeight="300"
 	creationComplete="initPentahoPod()">
 
 	<!--mx:HTTPService id="tSrv" url="http://localhost:8080/pentaho/ServiceAction?solution=samples&amp;path=steel-wheels/homeDashboard&amp;action=Sales_by_Territory.xaction" 
@@ -14,19 +17,23 @@
 		result="handleTTCResult(event)"/-->
 
 	<!-- Hard coded data for demo -->
-	<mx:HTTPService id="tSrv" url="data/pentaho/Sales_by_Territory.xaction" result="handleTResult(event)"/>
+	<fx:Declarations>
+	   <mx:HTTPService id="tSrv" url="data/pentaho/Sales_by_Territory.xaction" result="handleTResult(event)"/>
 	  
-	<mx:HTTPService id="plSrv" url="data/pentaho/Sales_by_Productline.xaction" result="handlePLResult(event)"/>
+	   <mx:HTTPService id="plSrv" url="data/pentaho/Sales_by_Productline.xaction" result="handlePLResult(event)"/>
 	  
-	<mx:HTTPService id="ttcSrv" url="data/pentaho/topnmdxquery.xaction" result="handleTTCResult(event)"/>
+	   <mx:HTTPService id="ttcSrv" url="data/pentaho/topnmdxquery.xaction" result="handleTTCResult(event)"/>
 	
-	<mx:CurrencyFormatter id="cf" precision="0"/>  
+	   <mx:CurrencyFormatter id="cf" precision="0"/>  
 	
-	<mx:SeriesInterpolate id="plEffect"/>
+	   <mx:SeriesInterpolate id="plEffect"/>
 	  
-	<mx:SeriesSlide id="ttcSlide" direction="right"/>
-  
-  <mx:HBox height="100%" width="100%">
+	   <mx:SeriesSlide id="ttcSlide" direction="right"/>
+  		
+	</fx:Declarations>
+
+	
+    <mx:HBox height="100%" width="100%">
   	
 	  <mx:VBox height="100%" width="40%">
 	  
