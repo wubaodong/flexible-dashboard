@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<localfiles:LocalFilesBrowserViewBase xmlns:mx="http://www.adobe.com/2006/mxml"
-    xmlns:localfiles="org.integratedsemantics.flexibledashboardair.localfiles.*"
+<localfiles:LocalFilesBrowserViewBase 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:localfiles="org.integratedsemantics.flexibledashboardair.localfiles.*"
     xmlns:breadcrumb="com.decoursey.components.*"
     creationComplete="onCreationComplete(event)"> 
 
