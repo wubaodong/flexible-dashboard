@@ -23,8 +23,6 @@ SOFTWARE.
 
 package flexlib.mdi.containers
 {
-	import com.esria.samples.dashboard.managers.PodLayoutManager;
-	
 	import flexlib.mdi.effects.IMDIEffectsDescriptor;
 	import flexlib.mdi.managers.MDIManager;
 	

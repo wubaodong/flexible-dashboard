@@ -99,13 +99,17 @@ public class XMLAService extends HTTPService
                 break;
 
             case DISCOVER_CATALOGS:
-                if(dataSource)
+                if (dataSource != null)
+				{
                     request = SOAPCreator.getCatalogs(dataSource);
+				}
                 break;
 
             case DISCOVER_CUBES:
-                if(dataSource && catalog)
+                if ( (dataSource != null) && (catalog != null))
+				{
                     request = SOAPCreator.getCubes(dataSource, catalog);
+				}
                 break;
         }
         

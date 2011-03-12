@@ -265,7 +265,12 @@ public class Cube extends EventDispatcher implements IOLAPCube
 	    		}								
 	    	 	
 	    	 	rToken.mdxQuery=mdx;
-	    	 										logger.logDebug("---Query:"+mdx);
+	            
+				logger.logDebug("---Query:"+mdx);
+				
+				// sreiner added so don't send discover in header with execute in body								
+				service.headers = getExecuteHeaders();											
+													
 	    	 	service.request = SOAPCreator.execute(this,mdx );
 	            var actualTokenQuery:AsyncToken = service.send();
 	            
@@ -285,15 +290,17 @@ public class Cube extends EventDispatcher implements IOLAPCube
 	        if(event.result is XML)
 	        {
 	            output = event.result as XML;
-	            					
+			
 	           // trace(output);
 	           // if(!isInvalidResult(output, token))
-	           									logger.logDebug("resultHandler result is xml");
-	                							if (logResult){
-	                								logger.logDebug("resultHandler result Length:"+output.toXMLString());
-	                							}else{
-	                								logger.logDebug("resultHandler result Length:"+output.length());
-	                							}
+	   				
+					logger.logDebug("resultHandler result is xml");
+					if (logResult){
+						logger.logDebug("resultHandler result Length:"+output.toXMLString());
+					}else{
+						logger.logDebug("resultHandler result Length:"+output.length());
+					}
+					
 	                if(callBackToken && callBackToken is AsyncToken)
 	                {
 	                    var aToken:AsyncToken = AsyncToken(callBackToken);
@@ -335,10 +342,15 @@ public class Cube extends EventDispatcher implements IOLAPCube
         if (_serviceURL=="" || _serviceURL==null){
        		throw new Error("URL is not defined. Please define the url to the xmla server. e.g.: http://localhost:8081/mondrian/xmla");
        	}
-       	if (_name=="" || _name==null){
+       	
+		if (_name=="" || _name==null){
        		throw new Error("Cube Name not defined. Please define the cube name.");
        	}
-       	if (dataSource =="" || dataSource==null){
+		
+		// sreiner ok to have empty string datasource
+       	//if (dataSource =="" || dataSource==null){
+		if (dataSource == null)
+		{
        		throw new Error("Data Source Name not defined. Please define the data source. eg: Provider=Mondrian;DataSource=MondrianFoodMart;");
        	}
        	
@@ -426,6 +438,15 @@ public class Cube extends EventDispatcher implements IOLAPCube
         return o;
     }
 
+	// sreiner added
+	private function getExecuteHeaders():Object
+	{
+		var o:Object = {};
+		o["SOAPAction"] = '"urn:schemas-microsoft-com:xml-analysis:Execute"';
+		o["Content-Type"] = "text/xml";
+		return o;
+	}	
+	
     /*
      * Parses the xml output to reach the area
      * in result xml where the corresponding data starts
@@ -499,7 +520,8 @@ public class Cube extends EventDispatcher implements IOLAPCube
 				 completeMDX=completeMDX.concat(rowAxis);	
 				}
 				
-				completeMDX=completeMDX.concat(" from "+cube.name);
+				// sreiner add brackets for cube names with spaces
+				completeMDX=completeMDX.concat(" from [" + cube.name + "]");
 				
 				if (completeMDX!=null && completeMDX!='')
 					if (filters!=null && filters.length>0){

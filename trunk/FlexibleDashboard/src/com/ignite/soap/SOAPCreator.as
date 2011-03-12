@@ -135,7 +135,8 @@ public class SOAPCreator
 
     public static function addSOAPHeader(node:XML):XML
     {
-        var SOAPHeader:XML = <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" >
+		// sreiner: added xml schema and xml schema instance namespaces
+        var SOAPHeader:XML = <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
         <SOAP-ENV:Body>
         </SOAP-ENV:Body> 
         </SOAP-ENV:Envelope>;
@@ -159,6 +160,7 @@ public class SOAPCreator
     private static function getExecuteRequest(queryNode:XML, properties:XML):XML
     {
         // SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+		
         var SOAPExecute:XML = <Execute xmlns="urn:schemas-microsoft-com:xml-analysis" >
             </Execute> ;
 
