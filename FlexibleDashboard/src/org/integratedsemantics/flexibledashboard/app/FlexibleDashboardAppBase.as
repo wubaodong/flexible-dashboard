@@ -193,7 +193,7 @@ package org.integratedsemantics.flexibledashboard.app
                 {
                     podContent = new BirtReportViewerPod();                     
                 }  				
-				
+								
 				if (podContent != null)
 				{
 					var viewId:String = manager.id;
@@ -255,9 +255,10 @@ package org.integratedsemantics.flexibledashboard.app
 		{
 			//mdi e.currentTarget.removeEventListener(FlexEvent.UPDATE_COMPLETE, onCreationCompletePod);
 			// mdi var manager:PodLayoutManager = PodLayoutManager(podHash[e.currentTarget]);
+			
 			manager.removeNullItems();
-			//mdi manager.updateLayout(false);
 			manager.tile(false, 10);
+			manager.updateLayout(false);
 		}
 		
 		// Saves the pod content ViewStack state.

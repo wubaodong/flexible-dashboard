@@ -55,7 +55,7 @@
 		}
 		private function initCube():void
 		{
-           													logger.logDebug("initCube instantiated cube:"+_cubeToUse+" uri-"+_serverURI);
+           	logger.logDebug("initCube instantiated cube:"+_cubeToUse+" uri-"+_serverURI);
             cube.addEventListener("complete", completeHandler);
             cube.addEventListener("progress", showProgress);
             cube.addEventListener(FaultEvent.FAULT, refreshFaultHandler);
@@ -65,8 +65,10 @@
 		
 		
 		private function completeHandler(event:CubeEvent):void
- 		{													logger.logDebug("completeHandler cube built:"+_cubeToUse+" uri-"+_serverURI);
- 															logger.logInfo("completeHandler cube built:"+_cubeToUse+" uri-"+_serverURI);
+ 		{
+			logger.logDebug("completeHandler cube built:"+_cubeToUse+" uri-"+_serverURI);
+ 			logger.logInfo("completeHandler cube built:"+_cubeToUse+" uri-"+_serverURI);
+			
 			var root:Object=new Object();
 			root.displayName="Dimensions";
 			
@@ -75,7 +77,9 @@
 			root.children=cube.dimensions;
 			
 			//dimesions.dataProvider=root;
+			
 			cb.cube=cube;
+			
 			//odg.cube=cube;
  			
 			PopUpManager.removePopUp(progressBar);
@@ -172,7 +176,8 @@
         public var lowColor:Number=65535;//00FFFF
         //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  		[Bindable]
- 		public var _startQuery:String="SELECT {[Measures].[Org Salary]} ON columns, Hierarchize(Union({[Employees].[All Employees]}, [Employees].[All Employees].Children)) ON rows FROM HR WHERE ([Time].[1997])";
+ 		//public var _startQuery:String="SELECT {[Measures].[Org Salary]} ON columns, Hierarchize(Union({[Employees].[All Employees]}, [Employees].[All Employees].Children)) ON rows FROM HR WHERE ([Time].[1997])";
+		public var _startQuery:String = "select [Retailers].[Region] on columns, [Products].[Product line] on rows from [GO Sales and Marketing]";
 	]]>
 </mx:Script>
 
@@ -180,15 +185,16 @@
 <olap:Cube id="cube" dataSource="{_dataSource}"  catalog="{_catalog}" name="{_cubeToUse}" serviceURL="{_serverURI}"/>
 
 <mx:HDividedBox width="100%" height="100%" id="divider">
-	<mx:VBox width="20%" height="100%" id="left">
-	<browser:CubeBrowser id="cb" height="100%" width="100%"/>
-
+	<mx:VBox width="20%" height="100%" id="left">	
+		<browser:CubeBrowser id="cb" height="100%" width="100%"/>
 	</mx:VBox>
 	<mx:VDividedBox width="80%" height="100%" id="rightFrame">
 		<mx:VBox width="98%" height="30%">
+			
 			<mx:Label text="MDX Query Area"/>
 		
 			<mx:TextArea width="100%" height="100%" id="query" text="{_startQuery}"/>
+			
 			<mx:HBox horizontalAlign="center" verticalAlign="middle">
 				<mx:Button label="Execute Query" click="executeQuery()"/><mx:Button label="Save Query" click="executeQuery()"/>
 			</mx:HBox>
