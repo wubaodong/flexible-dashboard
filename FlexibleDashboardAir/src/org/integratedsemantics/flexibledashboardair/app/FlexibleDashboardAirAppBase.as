@@ -41,7 +41,7 @@ package org.integratedsemantics.flexibledashboardair.app
 	import spark.events.IndexChangeEvent;
 	
 
-	public class FlexibleDashboardAirAppBase extends spark.components.WindowedApplication
+	public class FlexibleDashboardAirAppBase extends WindowedApplication
 	{
 		//public var modeViewStack:ViewStack;
 		
@@ -213,7 +213,7 @@ package org.integratedsemantics.flexibledashboardair.app
                 {
                     podContent = new BirtReportViewerAirPod();                     
                 }               
-				
+								
 				if (podContent != null)
 				{
 					var viewId:String = manager.id;
@@ -276,9 +276,10 @@ package org.integratedsemantics.flexibledashboardair.app
 		{
 			//mdi e.currentTarget.removeEventListener(FlexEvent.UPDATE_COMPLETE, onCreationCompletePod);
 			// mdi var manager:PodLayoutManager = PodLayoutManager(podHash[e.currentTarget]);
+
 			manager.removeNullItems();
-			//mdi manager.updateLayout(false);
 			manager.tile();
+			manager.updateLayout(false);			
 		}
 		
 		// Saves the pod content ViewStack state.
