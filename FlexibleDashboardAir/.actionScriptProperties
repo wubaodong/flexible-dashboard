@@ -5,16 +5,15 @@
       <compilerSourcePathEntry kind="1" linkType="1" path="${DOCUMENTS}/FlexibleDashboard/src"/>
     </compilerSourcePath>
     <libraryPath defaultLinkType="0">
-      <libraryPathEntry kind="4" path="">
-        <excludedEntries>
-        </excludedEntries>
-      </libraryPathEntry>
+      <libraryPathEntry kind="4" path=""/>
       <libraryPathEntry kind="1" linkType="1" path="${DOCUMENTS}/FlexibleDashboard/lib"/>
+      <libraryPathEntry kind="3" linkType="1" path="/flexibledashboard-olaplib/bin/flexibledashboard-olaplib.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
   <applications>
     <application path="FlexibleDashboardAir.mxml">
+      <airExcludes/>
     </application>
   </applications>
   <modules/>
