@@ -33,7 +33,8 @@ stored in this file rather than a database or separate XML files.
 			id="charts1"
 			type="chart"
 			title="Yearly Revenue"
-			dataSource="data/revenue.xml"
+			module="com/esria/samples/dashboard/view/ChartContent.swf"
+            dataSource="data/revenue.xml"
 			selectedViewIndex="1"
 			valueField="value"
 			categoryField="month"
@@ -43,7 +44,8 @@ stored in this file rather than a database or separate XML files.
 			id="charts2"
 			type="chart"
 			title="Yearly Profit"
-			dataSource="data/profit.xml"
+			module="com/esria/samples/dashboard/view/ChartContent.swf"
+            dataSource="data/profit.xml"
 			valueField="value"
 			categoryField="month"
 			dataTipUnitLabel="$*M"
@@ -52,7 +54,8 @@ stored in this file rather than a database or separate XML files.
 			id="charts3"
 			type="chart"
 			title="Projected Revenue"
-			dataSource="data/projected_revenue.xml"
+			module="com/esria/samples/dashboard/view/ChartContent.swf"
+            dataSource="data/projected_revenue.xml"
 			valueField="value"
 			categoryField="month"
 			dataTipUnitLabel="$*M"
@@ -61,7 +64,8 @@ stored in this file rather than a database or separate XML files.
 			id="charts4"
 			type="pieChart"
 			title="Revenue by Region"
-			dataSource="data/revenue_by_region.xml"
+			module="com/esria/samples/dashboard/view/PieChartContent.swf"
+            dataSource="data/revenue_by_region.xml"
 			valueField="value"
 			categoryField="region"
 			dataTipUnitLabel="$*M"
@@ -70,6 +74,7 @@ stored in this file rather than a database or separate XML files.
 			id="charts5"
 			type="form"
 			title="Sales Pipeline"
+            module="com/esria/samples/dashboard/view/FormContent.swf"
 			dataSource="data/pipeline.xml"
 			selectedViewIndex="1"
 			labels="Name,Date,Description"
@@ -78,6 +83,7 @@ stored in this file rather than a database or separate XML files.
 			id="charts6"
 			type="form"
 			title="To Do"
+            module="com/esria/samples/dashboard/view/FormContent.swf"
 			dataSource="data/tasks.xml"
 			labels="Name,Date,Description"
 			dataFields="name,date,description" /-->
@@ -85,6 +91,7 @@ stored in this file rather than a database or separate XML files.
 			id="charts7"
 			type="list"
 			title="Company News"
+            module="com/esria/samples/dashboard/view/ListContent.swf"
 			dataSource="data/news.xml" /-->
 	</view>
 	<view
@@ -94,6 +101,8 @@ stored in this file rather than a database or separate XML files.
 			id="jasperreport1"
 			type="report"
 			title="JasperReports"
+            module="org/integratedsemantics/flexibledashboard/jasperreports/ReportPod.swf"
+            reporturl="/reports/WebappReport.jrpxml"			         
 			/>
 	</view>	
 	<view
@@ -103,6 +112,7 @@ stored in this file rather than a database or separate XML files.
 			id="pentaho1"
 			type="pentaho"
 			title="Pentaho"
+            module="org/integratedsemantics/flexibledashboard/pentaho/PentahoPod.swf"
 			/>
 	</view>	
 	
@@ -122,6 +132,7 @@ stored in this file rather than a database or separate XML files.
             id="blazeds2"
             type="blazeds"
             title="Built-in pod using remoting with BlazeDS test drive"
+            module="org/integratedsemantics/flexibledashboard/blazeds/BlazeDsPod.swf"
             url="http://localhost:8400/samples/" />  
 	</view>	
 			
@@ -132,6 +143,7 @@ stored in this file rather than a database or separate XML files.
 			id="calendar1"
 			type="calendar"
 			title="Calendar"
+            module="org/integratedsemantics/flexibledashboard/calendar/CalendarPod.swf"
 			/>			
 	</view>	
 
@@ -142,11 +154,13 @@ stored in this file rather than a database or separate XML files.
             id="html1"
             type="browser"
             title="Browser"
+            module="org/integratedsemantics/flexibledashboardair/browser/BrowserPod.swf"
             url="http://www.yahoo.com" />  
         <pod
             id="html2"
             type="html"
             title="Google"
+            module="org/integratedsemantics/flexibledashboardair/html/HtmlPod.swf"
             url="http://www.google.com" />  
 	</view>		
 	
@@ -165,11 +179,13 @@ stored in this file rather than a database or separate XML files.
             id="gadget1"
             type="googlegadget"
             title="Date and Time"
+            module="org/integratedsemantics/flexibledashboardair/html/GoogleGadgetPod.swf"
             url="http://www.gmodules.com/ig/ifr?url=http://www.google.com/ig/modules/datetime_v2/datetime_v2.xml&amp;up_color=blue&amp;up_dateFormat=wmd&amp;up_firstDay=0&amp;up_clocks=%5B%5B-73.986951%2C40.756054%2C%22New%20York%22%2C0%5D%5D&amp;synd=open&amp;w=320&amp;h=140&amp;title=__MSG_title__&amp;lang=en&amp;country=ALL&amp;border=%23ffffff%7C3px%2C1px+solid+%23999999&amp;output=js"/>  
         <pod
             id="gadget2"
             type="googlegadget"
             title="Weather"
+            module="org/integratedsemantics/flexibledashboardair/html/GoogleGadgetPod.swf"
             url="http://www.gmodules.com/ig/ifr?url=http://www.google.com/ig/modules/builtin_weather.xml&amp;synd=open&amp;w=320&amp;h=200&amp;title=__MSG_weather_title__&amp;lang=en&amp;country=ALL&amp;border=%23ffffff%7C3px%2C1px+solid+%23999999&amp;output=js"/>  
     </view>  
 								
@@ -186,6 +202,7 @@ stored in this file rather than a database or separate XML files.
             id="liferay1"
             type="liferay"
             title="Liferay"
+            module="org/integratedsemantics/flexibledashboardair/liferay/LiferayHtmlPod.swf"
             portletUrl="http://localhost:8080/widget/web/guest/test/-/8"
             portalUrl="http://localhost:8080/" />     
         <!-- liferay language portlet on test page in liferay  -->
@@ -193,6 +210,7 @@ stored in this file rather than a database or separate XML files.
             id="liferay2"
             type="liferay"
             title="Liferay"
+            module="org/integratedsemantics/flexibledashboardair/liferay/LiferayHtmlPod.swf"
             portletUrl="http://localhost:8080/widget/web/guest/test/-/82"
             portalUrl="http://localhost:8080/" />                 
         <!-- liferay welcome web content display portlet on welcome/home page in liferay  -->
@@ -200,6 +218,7 @@ stored in this file rather than a database or separate XML files.
             id="liferay3"
             type="liferay"
             title="Liferay"
+            module="org/integratedsemantics/flexibledashboardair/liferay/LiferayHtmlPod.swf"
             portletUrl="http://localhost:8080/widget/web/guest/home/-/56_INSTANCE_D4jz"
             portalUrl="http://localhost:8080/" />     
         <!-- liferay current users portlet on welcome/home page in liferay  -->
@@ -207,6 +226,7 @@ stored in this file rather than a database or separate XML files.
             id="liferay4"
             type="liferay"
             title="Liferay"
+            module="org/integratedsemantics/flexibledashboardair/liferay/LiferayHtmlPod.swf"
             portletUrl="http://localhost:8080/widget/web/guest/home/-/56_INSTANCE_Vwa1"
             portalUrl="http://localhost:8080/" />     
     </view> 
@@ -218,6 +238,7 @@ stored in this file rather than a database or separate XML files.
 			id="localfiles1"
 			type="localfiles"
 			title="Local Files"
+            module="org/integratedsemantics/flexibledashboardair/localfiles/LocalFilesPod.swf"                        
 			/>			
 	</view>			
 	
@@ -228,6 +249,7 @@ stored in this file rather than a database or separate XML files.
             id="olap1"
             type="olap-grid"
             title="OLAP Mondrian"
+            module="org/integratedsemantics/flexibledashboard/olap/OlapGridPod.swf"
             url="http://localhost:8080/mondrian-embedded/xmla"
             xmlaDataSource="Provider=Mondrian;DataSource=MondrianFoodMart;"
             catalog="FoodMart"
@@ -236,6 +258,7 @@ stored in this file rather than a database or separate XML files.
             id="olap2"
             type="olap-grid"
             title="OLAP Pentaho"
+            module="org/integratedsemantics/flexibledashboard/olap/OlapGridPod.swf"
             url="http://localhost:8080/pentaho/Xmla?userid=joe&amp;password=password"
             xmlaDataSource="Provider=Mondrian;DataSource=Pentaho"
             catalog="SteelWheels"
@@ -249,6 +272,7 @@ stored in this file rather than a database or separate XML files.
             id="birt1"
             type="birt-report"
             title="BIRT Report"
+            module="org/integratedsemantics/flexibledashboardair/birt/BirtReportViewerAirPod.swf"
             url="http://localhost:8080/birt-viewer/"
             report="SalesInvoice.rptdesign"
             />  
