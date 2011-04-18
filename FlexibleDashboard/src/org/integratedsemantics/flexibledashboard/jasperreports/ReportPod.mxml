@@ -15,7 +15,7 @@
 
 		private function init():void
 		{
-			viewer.url = "reports/WebappReport.jrpxml";
+			viewer.url = properties.@reporturl;
 		}
         
         ]]>
