@@ -98,6 +98,11 @@ package com.esria.samples.dashboard.managers
 				pod.maximize();
 			}
 			
+			if (index == -1)
+			{
+				index = items.length;
+			}			
+			
 			items[index] = pod;
 			initItem(pod);
 		}

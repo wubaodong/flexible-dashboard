@@ -2,9 +2,9 @@ package org.integratedsemantics.flexibledashboard.app
 {
 	import com.esria.samples.dashboard.events.LayoutChangeEvent;
 	import com.esria.samples.dashboard.managers.PodLayoutManager;
-	import com.esria.samples.dashboard.managers.StateManager;
 	import com.esria.samples.dashboard.view.ChartContent;
 	import com.esria.samples.dashboard.view.FormContent;
+	import com.esria.samples.dashboard.view.IPodContentBase;
 	import com.esria.samples.dashboard.view.ListContent;
 	import com.esria.samples.dashboard.view.PieChartContent;
 	import com.esria.samples.dashboard.view.Pod;
@@ -17,9 +17,15 @@ package org.integratedsemantics.flexibledashboard.app
 	import flexlib.mdi.containers.MDIWindow;
 	import flexlib.mdi.managers.MDIManager;
 	
+	import mx.charts.chartClasses.DataTip;
 	import mx.containers.ViewStack;
 	import mx.controls.Alert;
+	import mx.controls.TextArea;
+	import mx.controls.TextInput;
 	import mx.events.IndexChangedEvent;
+	import mx.events.ModuleEvent;
+	import mx.modules.IModuleInfo;
+	import mx.modules.ModuleManager;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
@@ -59,7 +65,18 @@ package org.integratedsemantics.flexibledashboard.app
 		// Also, used for look-ups when saving pod content ViewStack changes.
 		protected var podHash:Object = new Object();
 		
+		private var _moduleConfigList:Dictionary = new Dictionary();
+		private var _moduleLayoutMgrList:Dictionary = new Dictionary();
 
+		private var numPodsDoneInView:Number;
+		private var numPodsInView:Number;  
+		
+		// todo: dummies not to get compiler warnings about syles for code in modules
+		private var dataTipDummy:DataTip = new DataTip();
+		
+		private var viewIndex:int = 0;
+		
+		
 		public function FlexibleDashboardAppBase()
 		{
 			super();
@@ -119,7 +136,7 @@ package org.integratedsemantics.flexibledashboard.app
 				podLayoutManagers.push(manager);
 			}
 						
-			var index:Number = StateManager.getViewIndex();
+			var index:Number = this.viewIndex;
 			// Make sure the index is not out of range.
 			// This can happen if a tab view was saved but then tabs were subsequently removed from the XML.
 			index = Math.min(tabBar.numChildren - 1, index);
@@ -132,7 +149,7 @@ package org.integratedsemantics.flexibledashboard.app
 		protected function onChangeTabBar(e:IndexChangeEvent):void
 		{
 			var index:Number = e.newIndex;
-			StateManager.setViewIndex(index); // Save the view index.
+			viewIndex = index;
 			
 			viewStack.selectedIndex = index;
 			
@@ -147,126 +164,76 @@ package org.integratedsemantics.flexibledashboard.app
 		{
 			// Loop through the pod nodes for each view node.
 			var podXMLList:XMLList = podDataDictionary[manager];
-			var podLen:Number = podXMLList.length();
-			var unsavedPodCount:Number = 0;
-			for (var j:Number = 0; j < podLen; j++)
+			
+			numPodsDoneInView = 0;
+			numPodsInView =  podXMLList.length();
+			
+			for (var i:Number = 0; i < numPodsInView; i++)
 			{
-				// Figure out which type of pod content to use.
-				var podContent:PodContentBase = null;
-				if (podXMLList[j].@type == "chart")
-					podContent = new ChartContent();
-				else if (podXMLList[j].@type == "form")
-					podContent = new FormContent();
-				else if (podXMLList[j].@type == "list")
-					podContent = new ListContent();
-				else if (podXMLList[j].@type == "pieChart")
-					podContent = new PieChartContent();						
-				else if (podXMLList[j].@type == "report")
-				{
-					podContent = new ReportPod();						
-				}  											
-				else if (podXMLList[j].@type == "pentaho")
-				{
-					podContent = new PentahoPod();						
-				}  											
-                else if (podXMLList[j].@type == "blazeds")
-                {
-                    podContent = new BlazeDsPod();                      
-                }   
-				else if (podXMLList[j].@type == "html")
-				{
-					podContent = new IFramePod();						
-				}  											
-                else if (podXMLList[j].@type == "flexApp")
-                {
-                    podContent = new FlexAppPod();                      
-                }                                           
-				else if (podXMLList[j].@type == "calendar")
-				{
-					podContent = new CalendarPod();						
-				}  
-                else if (podXMLList[j].@type == "olap-grid")
-                {
-                    podContent = new OlapGridPod();                     
-                }  
-                else if (podXMLList[j].@type == "birt-report")
-                {
-                    podContent = new BirtReportViewerPod();                     
-                }  				
-								
-				if (podContent != null)
-				{
-					var viewId:String = manager.id;
-					var podId:String = podXMLList[j].@id;
-					
-					// Get the saved value for the pod content viewStack.
-					if (StateManager.getPodViewIndex(viewId, podId) != -1)
-						podXMLList[j].@selectedViewIndex = StateManager.getPodViewIndex(viewId, podId);
-					
-					podContent.properties = podXMLList[j];
-					var pod:Pod = new Pod();
-					pod.id = podId;
-					pod.title = podXMLList[j].@title;
-
-					pod.addElement(podContent);
-					
-					var index:Number;
-					
-					// todo: either add back restoring state at startup or eliminate state storage
-					//if (StateManager.isPodMinimized(viewId, podId))
-					//{
-					//	index = StateManager.getMinimizedPodIndex(viewId, podId);
-					//	manager.addMinimizedItemAt(pod, index);
-					//}
-					//else
-					//{
-						index = StateManager.getPodIndex(viewId, podId);
-						
-						// If the index hasn't been saved move the pod to the last position.
-						if (index == -1)
-						{
-							index = podLen + unsavedPodCount;
-							unsavedPodCount += 1;
-						}
-												
-						//manager.addItemAt(pod, index, StateManager.isPodMaximized(viewId, podId));						
-						manager.addItemAt(pod, index, false);						
-					//}
-					
-					pod.addEventListener(IndexChangedEvent.CHANGE, onChangePodView);
-					
-					podHash[pod] = manager;
-				}
+				// load flex module for pod
+				var info:IModuleInfo = ModuleManager.getModule(podXMLList[i].@module);
+				_moduleConfigList[info] = podXMLList[i];
+				_moduleLayoutMgrList[info] = manager;			
+				info.addEventListener(ModuleEvent.READY, handleModuleReady);
+				info.addEventListener(ModuleEvent.ERROR, handleModuleError);
+				info.load(null, null, null, moduleFactory);				
 			}
 			
 			// Delete the saved data.
-			delete podDataDictionary[manager];
+			delete podDataDictionary[manager];			
+		}
+		
+		private function handleModuleReady(event:ModuleEvent):void
+		{
+			var info:IModuleInfo = event.module;
 			
-            // Listen for the last pod to complete so the layout from the ContainerWindowManager is done correctly. 
-            //mdi pod.addEventListener(FlexEvent.UPDATE_COMPLETE, onCreationCompletePod);   
-            var argsArray:Array = new Array();
-            argsArray.push(manager); 
-            callLater(onCreationCompletePod, argsArray);
+			var podContent:IPodContentBase = info.factory.create() as IPodContentBase;					
+			
+			var podConfig:XML = _moduleConfigList[info] as XML;
+			var manager:PodLayoutManager = _moduleLayoutMgrList[info];			
+			cleanupInfo(info);
+						
+			var viewId:String = manager.id;
+			var podId:String = podConfig.@id;
+			
+			podContent.properties = podConfig;
+			var pod:Pod = new Pod();
+			pod.id = podId;
+			pod.title = podConfig.@title;
+			
+			pod.addElement(podContent);
+			
+			manager.addItemAt(pod, -1, false);						
+			
+			podHash[pod] = manager;		
+			
+			numPodsDoneInView++;
+			if (numPodsDoneInView == numPodsInView)
+			{
+				// all pods complete so now the layout can be done correctly. 
+				layoutAfterCreationComplete(manager);				
+			}						
+		}
+		
+		private function handleModuleError(event:ModuleEvent):void
+		{
+			Alert.show(event.errorText);
+		}
+
+		private function cleanupInfo(info:IModuleInfo):void 
+		{
+			delete _moduleConfigList[info];
+			delete _moduleLayoutMgrList[info];
+			info.removeEventListener(ModuleEvent.READY, handleModuleReady);
+			info.removeEventListener(ModuleEvent.ERROR, handleModuleError);
 		}
 		
 		// Pod has been created so update the respective PodLayoutManager.
-		// mdi protected function onCreationCompletePod(e:FlexEvent):void
-        protected function onCreationCompletePod(manager:PodLayoutManager):void
+        protected function layoutAfterCreationComplete(manager:PodLayoutManager):void
 		{
-			//mdi e.currentTarget.removeEventListener(FlexEvent.UPDATE_COMPLETE, onCreationCompletePod);
-			// mdi var manager:PodLayoutManager = PodLayoutManager(podHash[e.currentTarget]);
-			
 			manager.removeNullItems();
 			manager.tile(false, 10);
 			manager.updateLayout(false);
-		}
-		
-		// Saves the pod content ViewStack state.
-		protected function onChangePodView(e:IndexChangedEvent):void
-		{
-			var pod:Pod = Pod(e.currentTarget);
-			var viewId:String = PodLayoutManager(podHash[pod]).id;
-			StateManager.setPodViewIndex(viewId, pod.id, e.newIndex);
 		}
 		
 		// mdi

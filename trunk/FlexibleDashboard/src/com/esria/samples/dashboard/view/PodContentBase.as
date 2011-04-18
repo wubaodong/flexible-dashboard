@@ -9,6 +9,7 @@ import flash.xml.XMLNode;
 import mx.controls.Alert;
 import mx.events.FlexEvent;
 import mx.events.IndexChangedEvent;
+import mx.modules.Module;
 import mx.rpc.events.FaultEvent;
 import mx.rpc.events.ResultEvent;
 import mx.rpc.http.HTTPService;
@@ -16,10 +17,11 @@ import mx.utils.ObjectProxy;
 
 import spark.components.VGroup;
 
-public class PodContentBase extends VGroup
+// todo: in flex 4.1 now extends mx:Module, later with flex 4.5 can use spark s:Module
+
+public class PodContentBase extends Module implements IPodContentBase
 {
-	[Bindable]
-	public var properties:XML; // Properties are from pods.xml.
+	private var _properties:XML; // Properties are from pods.xml.
 	
 	function PodContentBase()
 	{
@@ -95,5 +97,17 @@ public class PodContentBase extends VGroup
 	{
 		dispatchEvent(new IndexChangedEvent(IndexChangedEvent.CHANGE, true, false, null, -1, newIndex));
 	}
+
+	[Bindable]
+	public function get properties():XML
+	{
+		return _properties;
+	}
+
+	public function set properties(value:XML):void
+	{
+		_properties = value;
+	}
+
 }
 }
