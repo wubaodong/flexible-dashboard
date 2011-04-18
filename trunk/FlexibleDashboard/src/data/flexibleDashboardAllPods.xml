@@ -102,6 +102,7 @@ stored in this file rather than a database or separate XML files.
          type="report"
          title="JasperReports"
          module="org/integratedsemantics/flexibledashboard/jasperreports/ReportPod.swf"
+         reporturl="reports/WebappReport.jrpxml"
          />
    </view>  
    <view
