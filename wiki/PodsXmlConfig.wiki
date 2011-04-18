@@ -7,7 +7,7 @@
 
 ==Overall pod xml structure==
   # each view section sets up a tab view
-  # can add, change, delete views the default view config in flexibleShareAirPods.xml
+  # can add, change, delete views the default view config in flexibleDashboardAirPods.xml
   # can choose to have any of the pods in a given view
   # same as esria dashboard in general for now
   # module url of swf set on module=  item
@@ -27,6 +27,12 @@
   # displays reporturl report: default reports/WebappReport.jrpxml
   # uses code from JasperReports flash viewer, changed to read from file instead of server, works offline without a server, thus more of a demo
 
+==OLAP Grid pod==
+  # Setup your info for your olap xmla server and take comments off
+  # click the load button to get it connected
+  # click the new grid button to add a tab where you can display data in a pivotable grid (drag item for row and column from the tree)
+  # click the new query button to add a tab where you can enter and run MDX queries 
+
 ==BlazedDS pods==
   # There are two pods that run samples from BlazeDS
   # BlazeDS pods need blazeds samples.war in your tomcat webapps dir
@@ -35,8 +41,7 @@
 ==HTML pods==
   # works better in AIR since can use air html webkit control
   # in browser version uses iframe, should stick to using tile mode and don't use cascade button
-  # AIR also has a browser pod with control in addition to a html one
-without controls
+  # AIR also has a browser pod with control in addition to a html one without controls
   # in pod xml set url to url of web page
 
 ==Liferay pods (AIR only)== 
