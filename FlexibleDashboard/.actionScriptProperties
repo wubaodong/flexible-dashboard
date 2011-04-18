@@ -13,6 +13,19 @@
   <applications>
     <application path="FlexibleDashboard.mxml"/>
   </applications>
-  <modules/>
+  <modules>
+    <module application="src/FlexibleDashboard.mxml" destPath="org/integratedsemantics/flexibledashboard/birt/BirtReportViewerPod.swf" optimize="true" sourcePath="src/org/integratedsemantics/flexibledashboard/birt/BirtReportViewerPod.mxml"/>
+    <module application="src/FlexibleDashboard.mxml" destPath="org/integratedsemantics/flexibledashboard/blazeds/BlazeDsPod.swf" optimize="true" sourcePath="src/org/integratedsemantics/flexibledashboard/blazeds/BlazeDsPod.mxml"/>
+    <module application="src/FlexibleDashboard.mxml" destPath="org/integratedsemantics/flexibledashboard/calendar/CalendarPod.swf" optimize="true" sourcePath="src/org/integratedsemantics/flexibledashboard/calendar/CalendarPod.mxml"/>
+    <module application="src/FlexibleDashboard.mxml" destPath="org/integratedsemantics/flexibledashboard/flex/FlexAppPod.swf" optimize="true" sourcePath="src/org/integratedsemantics/flexibledashboard/flex/FlexAppPod.mxml"/>
+    <module application="src/FlexibleDashboard.mxml" destPath="org/integratedsemantics/flexibledashboard/html/IFramePod.swf" optimize="true" sourcePath="src/org/integratedsemantics/flexibledashboard/html/IFramePod.mxml"/>
+    <module application="src/FlexibleDashboard.mxml" destPath="org/integratedsemantics/flexibledashboard/jasperreports/ReportPod.swf" optimize="true" sourcePath="src/org/integratedsemantics/flexibledashboard/jasperreports/ReportPod.mxml"/>
+    <module application="src/FlexibleDashboard.mxml" destPath="org/integratedsemantics/flexibledashboard/olap/OlapGridPod.swf" optimize="true" sourcePath="src/org/integratedsemantics/flexibledashboard/olap/OlapGridPod.mxml"/>
+    <module application="src/FlexibleDashboard.mxml" destPath="org/integratedsemantics/flexibledashboard/pentaho/PentahoPod.swf" optimize="true" sourcePath="src/org/integratedsemantics/flexibledashboard/pentaho/PentahoPod.mxml"/>
+    <module application="src/FlexibleDashboard.mxml" destPath="com/esria/samples/dashboard/view/ChartContent.swf" optimize="true" sourcePath="src/com/esria/samples/dashboard/view/ChartContent.mxml"/>
+    <module application="src/FlexibleDashboard.mxml" destPath="com/esria/samples/dashboard/view/FormContent.swf" optimize="true" sourcePath="src/com/esria/samples/dashboard/view/FormContent.mxml"/>
+    <module application="src/FlexibleDashboard.mxml" destPath="com/esria/samples/dashboard/view/ListContent.swf" optimize="true" sourcePath="src/com/esria/samples/dashboard/view/ListContent.mxml"/>
+    <module application="src/FlexibleDashboard.mxml" destPath="com/esria/samples/dashboard/view/PieChartContent.swf" optimize="true" sourcePath="src/com/esria/samples/dashboard/view/PieChartContent.mxml"/>
+  </modules>
   <buildCSSFiles/>
 </actionScriptProperties>

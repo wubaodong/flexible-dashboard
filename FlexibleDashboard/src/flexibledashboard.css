@@ -57,12 +57,6 @@ pod|Pod
     /* backgroundColor: #333333; */	
 }
 
-pod|PodContentBase
-{
-	/* color:           #ffffff; */ 
-	/* backgroundColor: #333333; */
-}
-
 .podTitle
 {
 	font-size: 11px;
@@ -191,25 +185,8 @@ charts|DataTip
     selectionColor:     #000000;     
 }
 
-mx|TextInput
-{
-    /* halo only backgroundColor: #ffffff; */
-    /* color: #000000; */
-    /* borderStyle: solid; */
-    /* borderThickness: 1; */
-    /* borderColor: #000000; */
-}  
-
-mx|TextArea
-{
-    /* halo only backgroundColor: #ffffff; */
-    /* color: #000000; */
-} 
-
 .tabCloseButtonStyleName
 {
     color:              #ff0000;
     backgroundColor:    #000000;
 }
-
-
