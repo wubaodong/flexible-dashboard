@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<actionScriptProperties analytics="false" mainApplicationPath="FlexibleDashboardAir.mxml" projectUUID="dbb54077-a41f-4f11-849c-84f9b48fb681" version="6">
-  <compiler additionalCompilerArguments="-locale en_US -allow-source-path-overlap=true" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="true" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
+<actionScriptProperties analytics="false" mainApplicationPath="FlexibleDashboardAir.mxml" projectUUID="dbb54077-a41f-4f11-849c-84f9b48fb681" version="10">
+  <compiler additionalCompilerArguments="-locale en_US -allow-source-path-overlap=true" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="true" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
     <compilerSourcePath>
       <compilerSourcePathEntry kind="1" linkType="1" path="${DOCUMENTS}/FlexibleDashboard/src"/>
     </compilerSourcePath>
@@ -17,6 +17,32 @@
       <airExcludes/>
     </application>
   </applications>
-  <modules/>
+  <modules>
+    <module application="src/FlexibleDashboardAir.mxml" destPath="com/esria/samples/dashboard/view/ChartContent.swf" optimize="true" sourcePath="[source path] src/com/esria/samples/dashboard/view/ChartContent.mxml"/>
+    <module application="src/FlexibleDashboardAir.mxml" destPath="com/esria/samples/dashboard/view/FormContent.swf" optimize="true" sourcePath="[source path] src/com/esria/samples/dashboard/view/FormContent.mxml"/>
+    <module application="src/FlexibleDashboardAir.mxml" destPath="com/esria/samples/dashboard/view/ListContent.swf" optimize="true" sourcePath="[source path] src/com/esria/samples/dashboard/view/ListContent.mxml"/>
+    <module application="src/FlexibleDashboardAir.mxml" destPath="com/esria/samples/dashboard/view/PieChartContent.swf" optimize="true" sourcePath="[source path] src/com/esria/samples/dashboard/view/PieChartContent.mxml"/>
+    <module application="src/FlexibleDashboardAir.mxml" destPath="org/integratedsemantics/flexibledashboard/blazeds/BlazeDsPod.swf" optimize="true" sourcePath="[source path] src/org/integratedsemantics/flexibledashboard/blazeds/BlazeDsPod.mxml"/>
+    <module application="src/FlexibleDashboardAir.mxml" destPath="org/integratedsemantics/flexibledashboard/calendar/CalendarPod.swf" optimize="true" sourcePath="[source path] src/org/integratedsemantics/flexibledashboard/calendar/CalendarPod.mxml"/>
+    <module application="src/FlexibleDashboardAir.mxml" destPath="org/integratedsemantics/flexibledashboard/flex/FlexAppPod.swf" optimize="true" sourcePath="[source path] src/org/integratedsemantics/flexibledashboard/flex/FlexAppPod.mxml"/>
+    <module application="src/FlexibleDashboardAir.mxml" destPath="org/integratedsemantics/flexibledashboard/jasperreports/ReportPod.swf" optimize="true" sourcePath="[source path] src/org/integratedsemantics/flexibledashboard/jasperreports/ReportPod.mxml"/>
+    <module application="src/FlexibleDashboardAir.mxml" destPath="org/integratedsemantics/flexibledashboard/olap/OlapGridPod.swf" optimize="true" sourcePath="[source path] src/org/integratedsemantics/flexibledashboard/olap/OlapGridPod.mxml"/>
+    <module application="src/FlexibleDashboardAir.mxml" destPath="org/integratedsemantics/flexibledashboard/pentaho/PentahoPod.swf" optimize="true" sourcePath="[source path] src/org/integratedsemantics/flexibledashboard/pentaho/PentahoPod.mxml"/>
+    <module application="src/FlexibleDashboardAir.mxml" destPath="org/integratedsemantics/flexibledashboardair/birt/BirtReportViewerAirPod.swf" optimize="true" sourcePath="src/org/integratedsemantics/flexibledashboardair/birt/BirtReportViewerAirPod.mxml"/>
+    <module application="src/FlexibleDashboardAir.mxml" destPath="org/integratedsemantics/flexibledashboardair/browser/BrowserPod.swf" optimize="true" sourcePath="src/org/integratedsemantics/flexibledashboardair/browser/BrowserPod.mxml"/>
+    <module application="src/FlexibleDashboardAir.mxml" destPath="org/integratedsemantics/flexibledashboardair/html/GoogleGadgetPod.swf" optimize="true" sourcePath="src/org/integratedsemantics/flexibledashboardair/html/GoogleGadgetPod.mxml"/>
+    <module application="src/FlexibleDashboardAir.mxml" destPath="org/integratedsemantics/flexibledashboardair/html/HtmlPod.swf" optimize="true" sourcePath="src/org/integratedsemantics/flexibledashboardair/html/HtmlPod.mxml"/>
+    <module application="src/FlexibleDashboardAir.mxml" destPath="org/integratedsemantics/flexibledashboardair/liferay/LiferayHtmlPod.swf" optimize="true" sourcePath="src/org/integratedsemantics/flexibledashboardair/liferay/LiferayHtmlPod.mxml"/>
+    <module application="src/FlexibleDashboardAir.mxml" destPath="org/integratedsemantics/flexibledashboardair/localfiles/LocalFilesPod.swf" optimize="true" sourcePath="src/org/integratedsemantics/flexibledashboardair/localfiles/LocalFilesPod.mxml"/>
+  </modules>
   <buildCSSFiles/>
+  <flashCatalyst validateFlashCatalystCompatibility="false"/>
+  <buildTargets>
+    <buildTarget buildTargetName="default">
+      <airSettings airCertificatePath="" airTimestamp="true" version="1">
+        <airExcludes/>
+      </airSettings>
+      <actionScriptSettings version="1"/>
+    </buildTarget>
+  </buildTargets>
 </actionScriptProperties>
