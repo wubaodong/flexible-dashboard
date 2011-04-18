@@ -1,14 +1,8 @@
 package org.integratedsemantics.flexibledashboard.app
 {
-	import com.esria.samples.dashboard.events.LayoutChangeEvent;
 	import com.esria.samples.dashboard.managers.PodLayoutManager;
-	import com.esria.samples.dashboard.view.ChartContent;
-	import com.esria.samples.dashboard.view.FormContent;
 	import com.esria.samples.dashboard.view.IPodContentBase;
-	import com.esria.samples.dashboard.view.ListContent;
-	import com.esria.samples.dashboard.view.PieChartContent;
 	import com.esria.samples.dashboard.view.Pod;
-	import com.esria.samples.dashboard.view.PodContentBase;
 	
 	import flash.events.Event;
 	import flash.utils.Dictionary;
@@ -20,9 +14,6 @@ package org.integratedsemantics.flexibledashboard.app
 	import mx.charts.chartClasses.DataTip;
 	import mx.containers.ViewStack;
 	import mx.controls.Alert;
-	import mx.controls.TextArea;
-	import mx.controls.TextInput;
-	import mx.events.IndexChangedEvent;
 	import mx.events.ModuleEvent;
 	import mx.modules.IModuleInfo;
 	import mx.modules.ModuleManager;
@@ -30,18 +21,10 @@ package org.integratedsemantics.flexibledashboard.app
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
 	
-	import org.integratedsemantics.flexibledashboard.birt.BirtReportViewerPod;
-	import org.integratedsemantics.flexibledashboard.blazeds.BlazeDsPod;
-	import org.integratedsemantics.flexibledashboard.calendar.CalendarPod;
-	import org.integratedsemantics.flexibledashboard.flex.FlexAppPod;
-	import org.integratedsemantics.flexibledashboard.html.IFramePod;
-	import org.integratedsemantics.flexibledashboard.jasperreports.ReportPod;
-	import org.integratedsemantics.flexibledashboard.olap.OlapGridPod;
-	import org.integratedsemantics.flexibledashboard.pentaho.PentahoPod;
-	
 	import spark.components.Application;
 	import spark.components.TabBar;
 	import spark.events.IndexChangeEvent;
+
 
 	public class FlexibleDashboardAppBase extends Application
 	{
@@ -229,7 +212,7 @@ package org.integratedsemantics.flexibledashboard.app
 		}
 		
 		// Pod has been created so update the respective PodLayoutManager.
-        protected function layoutAfterCreationComplete(manager:PodLayoutManager):void
+		protected function layoutAfterCreationComplete(manager:PodLayoutManager):void
 		{
 			manager.removeNullItems();
 			manager.tile(false, 10);
