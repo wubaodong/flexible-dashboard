@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <actionScriptProperties analytics="false" mainApplicationPath="FlexibleDashboardAir.mxml" projectUUID="dbb54077-a41f-4f11-849c-84f9b48fb681" version="10">
-  <compiler additionalCompilerArguments="-locale en_US -allow-source-path-overlap=true" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="true" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
+  <compiler additionalCompilerArguments="-locale en_US -allow-source-path-overlap=true -keep-as3-metadata Autowired" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="true" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
     <compilerSourcePath>
       <compilerSourcePathEntry kind="1" linkType="1" path="${DOCUMENTS}/FlexibleDashboard/src"/>
     </compilerSourcePath>
-    <libraryPath defaultLinkType="0">
+    <libraryPath defaultLinkType="3">
       <libraryPathEntry kind="4" path=""/>
       <libraryPathEntry kind="1" linkType="1" path="${DOCUMENTS}/FlexibleDashboard/lib"/>
       <libraryPathEntry kind="3" linkType="1" path="/flexibledashboard-jasperreports-viewer-noserver/bin/flexibledashboard-jasperreports-viewer-noserver.swc" useDefaultLinkType="false"/>
@@ -34,6 +34,8 @@
     <module application="src/FlexibleDashboardAir.mxml" destPath="org/integratedsemantics/flexibledashboardair/html/HtmlPod.swf" optimize="true" sourcePath="src/org/integratedsemantics/flexibledashboardair/html/HtmlPod.mxml"/>
     <module application="src/FlexibleDashboardAir.mxml" destPath="org/integratedsemantics/flexibledashboardair/liferay/LiferayHtmlPod.swf" optimize="true" sourcePath="src/org/integratedsemantics/flexibledashboardair/liferay/LiferayHtmlPod.mxml"/>
     <module application="src/FlexibleDashboardAir.mxml" destPath="org/integratedsemantics/flexibledashboardair/localfiles/LocalFilesPod.swf" optimize="true" sourcePath="src/org/integratedsemantics/flexibledashboardair/localfiles/LocalFilesPod.mxml"/>
+    <module application="src/FlexibleDashboardAir.mxml" destPath="org/integratedsemantics/flexibledashboard/grid/ChartGridPod.swf" optimize="true" sourcePath="[source path] src/org/integratedsemantics/flexibledashboard/grid/ChartGridPod.mxml"/>
+    <module application="src/FlexibleDashboardAir.mxml" destPath="org/integratedsemantics/flexibledashboard/grid/GridPod.swf" optimize="true" sourcePath="[source path] src/org/integratedsemantics/flexibledashboard/grid/GridPod.mxml"/>
   </modules>
   <buildCSSFiles/>
   <flashCatalyst validateFlashCatalystCompatibility="false"/>
