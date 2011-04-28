@@ -5,6 +5,7 @@ package org.integratedsemantics.flexibledashboardair.app
 	import com.esria.samples.dashboard.view.Pod;
 	
 	import flash.events.Event;
+	import flash.system.ApplicationDomain;
 	import flash.utils.Dictionary;
 	
 	import flexlib.mdi.containers.MDICanvas;
@@ -16,10 +17,17 @@ package org.integratedsemantics.flexibledashboardair.app
 	import mx.controls.Alert;
 	import mx.events.ModuleEvent;
 	import mx.modules.IModuleInfo;
+	import mx.modules.Module;
 	import mx.modules.ModuleManager;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
+	
+	import org.integratedsemantics.flexibledashboard.data.RemoteObjectDataService;
+	import org.integratedsemantics.flexibledashboard.data.SoapDataService;
+	import org.integratedsemantics.flexibledashboard.data.XmlDataService;
+	import org.springextensions.actionscript.context.support.FlexXMLApplicationContext;
+	import org.springextensions.actionscript.module.ISASModule;
 	
 	import spark.components.TabBar;
 	import spark.components.WindowedApplication;
@@ -59,6 +67,13 @@ package org.integratedsemantics.flexibledashboardair.app
 		
 		private var viewIndex:int = 0;
 
+		// force compiler to include these classes
+		private var remoteObjectDataService:RemoteObjectDataService;
+		private var soapDataService:SoapDataService;
+		private var xmlDataService:XmlDataService;
+		
+		private var _applicationContext:FlexXMLApplicationContext;		
+		
 
 		public function FlexibleDashboardAirAppBase()
 		{
@@ -70,8 +85,17 @@ package org.integratedsemantics.flexibledashboardair.app
             //modeViewStack.selectedIndex = MAIN_VIEW_MODE_INDEX; 
 			this.currentState = MAIN_VIEW_STATE;
 			
-            onPortalCreationComplete();                              	
-        }
+            //onPortalCreationComplete();  
+			
+			_applicationContext = new FlexXMLApplicationContext("spring-actionscript/application-context.xml");
+			_applicationContext.addEventListener(Event.COMPLETE, onLoadContextComplete);
+			_applicationContext.load();						
+		}
+		
+		private function onLoadContextComplete(event:Event):void
+		{
+			onPortalCreationComplete();                              	
+		}
 					
 		protected function onPortalCreationComplete():void
 		{
@@ -137,7 +161,9 @@ package org.integratedsemantics.flexibledashboardair.app
 			// If data exists then add the pods. After the pods have been added the data is cleared.
 			var podLayoutManager:PodLayoutManager = podLayoutManagers[index];
 			if (podDataDictionary[podLayoutManager] != null)
+			{
 				addPods(podLayoutManagers[index]);
+			}
 		}
 		
 		// Adds the pods to a view.
@@ -157,7 +183,8 @@ package org.integratedsemantics.flexibledashboardair.app
 				_moduleLayoutMgrList[info] = manager;			
 				info.addEventListener(ModuleEvent.READY, handleModuleReady);
 				info.addEventListener(ModuleEvent.ERROR, handleModuleError);
-				info.load(null, null, null, moduleFactory);				
+				//info.load(null, null, null, moduleFactory);	
+				info.load(new ApplicationDomain(ApplicationDomain.currentDomain));				
 			}
 			
 			// Delete the saved data.
@@ -168,7 +195,14 @@ package org.integratedsemantics.flexibledashboardair.app
 		{
 			var info:IModuleInfo = event.module;
 			
-			var podContent:IPodContentBase = info.factory.create() as IPodContentBase;					
+			//var podContent:IPodContentBase = info.factory.create() as IPodContentBase;					
+
+			var module:ISASModule = info.factory.create() as ISASModule;
+			//set the applicationContext property, inside the BasicSASModule this
+			//will automatically be set as the moduleApplicationContext's parent
+			module.applicationContext = _applicationContext;
+			(module as Module).data = info;		
+			var podContent:IPodContentBase = module as IPodContentBase;								
 			
 			var podConfig:XML = _moduleConfigList[info] as XML;
 			var manager:PodLayoutManager = _moduleLayoutMgrList[info];			
