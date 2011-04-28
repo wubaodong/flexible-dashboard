@@ -26,6 +26,41 @@ stored in this file rather than a database or separate XML files.
 				dataFields - For form pods, used to assign the data fields to the form fields.
 							 The second field should always be a date expressed in milliseconds since the epoch.
 	-->
+	   <view
+      id="viewGrid"
+      label="Grids">
+        <pod
+            id="grid1"
+            type="grid"
+            title="Data Grid with gridpod-context1.xml"
+	        module="org/integratedsemantics/flexibledashboard/grid/GridPod.swf"
+	        contextFile="spring-actionscript/gridpod-context1.xml"
+            />  
+        <pod
+            id="grid2"
+            type="grid"
+            title="Data Grid with gridpod-context2.xml"
+	        module="org/integratedsemantics/flexibledashboard/grid/GridPod.swf"
+	        contextFile="spring-actionscript/gridpod-context2.xml"
+            />  
+        <pod
+            id="grid3"
+            type="grid"
+            title="Data Grid with gridpod-context3.xml"
+	        module="org/integratedsemantics/flexibledashboard/grid/GridPod.swf"
+	        contextFile="spring-actionscript/gridpod-context3.xml"
+            />  
+        <pod
+            id="chartgrid1"
+            type="chartgrid"
+            title="Chart + Data Grid with chartgridpod-context.xml"
+	        module="org/integratedsemantics/flexibledashboard/grid/ChartGridPod.swf"
+			valueField="price"
+			categoryField="name"	
+			contextFile="spring-actionscript/chartgridpod-context.xml"        
+            />  
+   </view> 
+   
 	<view
 		id="viewCharts"
 		label="Charts">
@@ -98,15 +133,15 @@ stored in this file rather than a database or separate XML files.
     <view
         id="viewOlap"
         label="OLAP">
-        <!--pod
+        <pod
             id="olap1"
             type="olap-grid"
             title="OLAP Mondrian"
 			module="org/integratedsemantics/flexibledashboard/olap/OlapGridPod.swf"
-            url="http://localhost:8080/mondrian-embedded/xmla"
+            url="http://localhost:8400/mondrian-embedded/xmla"
             xmlaDataSource="Provider=Mondrian;DataSource=MondrianFoodMart;"
             catalog="FoodMart"
-            /-->
+            />
         <!--pod
             id="olap2"
             type="olap-grid"
@@ -126,7 +161,7 @@ stored in this file rather than a database or separate XML files.
             type="birt-report"
             title="BIRT Report"
 			module="org/integratedsemantics/flexibledashboard/birt/BirtReportViewerPod.swf"
-            url="http://localhost:8080/birt-viewer/"
+            url="http://localhost:8400/birt-viewer/"
             report="SalesInvoice.rptdesign"
             />  
    </view-->     

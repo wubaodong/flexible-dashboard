@@ -15,11 +15,14 @@ import mx.rpc.events.ResultEvent;
 import mx.rpc.http.HTTPService;
 import mx.utils.ObjectProxy;
 
+import org.springextensions.actionscript.module.BasicSASModule;
+
 import spark.components.VGroup;
 
 // todo: in flex 4.1 now extends mx:Module, later with flex 4.5 can use spark s:Module
 
-public class PodContentBase extends Module implements IPodContentBase
+//public class PodContentBase extends Module implements IPodContentBase
+public class PodContentBase extends BasicSASModule implements IPodContentBase	
 {
 	private var _properties:XML; // Properties are from pods.xml.
 	

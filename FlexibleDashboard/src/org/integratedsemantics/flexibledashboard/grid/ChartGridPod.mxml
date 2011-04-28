@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PodContentBase
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+    xmlns="com.esria.samples.dashboard.view.*"
+    width="100%" height="100%"> 
+    
+    <fx:Script>
+        <![CDATA[
+		import mx.charts.HitData;
+		import mx.charts.chartClasses.ChartBase;
+		import mx.controls.Alert;
+		import mx.events.FlexEvent;
+		import mx.rpc.events.ResultEvent;
+		
+		import org.integratedsemantics.flexibledashboard.data.IDataService;
+		import org.springextensions.actionscript.stage.DefaultAutowiringStageProcessor;
+
+		[Autowired(name="chartGridDataService")]
+		public var dataService:IDataService;	
+
+		[Bindable]
+		private var _data:Object;	
+			
+
+		private function getData():void
+		{
+			dataService.getData().addEventListener(ResultEvent.RESULT, resultHandler);
+		}
+			
+		private function resultHandler(event:ResultEvent):void
+		{
+			_data = event.result;
+		}
+
+        override protected function onCreationComplete(e:FlexEvent):void
+        {
+            super.onCreationComplete(e);
+			
+			var ap:DefaultAutowiringStageProcessor;
+			
+			moduleApplicationContext.addConfigLocation(properties.@contextFile);
+			moduleApplicationContext.addEventListener(Event.COMPLETE, onLoadContextComplete);
+			moduleApplicationContext.load();						
+        }  
+			
+		private function onLoadContextComplete(event:Event):void 
+		{
+			moduleApplicationContext.removeEventListener(Event.COMPLETE, onLoadContextComplete);
+		}			
+			
+				
+		]]>
+    </fx:Script>        
+    	
+	
+	<mx:ViewStack id="vs" width="100%" height="100%">
+		
+		<mx:VBox id="chartVBox" width="100%" height="100%" icon="@Embed('icon_chart.png')" toolTip="Chart View"
+				 paddingLeft="4" paddingTop="4" paddingBottom="4" paddingRight="4">
+			
+			<mx:ColumnChart id="chart" dataProvider="{_data}" width="100%" height="100%">
+				
+				<mx:horizontalAxis>
+					<mx:CategoryAxis categoryField="{properties.@categoryField}"/>
+				</mx:horizontalAxis>
+				
+				<mx:verticalAxis>
+					<mx:LinearAxis />
+				</mx:verticalAxis>
+				
+				<mx:series>
+					<fx:Array>
+						<mx:ColumnSeries yField="{properties.@valueField}">
+							<mx:fill>
+								<mx:LinearGradient>
+									<mx:entries>
+										<fx:Array>
+											<mx:GradientEntry color="#C6D5DD" ratio="0" alpha="100"/>
+											<mx:GradientEntry color="#336699" ratio="0.1" alpha="100"/>
+											<mx:GradientEntry color="#24496D" ratio="0.9" alpha="100"/>
+											<mx:GradientEntry color="#000000" ratio="1" alpha="100"/>
+										</fx:Array>
+									</mx:entries>
+								</mx:LinearGradient>
+							</mx:fill>
+						</mx:ColumnSeries>
+												
+					</fx:Array>
+				</mx:series>
+							
+			</mx:ColumnChart>
+		</mx:VBox>
+		
+		<mx:VBox width="100%" height="100%" icon="@Embed('icon_grid.png')" toolTip="Grid View" 
+				 hideEffect="Fade" showEffect="Fade">
+			<mx:DataGrid id="datagrid" dataProvider="{_data}" width="100%" height="100%"/>
+		</mx:VBox>
+		
+	</mx:ViewStack>
+	
+	<mx:ControlBar>
+		<mx:ToggleButtonBar dataProvider="{vs}"/>
+		<s:Button label="Get Data" click="getData()"/>
+	</mx:ControlBar>	
+		
+	
+</PodContentBase>
