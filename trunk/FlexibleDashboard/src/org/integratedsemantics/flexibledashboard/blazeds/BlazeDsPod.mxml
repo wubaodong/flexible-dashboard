@@ -25,7 +25,7 @@
             var baseUrl:String = properties.@url;  
 
             // setup a channel for remoting to blazeds samples
-            var channelUrl:String = baseUrl + "/messagebroker/amf";
+            var channelUrl:String = baseUrl + "messagebroker/amf";
             var channelId:String = "my-amf";
             var channel:AMFChannel = new AMFChannel(channelId, channelUrl);            
             channelSet.addChannel(channel);

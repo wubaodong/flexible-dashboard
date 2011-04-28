@@ -27,6 +27,41 @@ stored in this file rather than a database or separate XML files.
                       The second field should always be a date expressed in milliseconds since the epoch.
    -->
    <view
+      id="viewGrid"
+      label="Grids">
+        <pod
+            id="grid1"
+            type="grid"
+            title="Data Grid with gridpod-context1.xml"
+	        module="org/integratedsemantics/flexibledashboard/grid/GridPod.swf"
+	        contextFile="spring-actionscript/gridpod-context1.xml"
+            />  
+        <pod
+            id="grid2"
+            type="grid"
+            title="Data Grid with gridpod-context2.xml"
+	        module="org/integratedsemantics/flexibledashboard/grid/GridPod.swf"
+	        contextFile="spring-actionscript/gridpod-context2.xml"
+            />  
+        <pod
+            id="grid3"
+            type="grid"
+            title="Data Grid with gridpod-context3.xml"
+	        module="org/integratedsemantics/flexibledashboard/grid/GridPod.swf"
+	        contextFile="spring-actionscript/gridpod-context3.xml"
+            />  
+        <pod
+            id="chartgrid1"
+            type="chartgrid"
+            title="Chart + Data Grid with chartgridpod-context.xml"
+	        module="org/integratedsemantics/flexibledashboard/grid/ChartGridPod.swf"
+			valueField="price"
+			categoryField="name"	        
+			contextFile="spring-actionscript/chartgridpod-context.xml"        
+            />  
+   </view> 
+   
+   <view
       id="viewCharts"
       label="Charts">
       <pod
@@ -116,25 +151,19 @@ stored in this file rather than a database or separate XML files.
          />
    </view>  
    
-   <!--  BlazeDS pods need blazeds samples.war in your tomcat webapps dir -->
-   <!--  and need the BlazeDS sampledb/startdb.bat running --> 
-   <view
-      id="viewBlazeDS"
-      label="BlazeDS">
-		<!-- blazeds1 pod flex4 FlexAppPod.mxml gets errors with SWFLoader trying to load blazeds flex3 swfs -->
-		<!--  even when loadForCompatibility=true is given to SWFLoader, maybe recompiling blazeds samples with flex4 would get it to work  -->
-        <!-- pod
-            id="blazeds1"
-            type="flexApp"
-            title="BlazeDS test drive web service external SWF"
-            swfUrl="http://localhost:8400/samples/testdrive-remoteobject/main.swf" /-->  
+	<!--  BlazeDS pods need blazeds samples.war in your tomcat webapps dir -->
+	<!--  and need the BlazeDS sampledb/startdb.bat running -->	
+	<view
+		id="viewBlazeDS"
+		label="BlazeDS">
+		<!-- simple remote object use, also see GridPod for more flexible data source use with blazeds -->
         <pod
-            id="blazeds2"
+            id="blazeds1"
             type="blazeds"
             title="Built-in pod using remoting with BlazeDS test drive"
-	        module="org/integratedsemantics/flexibledashboard/blazeds/BlazeDsPod.swf"
+            module="org/integratedsemantics/flexibledashboard/blazeds/BlazeDsPod.swf"
             url="http://localhost:8400/samples/" />  
-   </view>  
+	</view>	
    
    <view
       id="viewCalendar"
@@ -174,7 +203,7 @@ stored in this file rather than a database or separate XML files.
             type="olap-grid"
             title="OLAP Mondrian"
 			module="org/integratedsemantics/flexibledashboard/olap/OlapGridPod.swf"
-            url="http://localhost:8080/mondrian-embedded/xmla"
+            url="http://localhost:8400/mondrian-embedded/xmla"
             xmlaDataSource="Provider=Mondrian;DataSource=MondrianFoodMart;"
             catalog="FoodMart"
             />
@@ -189,7 +218,7 @@ stored in this file rather than a database or separate XML files.
             /-->
     </view>   
     
-   <view
+  <view
       id="viewBIRT"
       label="BIRT">
         <pod
@@ -197,7 +226,7 @@ stored in this file rather than a database or separate XML files.
             type="birt-report"
             title="BIRT Report"
 			module="org/integratedsemantics/flexibledashboard/birt/BirtReportViewerPod.swf"
-            url="http://localhost:8080/birt-viewer/"
+            url="http://localhost:8400/birt-viewer/"
             report="SalesInvoice.rptdesign"
             />  
    </view>     
