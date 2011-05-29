@@ -180,7 +180,11 @@ package flexlib.mdi.containers
 			moveManager.constrainToParentBounds = true;
 			resizeManager.constrainToParentBounds = true;		
 			// have window content clipped when minimized
-			contentGroup.clipAndEnableScrolling = true;			
+			contentGroup.clipAndEnableScrolling = true;	
+            
+            // fix problems with not getting custom context menus
+            this.mouseEnabled = true;
+            this.skin.mouseEnabled = true;
 		}
 		
 		public function get hasFocus():Boolean
