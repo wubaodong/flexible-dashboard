@@ -85,14 +85,12 @@ package org.integratedsemantics.flexibledashboard.app
             //modeViewStack.selectedIndex = MAIN_VIEW_MODE_INDEX; 
 			this.currentState = MAIN_VIEW_STATE;
 
-			//onPortalCreationComplete();      
-			
 			_applicationContext = new FlexXMLApplicationContext("spring-actionscript/application-context.xml");
 			_applicationContext.addEventListener(Event.COMPLETE, onLoadContextComplete);
 			_applicationContext.load();						
         }
 		
-		private function onLoadContextComplete(event:Event):void
+		protected function onLoadContextComplete(event:Event):void
 		{
 			onPortalCreationComplete();                              	
 		}
