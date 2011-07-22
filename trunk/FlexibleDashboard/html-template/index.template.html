@@ -46,6 +46,8 @@
             params.bgcolor = "${bgcolor}";
             params.allowscriptaccess = "sameDomain";
             params.allowfullscreen = "true";
+            <!-- supposed to add wmode opaque for iframe -->
+            params.wmode = "opaque";
             var attributes = {};
             attributes.id = "${application}";
             attributes.name = "${application}";
@@ -83,12 +85,14 @@
                 <param name="bgcolor" value="${bgcolor}" />
                 <param name="allowScriptAccess" value="sameDomain" />
                 <param name="allowFullScreen" value="true" />
+                <param name="wmode" value="opaque" />
                 <!--[if !IE]>-->
                 <object type="application/x-shockwave-flash" data="${swf}.swf" width="${width}" height="${height}">
                     <param name="quality" value="high" />
                     <param name="bgcolor" value="${bgcolor}" />
                     <param name="allowScriptAccess" value="sameDomain" />
                     <param name="allowFullScreen" value="true" />
+	                <param name="wmode" value="opaque" />
                 <!--<![endif]-->
                 <!--[if gte IE 6]>-->
                 	<p> 
