@@ -148,12 +148,18 @@ package com.esria.samples.dashboard.managers
 				{
 					minimizedWindows.addItem(pod);
 
+					// added to do sending event done by super, so iframepod will get event
+					var winEvent:MDIWindowEvent = event as MDIWindowEvent;
+					var mgrEvent:MDIManagerEvent = new MDIManagerEvent(windowToManagerEventMap[winEvent.type], winEvent.window, this, null, null, winEvent.resizeHandle);				
+					dispatchEvent(mgrEvent);								
+					
 					updateLayout(true);	
 				}
 				else
 				{
 					super.onMinimizeWindow(event);					
 				}
+				
 			}
 		}
 		
@@ -173,7 +179,12 @@ package com.esria.samples.dashboard.managers
 				}																		
 				
 				if ( (isTiled == true) && (pod.windowState == MDIWindowState.MINIMIZED) )
-				{					
+				{	
+					// added to do sending event done by super, so iframepod will get event
+					var winEvent:MDIWindowEvent = event as MDIWindowEvent;
+					var mgrEvent:MDIManagerEvent = new MDIManagerEvent(windowToManagerEventMap[winEvent.type], winEvent.window, this, null, null, winEvent.resizeHandle);
+					dispatchEvent(mgrEvent);
+			
 					// Current state is minimized, add it into a relayout of the tiled grid
 					updateLayout(true);
 				}
