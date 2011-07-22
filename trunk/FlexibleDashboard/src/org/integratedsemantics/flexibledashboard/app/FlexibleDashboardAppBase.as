@@ -217,6 +217,9 @@ package org.integratedsemantics.flexibledashboard.app
 			pod.id = podId;
 			pod.title = podConfig.@title;
 			
+			podContent.pod = pod;
+			podContent.podManager = manager;
+			
 			pod.addElement(podContent);
 			
 			manager.addItemAt(pod, -1, false);						
