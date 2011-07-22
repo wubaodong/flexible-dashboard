@@ -49,6 +49,9 @@ package flexlib.mdi.events
 		public static const WINDOW_RESIZE_START:String = "windowResizeStart";
 		public static const WINDOW_RESIZE:String = "windowResize";
 		public static const WINDOW_RESIZE_END:String = "windowResizeEnd";
+
+		public static const CASCADE_START:String = "cascadeStart";
+		public static const TILE_START:String = "tileStart";
 		
 		public static const CASCADE:String = "cascade";
 		public static const TILE:String = "tile";
