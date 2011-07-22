@@ -424,7 +424,10 @@ package flexlib.mdi.managers
 				switch(mgrEvent.type)
 				{
 					case MDIManagerEvent.WINDOW_MINIMIZE:
-						mgrEvent.effect.addEventListener(EffectEvent.EFFECT_END, onMinimizeEffectEnd);
+						if (mgrEvent.effect != null)
+						{
+							mgrEvent.effect.addEventListener(EffectEvent.EFFECT_END, onMinimizeEffectEnd);
+						}
 					break;
 
 					case MDIManagerEvent.WINDOW_RESTORE:
@@ -442,13 +445,13 @@ package flexlib.mdi.managers
 
 					case MDIManagerEvent.WINDOW_FOCUS_START:
 						mgrEvent.window.hasFocus = true;
-						mgrEvent.window.validateNow();
 						container.setElementIndex(mgrEvent.window, container.numElements - 1);
+						mgrEvent.window.invalidateDisplayList();
 					break;
 
 					case MDIManagerEvent.WINDOW_FOCUS_END:
 						mgrEvent.window.hasFocus = false;
-						mgrEvent.window.validateNow();
+						mgrEvent.window.invalidateDisplayList();
 					break;
 
 					case MDIManagerEvent.CASCADE:
@@ -460,6 +463,7 @@ package flexlib.mdi.managers
 					break;
 				}
 
+				
 				if (mgrEvent.effect != null)
 				{
 					// add this event to collection for lookup in the effect handler
@@ -858,6 +862,8 @@ package flexlib.mdi.managers
 		 */
 		public function tile(fillAvailableSpace:Boolean = false,gap:Number = 0):void
 		{
+			dispatchEvent(new MDIManagerEvent(MDIManagerEvent.TILE_START, null, this));
+			
 			var openWinList:Array = getOpenWindowList();
 
 			var numWindows:int = openWinList.length;
@@ -954,6 +960,8 @@ package flexlib.mdi.managers
 		 */
 		public function cascade():void
 		{
+			dispatchEvent(new MDIManagerEvent(MDIManagerEvent.CASCADE_START, null, this));
+			
 			var effectItems:Array = [];
 
 			var windows:Array = getOpenWindowList();
