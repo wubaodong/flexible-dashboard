@@ -92,7 +92,7 @@ package org.integratedsemantics.flexibledashboardair.app
 			_applicationContext.load();						
 		}
 		
-		private function onLoadContextComplete(event:Event):void
+		protected function onLoadContextComplete(event:Event):void
 		{
 			onPortalCreationComplete();                              	
 		}
@@ -215,7 +215,10 @@ package org.integratedsemantics.flexibledashboardair.app
 			var pod:Pod = new Pod();
 			pod.id = podId;
 			pod.title = podConfig.@title;
-			
+
+			podContent.pod = pod;
+			podContent.podManager = manager;
+						
 			pod.addElement(podContent);
 			
 			manager.addItemAt(pod, -1, false);						
