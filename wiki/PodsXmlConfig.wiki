@@ -40,7 +40,8 @@
 
 ==HTML pods==
   # works better in AIR since can use air html webkit control
-  # in browser version uses iframe, should stick to using tile mode and don't use cascade button
+  # in browser version uses iframe, not as good as air, but 7/21/2011
+checked in code that makes the iframes work better by hiding iframes when minimized, when being resized, when being drag/dropped, etc.
   # AIR also has a browser pod with control in addition to a html one without controls
   # in pod xml set url to url of web page
 
