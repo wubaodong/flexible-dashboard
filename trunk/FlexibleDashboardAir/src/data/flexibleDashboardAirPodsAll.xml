@@ -26,41 +26,6 @@ stored in this file rather than a database or separate XML files.
 				dataFields - For form pods, used to assign the data fields to the form fields.
 							 The second field should always be a date expressed in milliseconds since the epoch.
 	-->
-
-   <view
-      id="viewGrid"
-      label="Grids">
-        <pod
-            id="grid1"
-            type="grid"
-            title="Data Grid with gridpod-context1.xml"
-	        module="org/integratedsemantics/flexibledashboard/grid/GridPod.swf"
-	        contextFile="spring-actionscript/gridpod-context1.xml"
-            />  
-        <pod
-            id="grid2"
-            type="grid"
-            title="Data Grid with gridpod-context2.xml"
-	        module="org/integratedsemantics/flexibledashboard/grid/GridPod.swf"
-	        contextFile="spring-actionscript/gridpod-context2.xml"
-            />  
-        <pod
-            id="grid3"
-            type="grid"
-            title="Data Grid with gridpod-context3.xml"
-	        module="org/integratedsemantics/flexibledashboard/grid/GridPod.swf"
-	        contextFile="spring-actionscript/gridpod-context3.xml"
-            />  
-        <pod
-            id="chartgrid1"
-            type="chartgrid"
-            title="Chart + Data Grid with chartgridpod-context.xml"
-	        module="org/integratedsemantics/flexibledashboard/grid/ChartGridPod.swf"
-			valueField="price"
-			categoryField="name"	        
-			contextFile="spring-actionscript/chartgridpod-context.xml"        
-            />  
-   </view> 
    	
 	<view
 		id="viewCharts"
@@ -307,5 +272,41 @@ stored in this file rather than a database or separate XML files.
             report="SalesInvoice.rptdesign"
             />  
    </view>     
+   
+   <view
+      id="viewGrid"
+      label="Grids">
+        <pod
+            id="grid1"
+            type="grid"
+            title="Data Grid with gridpod-context1.xml"
+	        module="org/integratedsemantics/flexibledashboard/grid/GridPod.swf"
+	        contextFile="spring-actionscript/gridpod-context1.xml"
+            />  
+        <pod
+            id="grid2"
+            type="grid"
+            title="Data Grid with gridpod-context2.xml"
+	        module="org/integratedsemantics/flexibledashboard/grid/GridPod.swf"
+	        contextFile="spring-actionscript/gridpod-context2.xml"
+            />  
+        <pod
+            id="grid3"
+            type="grid"
+            title="Data Grid with gridpod-context3.xml"
+	        module="org/integratedsemantics/flexibledashboard/grid/GridPod.swf"
+	        contextFile="spring-actionscript/gridpod-context3.xml"
+            />  
+        <pod
+            id="chartgrid1"
+            type="chartgrid"
+            title="Chart + Data Grid with chartgridpod-context.xml"
+	        module="org/integratedsemantics/flexibledashboard/grid/ChartGridPod.swf"
+			valueField="price"
+			categoryField="name"	        
+			contextFile="spring-actionscript/chartgridpod-context.xml"        
+            />  
+   </view> 
+   
 			
 </views>
