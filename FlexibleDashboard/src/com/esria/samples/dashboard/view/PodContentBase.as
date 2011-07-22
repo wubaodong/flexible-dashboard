@@ -4,12 +4,14 @@
 
 package com.esria.samples.dashboard.view
 {
+import com.esria.samples.dashboard.managers.PodLayoutManager;
+
 import flash.xml.XMLNode;
 
 import mx.controls.Alert;
 import mx.events.FlexEvent;
 import mx.events.IndexChangedEvent;
-import mx.modules.Module;
+import mx.managers.IFocusManagerComponent;
 import mx.rpc.events.FaultEvent;
 import mx.rpc.events.ResultEvent;
 import mx.rpc.http.HTTPService;
@@ -25,6 +27,10 @@ import spark.components.VGroup;
 public class PodContentBase extends BasicSASModule implements IPodContentBase	
 {
 	private var _properties:XML; // Properties are from pods.xml.
+	
+	private var _pod:Pod;
+	private var _podMgr:PodLayoutManager;
+	
 	
 	function PodContentBase()
 	{
@@ -112,5 +118,27 @@ public class PodContentBase extends BasicSASModule implements IPodContentBase
 		_properties = value;
 	}
 
+	[Bindable]
+	public function get pod():Pod
+	{
+		return _pod;
+	}
+	
+	public function set pod(pod:Pod):void
+	{
+		_pod = pod;
+	}
+
+	[Bindable]
+	public function get podManager():PodLayoutManager
+	{
+		return _podMgr;
+	}
+	
+	public function set podManager(podMgr:PodLayoutManager):void
+	{
+		_podMgr = podMgr;
+	}	
+	
 }
 }
