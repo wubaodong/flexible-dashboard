@@ -294,7 +294,8 @@ package flexlib.mdi.containers
 				savePanel();
 			}
 			
-			dispatchEvent(new MDIWindowEvent(MDIWindowEvent.MINIMIZE, this));
+			var mdiWindowEvent:MDIWindowEvent = new MDIWindowEvent(MDIWindowEvent.MINIMIZE, this);
+			dispatchEvent(mdiWindowEvent);
 
 			windowState = MDIWindowState.MINIMIZED;
 			height = this.minimizeHeight;					
@@ -367,9 +368,15 @@ package flexlib.mdi.containers
 			showControls = true;
 			invalidateSkinState();
 			resizable = false;
-			draggable = false;			
-			resizeManager.enabled = false;
-			moveManager.enabled = false;
+			draggable = false;
+			if (resizeManager != null)
+			{
+				resizeManager.enabled = false;
+			}
+			if (moveManager != null)
+			{
+				moveManager.enabled = false;
+			}
 			resizeHandle.visible = false;	
 			resizeHandle.enabled = false;	
 			// set button select to get initial display of button correct
