@@ -304,9 +304,15 @@ package flexlib.mdi.containers
 			invalidateSize();
 			
 			resizable = false;
-			draggable = false;			
-			resizeManager.enabled = false;
-			moveManager.enabled = false;
+			draggable = false;		
+			if (resizeManager != null)
+			{
+				resizeManager.enabled = false;
+			}
+			if (moveManager != null)
+			{
+				moveManager.enabled = false;
+			}
 			resizeHandle.visible = false;	
 			resizeHandle.enabled = false;						
 		}
