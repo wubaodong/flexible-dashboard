@@ -127,6 +127,8 @@ package org.integratedsemantics.flexibledashboard.app
 				canvas.percentWidth = 100;
 				canvas.percentHeight = 100;
 				canvas.windowManager.tilePadding = 10;
+				
+				canvas.toolTip = viewXMLList[i].@toolTip;
 
 				viewStack.addChild(canvas);
 								
