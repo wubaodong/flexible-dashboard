@@ -9,7 +9,7 @@
 	xmlns:qc="qs.containers.*"
 	xmlns:ns1="qs.containers.*" 
 	xmlns:effects="qs.effects.*"
-	creationComplete="load();" styleName="CalendarPodBase" >
+	creationComplete="load();" >
 
 	<fx:Style source="calendar.css" />
 	<fx:Style source="calstyles.css" />
@@ -21,19 +21,18 @@
 		]]>
 	</fx:Script>
 	
-	<mx:HBox width="100%" height="100%"  >		
-		<mx:VBox>			
-			<mx:VBox minWidth="250" horizontalAlign="center" styleName="calendarsContainer" >			
+		<mx:HBox width="100%">			
+			<mx:HBox horizontalAlign="center" >			
 				<mx:HBox>
 					<mx:Button label="&lt;&lt;" click="cal.previous();" />
 					<mx:Button label="today" click="goToToday();" />
 					<mx:Button label="&gt;&gt;" click="cal.next();" />
 				</mx:HBox>
-				<mx:Label styleName="headerLabel" text="{headerLabelText}" />			
+				<!--mx:Label styleName="headerLabel" text="{headerLabelText}" /-->			
 				<mx:ToggleButtonBar dataProvider="{displayOptions}" selectedIndex="0"  id="displayMode" itemClick="displayModeItemClickHandler()"/>				
-				<mx:CheckBox label="animated" selected="true" id="animated" />							
-			</mx:VBox>
-			<mx:VBox minWidth="250" horizontalAlign="center" styleName="calendarsContainer" >			
+				<!--mx:CheckBox label="animated" selected="true" id="animated" /-->							
+			</mx:HBox>
+			<mx:HBox minWidth="150" horizontalAlign="center" >			
 				<cal:DataBox width="100%" dataProvider="{calSet.calendars}">
 					<cal:itemRenderer>
 						<fx:Component>
@@ -41,24 +40,25 @@
 						</fx:Component>
 					</cal:itemRenderer>
 				</cal:DataBox>
-				<mx:HRule width="100%" />
+				<!--mx:HRule width="100%" /-->
 				<mx:HBox horizontalAlign="right" width="100%">
 					<mx:Button click="addCalendar();" label="Add Calendar..." minWidth="20" minHeight="20" height="20" />
 				</mx:HBox>		
-				<mx:DateChooser id="chooser" change="updateRange()" allowDisjointSelection="false" allowMultipleSelection="true" width="100%">
-					<mx:selectedDate>
-						<fx:Date month="1" date="1" fullYear="2009" />
-					</mx:selectedDate>
-				</mx:DateChooser>
-			</mx:VBox>
-			<cal:Busy minWidth="250" id="busy" />
-		</mx:VBox>
-		<qs:CalendarDisplay id="cal" width="100%" height="100%" 
-			headerClick="headerClickHandler(event.dateTime)" 
-			dayClick="dayClickHandler(event.dateTime)"
-			displayModeChange="displayModeHandler()"
-			animated="{animated.selected}"
-			change="rangeChangeHandler()" styleName="CalendarDisplay" />
-	</mx:HBox>
-	
+			</mx:HBox>
+			<cal:Busy minWidth="150" id="busy" />
+		</mx:HBox>
+		<mx:HDividedBox width="100%" height="100%">			
+			<mx:DateChooser id="chooser" minWidth="10" change="updateRange()" allowDisjointSelection="false" allowMultipleSelection="true">
+				<!--mx:selectedDate>
+				<fx:Date month="1" date="1" fullYear="2009" />
+				</mx:selectedDate-->
+			</mx:DateChooser>
+			<qs:CalendarDisplay id="cal" width="100%" height="100%"
+				headerClick="headerClickHandler(event.dateTime)" 
+				dayClick="dayClickHandler(event.dateTime)"
+				displayModeChange="displayModeHandler()"
+				animated="false"
+				change="rangeChangeHandler()" styleName="CalendarDisplay" />		
+		</mx:HDividedBox>
+
 </cal:CalendarPodBase>
