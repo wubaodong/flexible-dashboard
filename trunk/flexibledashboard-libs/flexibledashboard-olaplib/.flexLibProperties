@@ -1,6 +1,71 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<flexLibProperties includeAllClasses="true" version="3">
-  <includeClasses/>
-  <includeResources/>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="com.ignite.collections.NoiseyArrayCollection"/>
+    <classEntry path="com.ignite.collections.NoiseyCollectionEvent"/>
+    <classEntry path="com.ignite.collections.NoiseyHashMap"/>
+    <classEntry path="com.ignite.collections.NoiseySet"/>
+    <classEntry path="com.ignite.http.Command"/>
+    <classEntry path="com.ignite.http.HTTPCommand"/>
+    <classEntry path="com.ignite.http.HTTPConnector"/>
+    <classEntry path="com.ignite.olap.AttributeHierarchy"/>
+    <classEntry path="com.ignite.olap.Catalog"/>
+    <classEntry path="com.ignite.olap.Cell"/>
+    <classEntry path="com.ignite.olap.Cube"/>
+    <classEntry path="com.ignite.olap.Dimension"/>
+    <classEntry path="com.ignite.olap.Element"/>
+    <classEntry path="com.ignite.olap.ElementsDelegate"/>
+    <classEntry path="com.ignite.olap.Errors"/>
+    <classEntry path="com.ignite.olap.Hierarchy"/>
+    <classEntry path="com.ignite.olap.IgniteOLAPSet"/>
+    <classEntry path="com.ignite.olap.Level"/>
+    <classEntry path="com.ignite.olap.MDDatasetResult"/>
+    <classEntry path="com.ignite.olap.Member"/>
+    <classEntry path="com.ignite.olap.Query"/>
+    <classEntry path="com.ignite.olap.QueryAxis"/>
+    <classEntry path="com.ignite.olap.ResultAxis"/>
+    <classEntry path="com.ignite.olap.Tuple"/>
+    <classEntry path="com.ignite.olap.browser.CubeBrowser"/>
+    <classEntry path="com.ignite.olap.browser.CubeRenderer"/>
+    <classEntry path="com.ignite.olap.browser.CubeView"/>
+    <classEntry path="com.ignite.olap.controls.TuplePopUp"/>
+    <classEntry path="com.ignite.olap.delegates.MDXQueryDelegate"/>
+    <classEntry path="com.ignite.olap.delegates.PopUpDelegate"/>
+    <classEntry path="com.ignite.olap.dto.CubeDTO"/>
+    <classEntry path="com.ignite.olap.dto.QueryDTO"/>
+    <classEntry path="com.ignite.olap.dto.QueryResponseDTO"/>
+    <classEntry path="com.ignite.olap.dto.RequestDTO"/>
+    <classEntry path="com.ignite.olap.dto.TupleDTO"/>
+    <classEntry path="com.ignite.olap.events.MemberFactoryEvent"/>
+    <classEntry path="com.ignite.olap.events.TupleSelectorEvent"/>
+    <classEntry path="com.ignite.olap.factory.CubeFactory"/>
+    <classEntry path="com.ignite.olap.factory.MemberFactory"/>
+    <classEntry path="com.ignite.olap.grid.PivotOLAPGrid"/>
+    <classEntry path="com.ignite.olap.views.ASMDXQuery"/>
+    <classEntry path="com.ignite.olap.views.ASPivotGrid"/>
+    <classEntry path="com.ignite.olap.views.ClickableOLAPHeader"/>
+    <classEntry path="com.ignite.olap.views.MDXQuery"/>
+    <classEntry path="com.ignite.olap.views.PivotGrid"/>
+    <classEntry path="com.ignite.soap.SOAPCreator"/>
+    <classEntry path="com.ignite.xmla.XMLAEvent"/>
+    <classEntry path="com.ignite.xmla.XMLAService"/>
+  </includeClasses>
+  <includeResources>
+    <resourceEntry destPath="assets/blank.jpg" sourcePath="assets/blank.jpg"/>
+    <resourceEntry destPath="assets/darkroom.css" sourcePath="assets/darkroom.css"/>
+    <resourceEntry destPath="assets/darkroom.swf" sourcePath="assets/darkroom.swf"/>
+    <resourceEntry destPath="assets/minus.JPG" sourcePath="assets/minus.JPG"/>
+    <resourceEntry destPath="assets/myriad.swf" sourcePath="assets/myriad.swf"/>
+    <resourceEntry destPath="assets/plus.JPG" sourcePath="assets/plus.JPG"/>
+    <resourceEntry destPath="assets/remove.gif" sourcePath="assets/remove.gif"/>
+    <resourceEntry destPath="assets/tree_database.gif" sourcePath="assets/tree_database.gif"/>
+    <resourceEntry destPath="assets/tree_dimension.gif" sourcePath="assets/tree_dimension.gif"/>
+    <resourceEntry destPath="assets/tree_heir.gif" sourcePath="assets/tree_heir.gif"/>
+    <resourceEntry destPath="assets/tree_level.gif" sourcePath="assets/tree_level.gif"/>
+    <resourceEntry destPath="assets/tree_measure.gif" sourcePath="assets/tree_measure.gif"/>
+    <resourceEntry destPath="assets/tree_member.gif" sourcePath="assets/tree_member.gif"/>
+    <resourceEntry destPath="com/darkroom.css" sourcePath="com/darkroom.css"/>
+    <resourceEntry destPath="com/ignite/olap/views/pivotgrid.css" sourcePath="com/ignite/olap/views/pivotgrid.css"/>
+  </includeResources>
   <namespaceManifests/>
 </flexLibProperties>

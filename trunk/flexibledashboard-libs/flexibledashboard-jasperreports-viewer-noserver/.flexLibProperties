@@ -1,6 +1,93 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<flexLibProperties includeAllClasses="true" version="3">
-  <includeClasses/>
-  <includeResources/>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="net.sf.jasperreports.flex.draw.BoxDrawer"/>
+    <classEntry path="net.sf.jasperreports.flex.draw.DrawContext"/>
+    <classEntry path="net.sf.jasperreports.flex.draw.DrawUtil"/>
+    <classEntry path="net.sf.jasperreports.flex.draw.EllipseDrawer"/>
+    <classEntry path="net.sf.jasperreports.flex.draw.FrameDrawer"/>
+    <classEntry path="net.sf.jasperreports.flex.draw.ImageDrawer"/>
+    <classEntry path="net.sf.jasperreports.flex.draw.ImageHandler"/>
+    <classEntry path="net.sf.jasperreports.flex.draw.LineDrawer"/>
+    <classEntry path="net.sf.jasperreports.flex.draw.PageDrawer"/>
+    <classEntry path="net.sf.jasperreports.flex.draw.RectangleDrawer"/>
+    <classEntry path="net.sf.jasperreports.flex.draw.TextDrawer"/>
+    <classEntry path="net.sf.jasperreports.flex.model.Alignment"/>
+    <classEntry path="net.sf.jasperreports.flex.model.BooleanEnum"/>
+    <classEntry path="net.sf.jasperreports.flex.model.Box"/>
+    <classEntry path="net.sf.jasperreports.flex.model.BoxBottomPen"/>
+    <classEntry path="net.sf.jasperreports.flex.model.BoxLeftPen"/>
+    <classEntry path="net.sf.jasperreports.flex.model.BoxPen"/>
+    <classEntry path="net.sf.jasperreports.flex.model.BoxRightPen"/>
+    <classEntry path="net.sf.jasperreports.flex.model.BoxTopPen"/>
+    <classEntry path="net.sf.jasperreports.flex.model.DirectionEnum"/>
+    <classEntry path="net.sf.jasperreports.flex.model.Element"/>
+    <classEntry path="net.sf.jasperreports.flex.model.Ellipse"/>
+    <classEntry path="net.sf.jasperreports.flex.model.FillEnum"/>
+    <classEntry path="net.sf.jasperreports.flex.model.Font"/>
+    <classEntry path="net.sf.jasperreports.flex.model.Frame"/>
+    <classEntry path="net.sf.jasperreports.flex.model.GraphicElement"/>
+    <classEntry path="net.sf.jasperreports.flex.model.HorizontalAlignEnum"/>
+    <classEntry path="net.sf.jasperreports.flex.model.Hyperlink"/>
+    <classEntry path="net.sf.jasperreports.flex.model.HyperlinkTargetEnum"/>
+    <classEntry path="net.sf.jasperreports.flex.model.HyperlinkTypeEnum"/>
+    <classEntry path="net.sf.jasperreports.flex.model.Image"/>
+    <classEntry path="net.sf.jasperreports.flex.model.Line"/>
+    <classEntry path="net.sf.jasperreports.flex.model.LineSpacingEnum"/>
+    <classEntry path="net.sf.jasperreports.flex.model.LineStyleEnum"/>
+    <classEntry path="net.sf.jasperreports.flex.model.MarkupEnum"/>
+    <classEntry path="net.sf.jasperreports.flex.model.ModeEnum"/>
+    <classEntry path="net.sf.jasperreports.flex.model.OnErrorTypeEnum"/>
+    <classEntry path="net.sf.jasperreports.flex.model.OrientationEnum"/>
+    <classEntry path="net.sf.jasperreports.flex.model.Page"/>
+    <classEntry path="net.sf.jasperreports.flex.model.Pen"/>
+    <classEntry path="net.sf.jasperreports.flex.model.PenContainer"/>
+    <classEntry path="net.sf.jasperreports.flex.model.Rectangle"/>
+    <classEntry path="net.sf.jasperreports.flex.model.RotationEnum"/>
+    <classEntry path="net.sf.jasperreports.flex.model.RunDirectionEnum"/>
+    <classEntry path="net.sf.jasperreports.flex.model.ScaleImageEnum"/>
+    <classEntry path="net.sf.jasperreports.flex.model.Style"/>
+    <classEntry path="net.sf.jasperreports.flex.model.StyleContainer"/>
+    <classEntry path="net.sf.jasperreports.flex.model.StyleResolver"/>
+    <classEntry path="net.sf.jasperreports.flex.model.Text"/>
+    <classEntry path="net.sf.jasperreports.flex.model.VerticalAlignEnum"/>
+    <classEntry path="net.sf.jasperreports.flex.view.PageCanvas"/>
+    <classEntry path="net.sf.jasperreports.flex.view.Viewer"/>
+    <classEntry path="net.sf.jasperreports.flex.xml.BoxFactory"/>
+    <classEntry path="net.sf.jasperreports.flex.xml.ElementFactory"/>
+    <classEntry path="net.sf.jasperreports.flex.xml.EllipseFactory"/>
+    <classEntry path="net.sf.jasperreports.flex.xml.FontFactory"/>
+    <classEntry path="net.sf.jasperreports.flex.xml.FrameFactory"/>
+    <classEntry path="net.sf.jasperreports.flex.xml.GraphicElementFactory"/>
+    <classEntry path="net.sf.jasperreports.flex.xml.HyperlinkFactory"/>
+    <classEntry path="net.sf.jasperreports.flex.xml.ImageFactory"/>
+    <classEntry path="net.sf.jasperreports.flex.xml.LineFactory"/>
+    <classEntry path="net.sf.jasperreports.flex.xml.PageFactory"/>
+    <classEntry path="net.sf.jasperreports.flex.xml.PenFactory"/>
+    <classEntry path="net.sf.jasperreports.flex.xml.RectangleFactory"/>
+    <classEntry path="net.sf.jasperreports.flex.xml.StyleFactory"/>
+    <classEntry path="net.sf.jasperreports.flex.xml.TextFactory"/>
+  </includeClasses>
+  <includeResources>
+    <resourceEntry destPath="net/sf/jasperreports/flex/view/images/actualsize.GIF" sourcePath="net/sf/jasperreports/flex/view/images/actualsize.GIF"/>
+    <resourceEntry destPath="net/sf/jasperreports/flex/view/images/first-gray.GIF" sourcePath="net/sf/jasperreports/flex/view/images/first-gray.GIF"/>
+    <resourceEntry destPath="net/sf/jasperreports/flex/view/images/first.GIF" sourcePath="net/sf/jasperreports/flex/view/images/first.GIF"/>
+    <resourceEntry destPath="net/sf/jasperreports/flex/view/images/fitpage.GIF" sourcePath="net/sf/jasperreports/flex/view/images/fitpage.GIF"/>
+    <resourceEntry destPath="net/sf/jasperreports/flex/view/images/fitwidth.GIF" sourcePath="net/sf/jasperreports/flex/view/images/fitwidth.GIF"/>
+    <resourceEntry destPath="net/sf/jasperreports/flex/view/images/jricon.GIF" sourcePath="net/sf/jasperreports/flex/view/images/jricon.GIF"/>
+    <resourceEntry destPath="net/sf/jasperreports/flex/view/images/last-gray.GIF" sourcePath="net/sf/jasperreports/flex/view/images/last-gray.GIF"/>
+    <resourceEntry destPath="net/sf/jasperreports/flex/view/images/last.GIF" sourcePath="net/sf/jasperreports/flex/view/images/last.GIF"/>
+    <resourceEntry destPath="net/sf/jasperreports/flex/view/images/next-gray.GIF" sourcePath="net/sf/jasperreports/flex/view/images/next-gray.GIF"/>
+    <resourceEntry destPath="net/sf/jasperreports/flex/view/images/next.GIF" sourcePath="net/sf/jasperreports/flex/view/images/next.GIF"/>
+    <resourceEntry destPath="net/sf/jasperreports/flex/view/images/previous-gray.GIF" sourcePath="net/sf/jasperreports/flex/view/images/previous-gray.GIF"/>
+    <resourceEntry destPath="net/sf/jasperreports/flex/view/images/previous.GIF" sourcePath="net/sf/jasperreports/flex/view/images/previous.GIF"/>
+    <resourceEntry destPath="net/sf/jasperreports/flex/view/images/print.GIF" sourcePath="net/sf/jasperreports/flex/view/images/print.GIF"/>
+    <resourceEntry destPath="net/sf/jasperreports/flex/view/images/reload.GIF" sourcePath="net/sf/jasperreports/flex/view/images/reload.GIF"/>
+    <resourceEntry destPath="net/sf/jasperreports/flex/view/images/save.GIF" sourcePath="net/sf/jasperreports/flex/view/images/save.GIF"/>
+    <resourceEntry destPath="net/sf/jasperreports/flex/view/images/zoomin-gray.GIF" sourcePath="net/sf/jasperreports/flex/view/images/zoomin-gray.GIF"/>
+    <resourceEntry destPath="net/sf/jasperreports/flex/view/images/zoomin.GIF" sourcePath="net/sf/jasperreports/flex/view/images/zoomin.GIF"/>
+    <resourceEntry destPath="net/sf/jasperreports/flex/view/images/zoomout-gray.GIF" sourcePath="net/sf/jasperreports/flex/view/images/zoomout-gray.GIF"/>
+    <resourceEntry destPath="net/sf/jasperreports/flex/view/images/zoomout.GIF" sourcePath="net/sf/jasperreports/flex/view/images/zoomout.GIF"/>
+  </includeResources>
   <namespaceManifests/>
 </flexLibProperties>
