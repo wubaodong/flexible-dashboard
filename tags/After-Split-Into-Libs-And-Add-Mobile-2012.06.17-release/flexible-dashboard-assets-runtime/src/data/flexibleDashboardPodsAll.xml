@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Used to specify the pod content in the dashboard sample app.
+To keep the implementation straightforward, all of the data is
+stored in this file rather than a database or separate XML files.
+-->
+<views>
+   <!--
+      <view> - Represents a tab.
+         id - Must be unique so state can be saved properly.
+         label - The label of the tab.
+         <pod>
+            id - Must be unique per view so state can be saved properly.
+            type - Type of pod content. Valid values are chart, pieChart, form and list. "chart" and "pieChart" each have drill downs to one level.
+                  "chart" is a fixed drill down to 30 days in a month.
+                  "pieChart" is a fixed drill down to four geographical regions.
+            title - The title of the pod.
+            dataSource - The xml to load for the pod.
+            selectedViewIndex - Sets the default content view for pod content with a view stack. 
+            valueField - For chart pods, the field from the xml data to use for displaying the value. This field should be numeric.
+            categoryField - For chart pods, the field from the xml data to use for displaying the category.
+            dataTipUnitLabel - Rollover label used for displaying the units.
+                           Label is delimited by "*" and places the first value before the unit and the second value after the unit. Ex: $50M.
+            dataTipLabelField - Rollover label field used for PieCharts.
+            labels - For form pods, used to label the fields.
+            dataFields - For form pods, used to assign the data fields to the form fields.
+                      The second field should always be a date expressed in milliseconds since the epoch.
+   -->
+   
+   <view
+      id="viewCharts"
+      label="Charts">
+      <pod
+         id="charts1"
+         type="chart"
+         title="Yearly Revenue"
+         module="com/esria/samples/dashboard/view/ChartContent.swf"
+         dataSource="data/revenue.xml"
+         selectedViewIndex="1"
+         valueField="value"
+         categoryField="month"
+         dataTipUnitLabel="$*M"
+         dataTipLabelField="month"/>
+      <pod
+         id="charts2"
+         type="chart"
+         title="Yearly Profit"
+         module="com/esria/samples/dashboard/view/ChartContent.swf"
+         dataSource="data/profit.xml"
+         valueField="value"
+         categoryField="month"
+         dataTipUnitLabel="$*M"
+         dataTipLabelField="month"/>
+      <pod
+         id="charts3"
+         type="chart"
+         title="Projected Revenue"
+         module="com/esria/samples/dashboard/view/ChartContent.swf"
+         dataSource="data/projected_revenue.xml"
+         valueField="value"
+         categoryField="month"
+         dataTipUnitLabel="$*M"
+         dataTipLabelField="month"/>
+      <pod
+         id="charts4"
+         type="pieChart"
+         title="Revenue by Region"
+         module="com/esria/samples/dashboard/view/PieChartContent.swf"
+         dataSource="data/revenue_by_region.xml"
+         valueField="value"
+         categoryField="region"
+         dataTipUnitLabel="$*M"
+         dataTipLabelField="region"/>
+      <!-- pod
+         id="charts5"
+         type="form"
+         title="Sales Pipeline"
+         module="com/esria/samples/dashboard/view/FormContent.swf"
+         dataSource="data/pipeline.xml"
+         selectedViewIndex="1"
+         labels="Name,Date,Description"
+         dataFields="name,date,description" /-->
+      <!--pod
+         id="charts6"
+         type="form"
+         title="To Do"
+         module="com/esria/samples/dashboard/view/FormContent.swf"
+         dataSource="data/tasks.xml"
+         labels="Name,Date,Description"
+         dataFields="name,date,description" /-->
+      <!--pod
+         id="charts7"
+         type="list"
+         title="Company News"
+         module="com/esria/samples/dashboard/view/ListContent.swf"
+         dataSource="data/news.xml" /-->
+   </view>
+   <view
+      id="viewJasperReports"
+      label="JasperReports">
+      <pod
+         id="jasperreport1"
+         type="report"
+         title="JasperReports"
+         module="org/integratedsemantics/flexibledashboard/jasperreports/ReportPod.swf"
+         reporturl="reports/WebappReport.jrpxml"
+         />
+   </view>  
+   <view
+      id="viewPentaho"
+      label="Pentaho Charts">
+      <pod
+         id="pentaho1"
+         type="pentaho"
+         title="Pentaho"
+         module="org/integratedsemantics/flexibledashboard/pentaho/PentahoPod.swf"
+         />
+   </view>  
+   
+	<!--  BlazeDS pods need blazeds samples.war in your tomcat webapps dir -->
+	<!--  and need the BlazeDS sampledb/startdb.bat running -->	
+	<view
+		id="viewBlazeDS"
+		label="BlazeDS">
+		<!-- simple remote object use, also see GridPod for more flexible data source use with blazeds -->
+        <pod
+            id="blazeds1"
+            type="blazeds"
+            title="Built-in pod using remoting with BlazeDS test drive"
+            module="org/integratedsemantics/flexibledashboard/blazeds/BlazeDsPod.swf"
+            url="http://localhost:8400/samples/" />  
+	</view>	
+   
+   <view
+      id="viewCalendar"
+      label="Calendar">
+      <pod
+         id="calendar1"
+         type="calendar"
+         title="Calendar"
+         module="org/integratedsemantics/flexibledashboard/calendar/CalendarPod.swf"
+         />       
+   </view>
+
+   <!-- note: google.com and yahoo.com now don't allow display in an iframe in a browser, other sites may disallow also -->
+   <!-- Desktop AIR and Mobile AIR are ok with these sites since don't have to use an iframe to view html -->
+   <!-- on FireFox 13, iframes will position incorrectly in flash builder debugger (filepath to app swf), but will be ok in tomcat thru a url path to app swf -->
+   <view
+      id="viewHTML"
+      label="HTML">
+        <pod
+            id="html1"
+            type="html"
+            title="Bing"
+            module="org/integratedsemantics/flexibledashboard/html/IFramePod.swf"
+            url="http://www.bing.com" />  
+        <pod
+            id="html2"
+            type="html"
+            title="Wikipedia"
+            module="org/integratedsemantics/flexibledashboard/html/IFramePod.swf"
+            url="http://www.wikipedia.org" />  
+   </view>     
+      
+    <view
+        id="viewOlap"
+        label="OLAP">
+        <pod
+            id="olap1"
+            type="olap-grid"
+            title="OLAP Mondrian"
+			module="org/integratedsemantics/flexibledashboard/olap/OlapGridPod.swf"
+            url="http://localhost:8400/mondrian-embedded/xmla"
+            xmlaDataSource="Provider=Mondrian;DataSource=MondrianFoodMart;"
+            catalog="FoodMart"
+            />
+        <!--pod
+            id="olap2"
+            type="olap-grid"
+            title="OLAP Pentaho"
+			module="org/integratedsemantics/flexibledashboard/olap/OlapGridPod.swf"
+            url="http://localhost:8080/pentaho/Xmla?userid=joe&amp;password=password"
+            xmlaDataSource="Provider=Mondrian;DataSource=Pentaho"
+            catalog="SteelWheels"
+            /-->
+    </view>   
+    
+  <view
+      id="viewBIRT"
+      label="BIRT">
+        <pod
+            id="birt1"
+            type="birt-report"
+            title="BIRT Report"
+			module="org/integratedsemantics/flexibledashboard/birt/BirtReportViewerPod.swf"
+            url="http://localhost:8400/birt-viewer/"
+            report="SalesInvoice.rptdesign"
+            />  
+   </view>     
+   
+   <view
+      id="viewGrid"
+      label="Grids">
+        <pod
+            id="grid1"
+            type="grid"
+            title="Data Grid with gridpod-context1.xml"
+	        module="org/integratedsemantics/flexibledashboard/grid/GridPod.swf"
+	        contextFile="spring-actionscript/gridpod-context1.xml"
+            />  
+        <pod
+            id="grid2"
+            type="grid"
+            title="Data Grid with gridpod-context2.xml"
+	        module="org/integratedsemantics/flexibledashboard/grid/GridPod.swf"
+	        contextFile="spring-actionscript/gridpod-context2.xml"
+            />  
+        <pod
+            id="grid3"
+            type="grid"
+            title="Data Grid with gridpod-context3.xml"
+	        module="org/integratedsemantics/flexibledashboard/grid/GridPod.swf"
+	        contextFile="spring-actionscript/gridpod-context3.xml"
+            />  
+        <pod
+            id="chartgrid1"
+            type="chartgrid"
+            title="Chart + Data Grid with chartgridpod-context.xml"
+	        module="org/integratedsemantics/flexibledashboard/grid/ChartGridPod.swf"
+			valueField="price"
+			categoryField="name"	        
+			contextFile="spring-actionscript/chartgridpod-context.xml"        
+            />  
+   </view> 
+   
+              
+</views>

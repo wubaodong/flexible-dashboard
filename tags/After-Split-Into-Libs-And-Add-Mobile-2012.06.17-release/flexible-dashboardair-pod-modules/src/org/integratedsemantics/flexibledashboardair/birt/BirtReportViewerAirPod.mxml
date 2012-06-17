@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PodContentBase
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns="com.esria.samples.dashboard.view.*"
+    width="100%" height="100%"> 
+    
+    <fx:Script>
+        <![CDATA[
+        import mx.events.FlexEvent;
+
+        import mx.controls.Alert;
+        import mx.utils.URLUtil;
+        import mx.managers.IBrowserManager;
+        import mx.managers.BrowserManager;
+        import mx.events.BrowserChangeEvent;
+
+        public var ReportViewerUrl:String = null;
+        public var debug:Boolean = false;
+                           
+        public var ReportString:String = null;
+        //Uses the run servlet
+        public var RunString:String = null;
+        //Uses the extract servlet
+        public var ExtractString:String = null;
+
+        override protected function onCreationComplete(e:FlexEvent):void
+        {
+            super.onCreationComplete(e);
+            
+            viewframe.id = properties.@id;
+            
+            ReportViewerUrl = properties.@url;
+            ReportString = "__report=" + properties.@report;            
+            RunString = ReportViewerUrl + "run?" + ReportString;
+            ExtractString = ReportViewerUrl + "extract?" + ReportString;            
+            viewframe.location = RunString;
+        }                       
+      ]]>
+   </fx:Script>
+
+      <mx:ControlBar id="toolbar" width="100%" height="61">
+         <fx:Script>
+         <![CDATA[
+            import flash.net.navigateToURL;
+                        
+            public function navigatetoformat(format:String):void
+            {
+               navigate(RunString+"&__format="+format+"&__asattachment=true");
+            }
+            
+            public function navigate(url:String):void
+            {
+               var urlRequest:URLRequest = new URLRequest(url);
+               navigateToURL(urlRequest,"__blank");   
+            }
+            public function getPDF():void 
+            {
+               navigatetoformat("pdf");
+            }
+            public function getXLS():void 
+            {
+               navigatetoformat("xls");   
+            }
+            public function getDOC():void 
+            {
+               navigatetoformat("doc");
+            }
+            public function getPPT():void 
+            {
+               navigatetoformat("ppt");
+            }
+            public function onSave():void 
+            {
+               
+            }
+         ]]>
+      </fx:Script>
+
+      <mx:Spacer width="100%"/>     
+      <mx:Button icon="@Embed(source='images/ppt.png')" click="getPPT()"/>
+      <mx:Button icon="@Embed(source='images/xls.png')" click="getXLS()"/>
+      <mx:Button icon="@Embed(source='images/rtf.png')" click="getDOC()"/>
+      <mx:Button icon="@Embed(source='images/pdf.png')" click="getPDF()"/>
+      
+   </mx:ControlBar>
+
+   <!-- flex4 removed backgroundColor="#FFFFFF", backgroundColor only supported on halo, also removed styleName="halo" -->
+   <mx:HTML id="viewframe" x="0" y="69" width="100%" height="100%" visible="true" />
+   
+</PodContentBase>
+

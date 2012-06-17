@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PodContentBase
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+    xmlns="com.esria.samples.dashboard.view.*"
+    width="100%" height="100%"> 
+    
+    <fx:Script>
+        <![CDATA[
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import org.integratedsemantics.flexibledashboard.data.IDataService;
+			import org.springextensions.actionscript.context.support.FlexXMLApplicationContext;
+			import org.springextensions.actionscript.stage.DefaultAutowiringStageProcessor;
+
+		//[Autowired(name="gridDataService")]
+		public var dataService:IDataService;	
+			
+		private var _applicationContext:FlexXMLApplicationContext;	
+			
+		private function getData():void
+		{
+			dataService.getData().addEventListener(ResultEvent.RESULT, resultHandler);
+		}
+			
+		private function resultHandler(event:ResultEvent):void
+		{
+			datagrid.dataProvider = event.result;
+		}
+
+        override protected function onCreationComplete(e:FlexEvent):void
+        {
+            super.onCreationComplete(e);
+			
+			callLater(loadContext);
+		} 
+			
+		private function loadContext():void
+		{
+			//var ap:DefaultAutowiringStageProcessor;
+			_applicationContext = new FlexXMLApplicationContext();
+			_applicationContext.addConfigLocation(properties.@contextFile);				
+			_applicationContext.addEventListener(Event.COMPLETE, onLoadContextComplete);
+			_applicationContext.load();						
+		}	
+			
+		private function onLoadContextComplete(event:Event):void 
+		{
+			_applicationContext.removeEventListener(Event.COMPLETE, onLoadContextComplete);
+			dataService = _applicationContext.getObject("gridDataService");			
+		}			
+			
+        ]]>
+    </fx:Script>        
+    	
+	<mx:DataGrid id="datagrid" width="100%" height="100%"/> 
+
+	<s:Button label="Get Data" click="getData()"/>
+	
+</PodContentBase>

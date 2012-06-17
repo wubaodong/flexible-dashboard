@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns="library://ns.adobe.com/flex/mx" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	width="600" height="250"  	
+	creationComplete="initControls()"
+	defaultButton="{okButton}">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.RadioButtonGroup;
+			import mx.managers.PopUpManager;
+			
+			public var color:uint;
+			public var url:String;
+			public var calendarName:String;
+			public var loadCallback:Function;
+			
+			[Bindable] private var sampleFiles:Array = [
+				{data: "data/US_Holiday.ics", label: "US Holidays" },
+			];
+			public function cancel():void
+			{
+				PopUpManager.removePopUp(this);				
+			}
+			public function load():void
+			{
+				if(rGroup.selectedValue == "sample:")
+				{
+					url = sampleUI.selectedItem.data;
+				}
+				else
+				{
+					url = urlUI.text;
+				}
+				loadCallback(this);
+				PopUpManager.removePopUp(this);
+			}
+			private function initControls():void
+			{
+				updateSource();
+			}
+			private function updateSource():void
+			{
+				if(rGroup.selectedValue == "sample:")
+				{
+					sampleUI.enabled = true;
+					urlUI.enabled = false;
+					urlUI.setStyle("backgroundColor",0x888888);
+					sampleUI.setFocus();
+				}
+				else
+				{
+					sampleUI.enabled = false;
+					urlUI.enabled = true;
+					urlUI.clearStyle("backgroundColor");
+					urlUI.setFocus();
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Binding source="colorUI.selectedColor" destination="color" />
+	<fx:Binding source="calendarNameUI.text" destination="calendarName" />
+	
+	<fx:Declarations>
+		<RadioButtonGroup id="rGroup" selectedValue="sample:" change="updateSource();"/>	
+	</fx:Declarations>	
+	
+	<Form left="10" right="10" bottom="62" >
+		<FormItem label="calendar:" width="100%">
+			<VBox width="100%">
+				<HBox width="100%">
+					<RadioButton label="sample:" group="{rGroup}" />
+					<ComboBox id="sampleUI" width="200"  dataProvider="{sampleFiles}" dropdownStyleName="predefinedCalList" />
+				</HBox>
+				<HBox width="100%">
+					<RadioButton label="url:" group="{rGroup}" />
+					<TextInput id="urlUI"  width="100%"  />
+				</HBox>
+			</VBox>
+		</FormItem>
+		<FormItem label="Calendar Name:" width="100%">
+			<TextInput id="calendarNameUI" width="100%" />
+		</FormItem>
+		<FormItem label="Event Color:">
+			<ColorPicker id="colorUI" width="44"/>
+		</FormItem>
+	</Form>
+	<Button id="okButton" x="359" bottom="17" label="Load" click="load();"/>
+	<Button id="cancelButton" x="434" bottom="17" label="Cancel"  click="cancel();" />
+	<Label x="10" y="0" text="Add a new Calendar" styleName="CreateCalendarDialogHeader"/>
+	
+</s:TitleWindow>

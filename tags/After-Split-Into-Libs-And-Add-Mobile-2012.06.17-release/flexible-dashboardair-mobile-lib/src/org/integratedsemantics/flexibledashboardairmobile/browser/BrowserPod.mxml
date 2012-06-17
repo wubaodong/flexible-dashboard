@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html:HtmlPodBase
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns="com.esria.samples.dashboard.view.*"
+	xmlns:html="org.integratedsemantics.flexibledashboardairmobile.html.*"
+	verticalScrollPolicy="off" horizontalScrollPolicy="off"		
+	width="100%" height="100%"> 
+	
+    <fx:Script>
+        <![CDATA[
+		import mx.events.FlexEvent;
+		import mx.events.ResizeEvent;
+        
+        public var location:String;
+
+                    
+        private function go():void
+        {
+            location = urlTextInput.text;
+            webview.source = location;
+        }
+        
+        private function loadComplete(event:Event):void 
+        {
+            urlTextInput.text = webview.source;
+            location = webview.source;
+        }  
+                    
+        private function goBack():void
+        {
+            webview.historyBack();
+        }
+        
+        private function goForward():void
+        {
+            webview.historyForward();
+        }
+           
+        override protected function onCreationComplete(e:FlexEvent):void
+        {
+            super.onCreationComplete(e);
+
+			webview.x = 0;
+			webview.y = 50;
+			webview.addEventListener(Event.COMPLETE, loadComplete);
+			heightOffset = 50;
+			
+			if (properties != null)
+			{           
+            	location = properties.@url;    
+   			}
+            
+            webview.source = location;
+            urlTextInput.text = location;
+        }
+			
+        ]]>
+    </fx:Script>
+        
+    <mx:HBox width="100%"> 
+        <mx:Button id="backBtn" icon="@Embed(source='images/air/back_arrow.png')" click="goBack()"/>
+        <mx:Spacer width="3"/>
+        <mx:Button id="forwardBtn" icon="@Embed(source='images/air/forward_arrow.png')" click="goForward()"/>
+        <mx:Spacer width="3"/>
+        <mx:TextInput id="urlTextInput" width="50%" />    
+        <mx:Spacer width="3"/>
+        <mx:Button label="Go" click="go()"/>    
+    </mx:HBox>    
+	    
+</html:HtmlPodBase>

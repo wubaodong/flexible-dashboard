@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<html:IFramePodBase
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:html="org.integratedsemantics.flexibledashboard.html.*"
+	width="100%" height="100%"> 
+    
+    <fx:Script>
+        <![CDATA[
+        import com.google.code.flexiframe.IFrame;
+		import flash.net.navigateToURL;
+		import mx.events.FlexEvent;
+        import mx.controls.Alert;
+        import mx.utils.URLUtil;
+        import mx.managers.IBrowserManager;
+        import mx.managers.BrowserManager;
+        import mx.events.BrowserChangeEvent;
+
+        public var ReportViewerUrl:String = null;
+        public var debug:Boolean = false;
+                           
+        public var ReportString:String = null;
+        //Uses the run servlet
+        public var RunString:String = null;
+        //Uses the extract servlet
+        public var ExtractString:String = null;
+
+        override protected function onCreationComplete(e:FlexEvent):void
+        {
+            super.onCreationComplete(e);
+                        
+			html.x = 0;
+			html.y = 50;
+			heightOffset = 50;
+			
+            ReportViewerUrl = properties.@url;
+            ReportString = "__report=" + properties.@report;            
+            RunString = ReportViewerUrl + "run?" + ReportString;
+            ExtractString = ReportViewerUrl + "extract?" + ReportString;            
+            html.source = RunString;
+        }                       
+
+		public function navigatetoformat(format:String):void
+		{
+			navigate(RunString+"&__format="+format+"&__asattachment=true");
+		}
+		
+		public function navigate(url:String):void
+		{
+			var urlRequest:URLRequest = new URLRequest(url);
+			navigateToURL(urlRequest,"__blank");   
+		}
+		public function getPDF():void 
+		{
+			navigatetoformat("pdf");
+		}
+		public function getXLS():void 
+		{
+			navigatetoformat("xls");   
+		}
+		public function getDOC():void 
+		{
+			navigatetoformat("doc");
+		}
+		public function getPPT():void 
+		{
+			navigatetoformat("ppt");
+		}
+		public function onSave():void 
+		{
+			
+		}
+		
+        ]]>
+    </fx:Script>
+
+	<mx:ControlBar id="toolbar" width="100%" height="50">
+		<mx:Spacer width="100%"/>     
+		<mx:Button icon="@Embed(source='images/ppt.png')" click="getPPT()"/>
+		<mx:Button icon="@Embed(source='images/xls.png')" click="getXLS()"/>
+		<mx:Button icon="@Embed(source='images/rtf.png')" click="getDOC()"/>
+		<mx:Button icon="@Embed(source='images/pdf.png')" click="getPDF()"/>      
+	</mx:ControlBar>
+
+   
+</html:IFramePodBase>
+
