@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<actionScriptProperties analytics="false" mainApplicationPath="Main.mxml" projectUUID="0961bccb-9fa2-42ac-9c87-4e1a913a2281" version="10">
+  <compiler additionalCompilerArguments="-locale en_US -allow-source-path-overlap=true -keep-as3-metadata Autowired -debug=false" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="true" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
+    <compilerSourcePath/>
+    <libraryPath defaultLinkType="3">
+      <libraryPathEntry kind="4" path="">
+        <excludedEntries>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/flex.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/core.swc" useDefaultLinkType="false"/>
+        </excludedEntries>
+      </libraryPathEntry>
+      <libraryPathEntry kind="3" linkType="1" path="/flexible-dashboard-assets-embed/bin/flexible-dashboard-assets-embed.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/flexible-dashboard-lib/bin/flexible-dashboard-lib.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/flexible-dashboardair-lib/bin/flexible-dashboardair-lib.swc" useDefaultLinkType="false"/>
+    </libraryPath>
+    <sourceAttachmentPath/>
+  </compiler>
+  <applications/>
+  <modules>
+    <module application="src/Main.mxml" destPath="org/integratedsemantics/flexibledashboardair/birt/BirtReportViewerAirPod.swf" optimize="false" sourcePath="src/org/integratedsemantics/flexibledashboardair/birt/BirtReportViewerAirPod.mxml"/>
+    <module application="src/Main.mxml" destPath="org/integratedsemantics/flexibledashboardair/browser/BrowserPod.swf" optimize="false" sourcePath="src/org/integratedsemantics/flexibledashboardair/browser/BrowserPod.mxml"/>
+    <module application="src/Main.mxml" destPath="org/integratedsemantics/flexibledashboardair/html/GoogleGadgetPod.swf" optimize="false" sourcePath="src/org/integratedsemantics/flexibledashboardair/html/GoogleGadgetPod.mxml"/>
+    <module application="src/Main.mxml" destPath="org/integratedsemantics/flexibledashboardair/html/HtmlPod.swf" optimize="false" sourcePath="src/org/integratedsemantics/flexibledashboardair/html/HtmlPod.mxml"/>
+    <module application="src/Main.mxml" destPath="org/integratedsemantics/flexibledashboardair/liferay/LiferayHtmlPod.swf" optimize="false" sourcePath="src/org/integratedsemantics/flexibledashboardair/liferay/LiferayHtmlPod.mxml"/>
+    <module application="src/Main.mxml" destPath="org/integratedsemantics/flexibledashboardair/localfiles/LocalFilesPod.swf" optimize="false" sourcePath="src/org/integratedsemantics/flexibledashboardair/localfiles/LocalFilesPod.mxml"/>
+  </modules>
+  <buildCSSFiles/>
+  <flashCatalyst validateFlashCatalystCompatibility="false"/>
+  <buildTargets>
+  </buildTargets>
+</actionScriptProperties>

@@ -1,0 +1,12 @@
+@namespace "library://ns.adobe.com/flex/mx";
+@namespace s "library://ns.adobe.com/flex/spark";
+
+/* flexibledashboard+air specific styles */
+
+s|WindowedApplication
+{
+	background-color: #666666;
+}
+
+
+

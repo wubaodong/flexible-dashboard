@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="com.decoursey.components.BreadcrumbDisplay"/>
+    <classEntry path="com.decoursey.components.event.BreadcrumbDisplayEvent"/>
+    <classEntry path="com.esria.samples.dashboard.events.LayoutChangeEvent"/>
+    <classEntry path="com.esria.samples.dashboard.events.PodStateChangeEvent"/>
+    <classEntry path="com.esria.samples.dashboard.managers.PodLayoutManager"/>
+    <classEntry path="com.esria.samples.dashboard.renderers.ListPodRenderer"/>
+    <classEntry path="com.esria.samples.dashboard.view.DragHighlight"/>
+    <classEntry path="com.esria.samples.dashboard.view.IPodContentBase"/>
+    <classEntry path="com.esria.samples.dashboard.view.Pod"/>
+    <classEntry path="com.esria.samples.dashboard.view.PodContentBase"/>
+    <classEntry path="flex.utils.spark.TitledBorderBox"/>
+    <classEntry path="flex.utils.spark.TitledBorderBoxSkin"/>
+    <classEntry path="flex.utils.spark.resize.DragHandle"/>
+    <classEntry path="flex.utils.spark.resize.MoveManager"/>
+    <classEntry path="flex.utils.spark.resize.ResizableComboBoxSkin"/>
+    <classEntry path="flex.utils.spark.resize.ResizableDraggableTitleWindowSkin"/>
+    <classEntry path="flex.utils.spark.resize.ResizableDropDownListSkin"/>
+    <classEntry path="flex.utils.spark.resize.ResizableHScrollBar"/>
+    <classEntry path="flex.utils.spark.resize.ResizableLabel"/>
+    <classEntry path="flex.utils.spark.resize.ResizablePanelSkin"/>
+    <classEntry path="flex.utils.spark.resize.ResizableScrollerSkin"/>
+    <classEntry path="flex.utils.spark.resize.ResizableTextAreaSkin"/>
+    <classEntry path="flex.utils.spark.resize.ResizableTitleWindowSkin"/>
+    <classEntry path="flex.utils.spark.resize.ResizableTitledBorderBoxSkin"/>
+    <classEntry path="flex.utils.spark.resize.ResizableVScrollBar"/>
+    <classEntry path="flex.utils.spark.resize.ResizeHandleDots"/>
+    <classEntry path="flex.utils.spark.resize.ResizeHandleLines"/>
+    <classEntry path="flex.utils.spark.resize.ResizeManager"/>
+    <classEntry path="flexlib.mdi.containers.MDICanvas"/>
+    <classEntry path="flexlib.mdi.containers.MDIWindow"/>
+    <classEntry path="flexlib.mdi.containers.MDIWindowSkin"/>
+    <classEntry path="flexlib.mdi.containers.MDIWindowState"/>
+    <classEntry path="flexlib.mdi.effects.IMDIEffectsDescriptor"/>
+    <classEntry path="flexlib.mdi.effects.MDIEffectsDescriptorBase"/>
+    <classEntry path="flexlib.mdi.effects.effectClasses.MDIGroupEffectItem"/>
+    <classEntry path="flexlib.mdi.effects.effectsLib.MDILinearEffects"/>
+    <classEntry path="flexlib.mdi.effects.effectsLib.MDIRelationalEffects"/>
+    <classEntry path="flexlib.mdi.effects.effectsLib.MDIVistaEffects"/>
+    <classEntry path="flexlib.mdi.events.MDIEffectEvent"/>
+    <classEntry path="flexlib.mdi.events.MDIManagerEvent"/>
+    <classEntry path="flexlib.mdi.events.MDIWindowEvent"/>
+    <classEntry path="flexlib.mdi.managers.MDIManager"/>
+    <classEntry path="org.integratedsemantics.flexibledashboard.app.FlexibleDashboardAppBase"/>
+    <classEntry path="org.integratedsemantics.flexibledashboard.data.IDataService"/>
+    <classEntry path="org.integratedsemantics.flexibledashboard.data.RemoteObjectDataService"/>
+    <classEntry path="org.integratedsemantics.flexibledashboard.data.SoapDataService"/>
+    <classEntry path="org.integratedsemantics.flexibledashboard.data.XmlDataService"/>
+    <classEntry path="org.integratedsemantics.flexibledashboard.skin.ListTransparentSkin"/>
+    <classEntry path="org.integratedsemantics.flexibledashboard.skin.TabSkin"/>
+    <classEntry path="qs.calendar.Calendar"/>
+    <classEntry path="qs.calendar.CalendarEvent"/>
+    <classEntry path="qs.calendar.CalendarSet"/>
+    <classEntry path="qs.calendar.RepeatRule"/>
+    <classEntry path="qs.calendar.iCalClasses.ByUnit"/>
+    <classEntry path="qs.calendar.iCalClasses.Frequency"/>
+    <classEntry path="qs.calendar.iParser"/>
+    <classEntry path="qs.calendar.iParserClasses.iParam"/>
+    <classEntry path="qs.calendar.iParserClasses.iProperty"/>
+    <classEntry path="qs.charts.effects.DrillDownEffect"/>
+    <classEntry path="qs.charts.effects.DrillUpEffect"/>
+    <classEntry path="qs.charts.renderers.RollOverBoxItemRenderer"/>
+    <classEntry path="qs.charts.renderers.RollOverWedgeItemRenderer"/>
+    <classEntry path="qs.controls.CalendarDisplay"/>
+    <classEntry path="qs.controls.LayoutAnimator"/>
+    <classEntry path="qs.controls.LayoutTarget"/>
+    <classEntry path="qs.controls.calendarDisplayClasses.CalendarAllDayRegion"/>
+    <classEntry path="qs.controls.calendarDisplayClasses.CalendarDay"/>
+    <classEntry path="qs.controls.calendarDisplayClasses.CalendarDisplayEvent"/>
+    <classEntry path="qs.controls.calendarDisplayClasses.CalendarEventRenderer"/>
+    <classEntry path="qs.controls.calendarDisplayClasses.CalendarHeader"/>
+    <classEntry path="qs.controls.calendarDisplayClasses.CalendarHours"/>
+    <classEntry path="qs.controls.calendarDisplayClasses.ICalendarEventRenderer"/>
+    <classEntry path="qs.effects.AnimateColorProperty"/>
+    <classEntry path="qs.effects.effectClasses.AnimateColorPropertyInstance"/>
+    <classEntry path="qs.graphics.Box"/>
+    <classEntry path="qs.graphics.Ellipse"/>
+    <classEntry path="qs.graphics.RoundedBox"/>
+    <classEntry path="qs.utils.ArrayUtils"/>
+    <classEntry path="qs.utils.AssociativeInstanceCache"/>
+    <classEntry path="qs.utils.ColorUtils"/>
+    <classEntry path="qs.utils.DateRange"/>
+    <classEntry path="qs.utils.DateUtils"/>
+    <classEntry path="qs.utils.GraphicsUtils"/>
+    <classEntry path="qs.utils.InstanceCache"/>
+    <classEntry path="qs.utils.ReservationAgent"/>
+    <classEntry path="qs.utils.SortedArray"/>
+    <classEntry path="qs.utils.StringUtils"/>
+    <classEntry path="qs.utils.TimeZone"/>
+    <classEntry path="qs.utils.TimeZoneRule"/>
+    <classEntry path="qs.utils.URLUtils"/>
+    <classEntry path="skins.CustomLeftButtonSkin"/>
+    <classEntry path="skins.CustomListSkin"/>
+    <classEntry path="skins.CustomMaximizeButtonSkin"/>
+    <classEntry path="skins.CustomMinimizeButtonSkin"/>
+    <classEntry path="skins.CustomRightButtonSkin"/>
+  </includeClasses>
+  <includeResources>
+    <resourceEntry destPath="flex/utils/spark/TitledBorderBox.png" sourcePath="flex/utils/spark/TitledBorderBox.png"/>
+    <resourceEntry destPath="flexlib/mdi/assets/img/closeButton.png" sourcePath="flexlib/mdi/assets/img/closeButton.png"/>
+    <resourceEntry destPath="flexlib/mdi/assets/img/maximizeButton.png" sourcePath="flexlib/mdi/assets/img/maximizeButton.png"/>
+    <resourceEntry destPath="flexlib/mdi/assets/img/minimizeButton.png" sourcePath="flexlib/mdi/assets/img/minimizeButton.png"/>
+    <resourceEntry destPath="flexlib/mdi/assets/img/resizeCursor.png" sourcePath="flexlib/mdi/assets/img/resizeCursor.png"/>
+    <resourceEntry destPath="flexlib/mdi/assets/img/resizeCursorH.gif" sourcePath="flexlib/mdi/assets/img/resizeCursorH.gif"/>
+    <resourceEntry destPath="flexlib/mdi/assets/img/resizeCursorTLBR.gif" sourcePath="flexlib/mdi/assets/img/resizeCursorTLBR.gif"/>
+    <resourceEntry destPath="flexlib/mdi/assets/img/resizeCursorTRBL.gif" sourcePath="flexlib/mdi/assets/img/resizeCursorTRBL.gif"/>
+    <resourceEntry destPath="flexlib/mdi/assets/img/resizeCursorV.gif" sourcePath="flexlib/mdi/assets/img/resizeCursorV.gif"/>
+    <resourceEntry destPath="flexlib/mdi/assets/img/resizeCursorVH.gif" sourcePath="flexlib/mdi/assets/img/resizeCursorVH.gif"/>
+    <resourceEntry destPath="flexlib/mdi/assets/img/resizeHandler.png" sourcePath="flexlib/mdi/assets/img/resizeHandler.png"/>
+    <resourceEntry destPath="flexlib/mdi/assets/img/restoreButton.png" sourcePath="flexlib/mdi/assets/img/restoreButton.png"/>
+  </includeResources>
+  <namespaceManifests/>
+</flexLibProperties>

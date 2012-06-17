@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="true" version="3">
+  <includeClasses>
+    <classEntry path="com.flexcapacitor.controls.WebView"/>
+    <classEntry path="flexlib.mdi.containers.MDIWindowSkin"/>
+    <classEntry path="skins.mobile.CloseButtonSkin"/>
+    <classEntry path="skins.mobile.CustomMaximizeButtonSkin"/>
+    <classEntry path="skins.mobile.CustomMinimizeButtonSkin"/>
+  </includeClasses>
+  <includeResources>
+    <resourceEntry destPath="flexlib/mdi/assets/img/minimizeButton.png" sourcePath="flexlib/mdi/assets/img/minimizeButton.png"/>
+    <resourceEntry destPath="flexlib/mdi/assets/img/maximizeButton.png" sourcePath="flexlib/mdi/assets/img/maximizeButton.png"/>
+    <resourceEntry destPath="flexlib/mdi/assets/img/closeButton.png" sourcePath="flexlib/mdi/assets/img/closeButton.png"/>
+    <resourceEntry destPath="flexlib/mdi/assets/img/restoreButton.png" sourcePath="flexlib/mdi/assets/img/restoreButton.png"/>
+  </includeResources>
+  <namespaceManifests/>
+</flexLibProperties>

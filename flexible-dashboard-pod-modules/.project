@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>flexible-dashboard-pod-modules</name>
+	<comment></comment>
+	<projects>
+		<project>flexible-dashboard-assets-embed</project>
+		<project>flexible-dashboard-lib</project>
+		<project>flexibledashboard-jasperreports-viewer-noserver</project>
+		<project>flexibledashboard-olaplib</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>com.adobe.flexbuilder.project.flexbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>com.adobe.flexbuilder.project.flexnature</nature>
+		<nature>com.adobe.flexbuilder.project.actionscriptnature</nature>
+	</natures>
+</projectDescription>
