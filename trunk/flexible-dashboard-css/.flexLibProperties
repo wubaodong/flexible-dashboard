@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses/>
+  <includeResources>
+    <resourceEntry destPath="css/flexibledashboard-browser.css" sourcePath="css/flexibledashboard-browser.css"/>
+    <resourceEntry destPath="css/flexibledashboard.css" sourcePath="css/flexibledashboard.css"/>
+    <resourceEntry destPath="css/flexibledashboardair-mobile.css" sourcePath="css/flexibledashboardair-mobile.css"/>
+    <resourceEntry destPath="css/flexibledashboardair.css" sourcePath="css/flexibledashboardair.css"/>
+  </includeResources>
+  <namespaceManifests/>
+</flexLibProperties>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses/>
+  <includeResources>
+    <resourceEntry destPath="data/news.xml" sourcePath="data/news.xml"/>
+    <resourceEntry destPath="data/profit.xml" sourcePath="data/profit.xml"/>
+    <resourceEntry destPath="spring-actionscript/application-context.xml" sourcePath="spring-actionscript/application-context.xml"/>
+    <resourceEntry destPath="data/tasks.xml" sourcePath="data/tasks.xml"/>
+    <resourceEntry destPath="data/US_Holiday.ics" sourcePath="data/US_Holiday.ics"/>
+    <resourceEntry destPath="data/flexibleDashboardAirMobilePodsAll.xml" sourcePath="data/flexibleDashboardAirMobilePodsAll.xml"/>
+    <resourceEntry destPath="data/revenue_by_region.xml" sourcePath="data/revenue_by_region.xml"/>
+    <resourceEntry destPath="data/flexibleDashboardAirPodsAll.xml" sourcePath="data/flexibleDashboardAirPodsAll.xml"/>
+    <resourceEntry destPath="spring-actionscript/gridpod-context2.xml" sourcePath="spring-actionscript/gridpod-context2.xml"/>
+    <resourceEntry destPath="data/pentaho/Sales_by_Territory.xaction" sourcePath="data/pentaho/Sales_by_Territory.xaction"/>
+    <resourceEntry destPath="data/projected_revenue.xml" sourcePath="data/projected_revenue.xml"/>
+    <resourceEntry destPath="data/flexibleDashboardPodsAll.xml" sourcePath="data/flexibleDashboardPodsAll.xml"/>
+    <resourceEntry destPath="reports/WebappReport.jrpxml" sourcePath="reports/WebappReport.jrpxml"/>
+    <resourceEntry destPath="spring-actionscript/gridpod-context1.xml" sourcePath="spring-actionscript/gridpod-context1.xml"/>
+    <resourceEntry destPath="spring-actionscript/chartgridpod-context.xml" sourcePath="spring-actionscript/chartgridpod-context.xml"/>
+    <resourceEntry destPath="data/pentaho/topnmdxquery.xaction" sourcePath="data/pentaho/topnmdxquery.xaction"/>
+    <resourceEntry destPath="data/pentaho/Sales_by_Productline.xaction" sourcePath="data/pentaho/Sales_by_Productline.xaction"/>
+    <resourceEntry destPath="data/revenue.xml" sourcePath="data/revenue.xml"/>
+    <resourceEntry destPath="data/pipeline.xml" sourcePath="data/pipeline.xml"/>
+    <resourceEntry destPath="spring-actionscript/gridpod-context3.xml" sourcePath="spring-actionscript/gridpod-context3.xml"/>
+  </includeResources>
+  <namespaceManifests/>
+</flexLibProperties>

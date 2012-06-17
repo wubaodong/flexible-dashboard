@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses/>
+  <includeResources>
+    <resourceEntry destPath="assets/breakLinkButton.png" sourcePath="assets/breakLinkButton.png"/>
+    <resourceEntry destPath="assets/cursor_move.gif" sourcePath="assets/cursor_move.gif"/>
+    <resourceEntry destPath="assets/cursor_resize.gif" sourcePath="assets/cursor_resize.gif"/>
+    <resourceEntry destPath="assets/dialog.css" sourcePath="assets/dialog.css"/>
+    <resourceEntry destPath="assets/eventDragImage.svg" sourcePath="assets/eventDragImage.svg"/>
+    <resourceEntry destPath="assets/left_arrow_disabled.gif" sourcePath="assets/left_arrow_disabled.gif"/>
+    <resourceEntry destPath="assets/left_arrow_over.gif" sourcePath="assets/left_arrow_over.gif"/>
+    <resourceEntry destPath="assets/left_arrow_up.gif" sourcePath="assets/left_arrow_up.gif"/>
+    <resourceEntry destPath="assets/linkButton.png" sourcePath="assets/linkButton.png"/>
+    <resourceEntry destPath="assets/maximize_over.png" sourcePath="assets/maximize_over.png"/>
+    <resourceEntry destPath="assets/maximize_up.png" sourcePath="assets/maximize_up.png"/>
+    <resourceEntry destPath="assets/minimize_over.png" sourcePath="assets/minimize_over.png"/>
+    <resourceEntry destPath="assets/minimize_up.png" sourcePath="assets/minimize_up.png"/>
+    <resourceEntry destPath="assets/progressCircle.swf" sourcePath="assets/progressCircle.swf"/>
+    <resourceEntry destPath="assets/restore_over.png" sourcePath="assets/restore_over.png"/>
+    <resourceEntry destPath="assets/restore_up.png" sourcePath="assets/restore_up.png"/>
+    <resourceEntry destPath="assets/right_arrow_disabled.gif" sourcePath="assets/right_arrow_disabled.gif"/>
+    <resourceEntry destPath="assets/right_arrow_over.gif" sourcePath="assets/right_arrow_over.gif"/>
+    <resourceEntry destPath="assets/right_arrow_up.gif" sourcePath="assets/right_arrow_up.gif"/>
+    <resourceEntry destPath="assets/spinner.gif" sourcePath="assets/spinner.gif"/>
+    <resourceEntry destPath="images/air/back_arrow.png" sourcePath="images/air/back_arrow.png"/>
+    <resourceEntry destPath="images/air/back_large_arrow.png" sourcePath="images/air/back_large_arrow.png"/>
+    <resourceEntry destPath="images/air/forward_arrow.png" sourcePath="images/air/forward_arrow.png"/>
+    <resourceEntry destPath="images/air/forward_large_arrow.png" sourcePath="images/air/forward_large_arrow.png"/>
+    <resourceEntry destPath="images/air/up_arrow.png" sourcePath="images/air/up_arrow.png"/>
+    <resourceEntry destPath="images/air/up_large_arrow.png" sourcePath="images/air/up_large_arrow.png"/>
+    <resourceEntry destPath="images/pdf.png" sourcePath="images/pdf.png"/>
+    <resourceEntry destPath="images/ppt.png" sourcePath="images/ppt.png"/>
+    <resourceEntry destPath="images/rtf.png" sourcePath="images/rtf.png"/>
+    <resourceEntry destPath="images/save.png" sourcePath="images/save.png"/>
+    <resourceEntry destPath="images/xls.png" sourcePath="images/xls.png"/>
+  </includeResources>
+  <namespaceManifests/>
+</flexLibProperties>

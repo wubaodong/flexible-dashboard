@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PodContentBase
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns="com.esria.samples.dashboard.view.*"
+	xmlns:jr="net.sf.jasperreports.flex.view.*" 
+	width="100%" height="100%"				
+	paddingLeft="0" paddingTop="0" paddingBottom="0" paddingRight="0"
+	creationComplete="init();">
+	
+    <fx:Script>
+        <![CDATA[
+
+		private function init():void
+		{
+			viewer.url = properties.@reporturl;
+		}
+        
+        ]]>
+    </fx:Script>                              
+           
+	<jr:Viewer id="viewer" width="100%" height="100%" horizontalScrollPolicy="off" verticalScrollPolicy="off"/>
+
+</PodContentBase>
+

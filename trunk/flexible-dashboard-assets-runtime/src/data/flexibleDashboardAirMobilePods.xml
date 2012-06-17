@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- for iOS, use class names (for classes linked into app) for pods instead of loading modules -->
+
+<!--
+Used to specify the pod content in the dashboard sample app.
+To keep the implementation straightforward, all of the data is
+stored in this file rather than a database or separate XML files.
+-->
+<views>
+	<!--
+		<view> - Represents a tab.
+			id - Must be unique so state can be saved properly.
+			label - The label of the tab.
+			<pod>
+				id - Must be unique per view so state can be saved properly.
+				type - Type of pod content. Valid values are chart, pieChart, form and list. "chart" and "pieChart" each have drill downs to one level.
+					   "chart" is a fixed drill down to 30 days in a month.
+					   "pieChart" is a fixed drill down to four geographical regions.
+				title - The title of the pod.
+				dataSource - The xml to load for the pod.
+				selectedViewIndex - Sets the default content view for pod content with a view stack. 
+				valueField - For chart pods, the field from the xml data to use for displaying the value. This field should be numeric.
+				categoryField - For chart pods, the field from the xml data to use for displaying the category.
+				dataTipUnitLabel - Rollover label used for displaying the units.
+								   Label is delimited by "*" and places the first value before the unit and the second value after the unit. Ex: $50M.
+				dataTipLabelField - Rollover label field used for PieCharts.
+				labels - For form pods, used to label the fields.
+				dataFields - For form pods, used to assign the data fields to the form fields.
+							 The second field should always be a date expressed in milliseconds since the epoch.
+	-->
+	
+	
+	<view
+		id="viewCharts"
+		label="Charts">
+		<pod
+			id="charts1"
+			type="chart"
+			title="Yearly Revenue"
+			className="com.esria.samples.dashboard.view.ChartContent"
+			dataSource="data/revenue.xml"
+			selectedViewIndex="1"
+			valueField="value"
+			categoryField="month"
+			dataTipUnitLabel="$*M"
+			dataTipLabelField="month"/>
+		<pod
+			id="charts2"
+			type="chart"
+			title="Yearly Profit"
+			className="com.esria.samples.dashboard.view.ChartContent"
+			dataSource="data/profit.xml"
+			valueField="value"
+			categoryField="month"
+			dataTipUnitLabel="$*M"
+			dataTipLabelField="month"/>
+		<pod
+			id="charts3"
+			type="chart"
+			title="Projected Revenue"
+			className="com.esria.samples.dashboard.view.ChartContent"
+			dataSource="data/projected_revenue.xml"
+			valueField="value"
+			categoryField="month"
+			dataTipUnitLabel="$*M"
+			dataTipLabelField="month"/>
+		<pod
+			id="charts4"
+			type="pieChart"
+			title="Revenue by Region"
+			className="com.esria.samples.dashboard.view.PieChartContent"
+			dataSource="data/revenue_by_region.xml"
+			valueField="value"
+			categoryField="region"
+			dataTipUnitLabel="$*M"
+			dataTipLabelField="region"/>
+	</view>
+	
+	<view
+		id="viewJasperReports"
+		label="JasperReports">
+		<pod
+			id="jasperreport1"
+			type="report"
+			title="JasperReports"
+			className="org.integratedsemantics.flexibledashboard.jasperreports.ReportPod"
+            reporturl="/reports/WebappReport.jrpxml"			
+			/>
+	</view>	
+	
+	<view
+		id="viewPentaho"
+		label="Pentaho Charts">
+		<pod
+			id="pentaho1"
+			type="pentaho"
+			title="Pentaho"
+			className="org.integratedsemantics.flexibledashboard.pentaho.PentahoPod"
+			/>
+	</view>	
+	
+	<!--view
+		id="viewHTML"
+		label="HTML">
+        <pod
+            id="html1"
+            type="browser"
+            title="Browser"
+            className="org.integratedsemantics.flexibledashboardairmobile.browser.BrowserPod"
+            url="http://www.yahoo.com" />  
+        <pod
+            id="html2"
+            type="html"
+            title="Google"
+            className="org.integratedsemantics.flexibledashboardairmobile.html.HtmlPod"
+            url="http://www.google.com" />  
+	</view-->	
+
+	<!-- view
+		id="viewCalendar"
+		label="Calendar">
+		<pod
+			id="calendar1"
+			type="calendar"
+			title="Calendar"
+            className="org.integratedsemantics.flexibledashboard.calendar.CalendarPod"
+			/>			
+	</view -->	
+						
+    <view
+        id="viewOlap"
+        label="OLAP">
+        <pod
+            id="olap1"
+            type="olap-grid"
+            title="OLAP Mondrian"
+			className="org.integratedsemantics.flexibledashboard.olap.OlapGridPod"
+            url="http://localhost:8400/mondrian-embedded/xmla"
+            xmlaDataSource="Provider=Mondrian;DataSource=MondrianFoodMart;"
+            catalog="FoodMart"
+            />
+        <!--pod
+            id="olap2"
+            type="olap-grid"
+            title="OLAP Pentaho"
+			className="org.integratedsemantics.flexibledashboard.olap.OlapGridPod"
+            url="http://localhost:8080/pentaho/Xmla?userid=joe&amp;password=password"
+            xmlaDataSource="Provider=Mondrian;DataSource=Pentaho"
+            catalog="SteelWheels"
+            /-->
+    </view>   
+    
+   <view
+      id="viewBIRT"
+      label="BIRT">
+        <pod
+            id="birt1"
+            type="birt-report"
+            title="BIRT Report"
+            className="org.integratedsemantics.flexibledashboardairmobile.birt.BirtReportViewerAirPod"
+            url="http://localhost:8400/birt-viewer/"
+            report="SalesInvoice.rptdesign"
+            />  
+   </view>     
+   		
+   <view
+      id="viewGrid"
+      label="Grids">
+        <pod
+            id="grid1"
+            type="grid"
+            title="Data Grid with gridpod-context1.xml"
+	        className="org.integratedsemantics.flexibledashboard.grid.GridPodNotModule"
+	        contextFile="spring-actionscript/gridpod-context1-mobile.xml"
+            />  
+        <pod
+            id="grid2"
+            type="grid"
+            title="Data Grid with gridpod-context2.xml"
+	        className="org.integratedsemantics.flexibledashboard.grid.GridPodNotModule"
+	        contextFile="spring-actionscript/gridpod-context2-mobile.xml"
+            />  
+        <pod
+            id="grid3"
+            type="grid"
+            title="Data Grid with gridpod-context3.xml"
+	        className="org.integratedsemantics.flexibledashboard.grid.GridPodNotModule"
+	        contextFile="spring-actionscript/gridpod-context3-mobile.xml"
+            />  
+        <pod
+            id="chartgrid1"
+            type="chartgrid"
+            title="Chart + Data Grid with chartgridpod-context.xml"
+	        className="org.integratedsemantics.flexibledashboard.grid.ChartGridPodNotModule"
+			valueField="price"
+			categoryField="name"	        
+			contextFile="spring-actionscript/chartgridpod-context-mobile.xml"        
+            />  
+   </view> 
+   				
+</views>
